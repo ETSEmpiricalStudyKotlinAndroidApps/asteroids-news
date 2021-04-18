@@ -1,0 +1,33 @@
+package com.klekchyan.asteroidsnews.model
+
+import com.google.gson.annotations.SerializedName
+
+data class Asteroid(
+    val id: Int,
+    val name: String,
+    @SerializedName("absolute_magnitude_h")
+    val absoluteMagnitude: Double,
+    @SerializedName("estimated_diameter")
+    val estimatedDiameter: Diameter,
+    @SerializedName("is_potentially_hazardous_asteroid")
+    val isHazardous: Boolean
+)
+
+data class Diameter(
+    val kilometers: Kilometer,
+    val meters: Meter,
+)
+
+data class Kilometer(
+    @SerializedName("estimated_diameter_min")
+    val min: Double,
+    @SerializedName("estimated_diameter_max")
+    val max: Double
+)
+
+data class Meter(
+    @SerializedName("estimated_diameter_min")
+    val min: Double,
+    @SerializedName("estimated_diameter_max")
+    val max: Double
+)
