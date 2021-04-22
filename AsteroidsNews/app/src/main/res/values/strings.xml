@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="asteroids_list">There will list of asteroids</string>
     <string name="Test">Test</string>
+    <string name="asteroidSize">Size</string>
+    <string name="hazardous">Hazardous</string>
 </resources>
