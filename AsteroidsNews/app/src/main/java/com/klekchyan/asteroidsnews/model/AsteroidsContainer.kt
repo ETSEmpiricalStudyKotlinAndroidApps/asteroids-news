@@ -1,6 +1,7 @@
 package com.klekchyan.asteroidsnews.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Asteroid(
     val id: Int,
@@ -11,7 +12,7 @@ data class Asteroid(
     val estimatedDiameter: Diameter,
     @SerializedName("is_potentially_hazardous_asteroid")
     val isHazardous: Boolean
-)
+): Serializable
 
 data class Diameter(
     val kilometers: Kilometer,

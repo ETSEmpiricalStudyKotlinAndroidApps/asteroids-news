@@ -17,6 +17,8 @@ class SpecificAsteroidFragment : Fragment() {
                                                                                 R.layout.fragment_specific_asteroid,
                                                                                 container,
                                                                                 false)
+        val args = SpecificAsteroidFragmentArgs.fromBundle(requireArguments())
+        binding.textView.text = args.asteroid.name
         return binding.root
     }
 }

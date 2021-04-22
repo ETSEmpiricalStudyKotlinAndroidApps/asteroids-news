@@ -14,7 +14,7 @@ import java.text.DecimalFormat
 class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerView.Adapter<AsteroidsAdapter.AsteroidsViewHolder>() {
 
     interface AsteroidsAdapterOnClickHandler{
-        fun onClickHandler(asteroid: Asteroid)
+        fun onClickHandler(asteroid: Asteroid, view: View)
     }
 
     private var asteroids: MutableList<Asteroid> = mutableListOf()
@@ -65,9 +65,9 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerVi
             itemView.setOnClickListener(this)
         }
 
-        override fun onClick(v: View?) {
+        override fun onClick(v: View) {
             val asteroid = asteroids[bindingAdapterPosition]
-            listener.onClickHandler(asteroid)
+            listener.onClickHandler(asteroid, v)
         }
     }
 }

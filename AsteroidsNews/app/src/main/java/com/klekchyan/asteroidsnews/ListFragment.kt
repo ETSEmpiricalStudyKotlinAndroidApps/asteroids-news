@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
@@ -67,8 +69,7 @@ class ListFragment : Fragment(), AsteroidsAdapter.AsteroidsAdapterOnClickHandler
         request?.dispose()
     }
 
-    override fun onClickHandler(asteroid: Asteroid) {
-        Toast.makeText(activity, "Holder was clicked", Toast.LENGTH_SHORT).show()
-        //TODO Add navigation to next fragment
+    override fun onClickHandler(asteroid: Asteroid, view: View) {
+        view.findNavController().navigate(ListFragmentDirections.actionListFragmentToSpecificAsteroidFragment(asteroid))
     }
 }
