@@ -32,3 +32,9 @@ data class Meter(
     @SerializedName("estimated_diameter_max")
     val max: Double
 )
+
+enum class AverageSize{
+    SMALL,
+    MEDIUM,
+    BIG
+}
