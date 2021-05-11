@@ -6,4 +6,5 @@
     <string name="Test">Test</string>
     <string name="asteroidSize">Size</string>
     <string name="hazardous">Hazardous</string>
+    <string name="reload">Reload</string>
 </resources>

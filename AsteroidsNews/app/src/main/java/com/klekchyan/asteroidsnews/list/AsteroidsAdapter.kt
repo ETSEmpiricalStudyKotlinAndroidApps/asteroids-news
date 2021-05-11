@@ -1,6 +1,5 @@
-package com.klekchyan.asteroidsnews.recycler
+package com.klekchyan.asteroidsnews.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,6 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerVi
     }
 
     private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
-        Log.w("AverageSize", "$averageSize")
         return when{
             isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_dangerous_asteroid
             isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_dangerous_asteroid
