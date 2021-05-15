@@ -13,25 +13,32 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ListViewModel: ViewModel() {
-    private val _listOfAsteroids = MutableLiveData<MutableList<Asteroid>>()
+    private val _listOfAllAsteroids = MutableLiveData<MutableList<Asteroid>>()
+    private val _filteredListOfAsteroids = MutableLiveData<MutableList<Asteroid>>()
     val listOfAsteroids: LiveData<MutableList<Asteroid>>
-        get() = _listOfAsteroids
+        get() = _filteredListOfAsteroids
 
     init {
-        getAsteroids()
+        getAllAsteroids()
     }
 
     @SuppressLint("CheckResult")
-    fun getAsteroids(){
+    fun getAllAsteroids(){
         val observer = getObserver(RequestType.ALL_ASTEROIDS)
                 .map { getListOfAsteroidsFromResponse(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 
         observer.subscribe({ asteroids ->
-           _listOfAsteroids.value = asteroids
+            _listOfAllAsteroids.value = asteroids
+            _filteredListOfAsteroids.value = _listOfAllAsteroids.value
         }, {
             Log.e("Parsing", it.message.toString())
         })
+    }
+
+    fun getFilteredAsteroids(isHazardous: Boolean){
+        if(!isHazardous) _filteredListOfAsteroids.value = _listOfAllAsteroids.value else
+        _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!.filter { it.isHazardous }.toMutableList()
     }
 }
