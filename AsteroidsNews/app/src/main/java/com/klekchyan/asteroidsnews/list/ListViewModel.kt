@@ -18,8 +18,13 @@ class ListViewModel: ViewModel() {
     val listOfAsteroids: LiveData<MutableList<Asteroid>>
         get() = _filteredListOfAsteroids
 
+    private val _isHazardous = MutableLiveData<Boolean>()
+    val isHazardous: LiveData<Boolean>
+        get() = _isHazardous
+
     init {
         getAllAsteroids()
+        _isHazardous.value = false
     }
 
     @SuppressLint("CheckResult")
@@ -38,7 +43,12 @@ class ListViewModel: ViewModel() {
     }
 
     fun getFilteredAsteroids(isHazardous: Boolean){
-        if(!isHazardous) _filteredListOfAsteroids.value = _listOfAllAsteroids.value else
-        _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!.filter { it.isHazardous }.toMutableList()
+        if(!isHazardous) {
+            _filteredListOfAsteroids.value = _listOfAllAsteroids.value
+            _isHazardous.value = false
+        } else {
+            _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!.filter { it.isHazardous }.toMutableList()
+            _isHazardous.value = true
+        }
     }
 }
