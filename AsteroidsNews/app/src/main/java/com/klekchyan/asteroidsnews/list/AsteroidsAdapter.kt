@@ -18,56 +18,17 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerVi
         fun onClickHandler(asteroid: Asteroid, view: View)
     }
 
-    private var asteroids: MutableList<Asteroid> = mutableListOf()
+    private var asteroids = listOf<Asteroid>()
+
+    override fun getItemCount() = asteroids.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
-
-        val context = parent.context
-        val layoutForItem = R.layout.asteroids_list_item
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(layoutForItem, parent, false)
-
-        return AsteroidsViewHolder(view)
+        return AsteroidsViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
-        val asteroid: Asteroid = asteroids[position]
-
-        val df = DecimalFormat("#.###")
-        df.roundingMode = RoundingMode.CEILING
-
-        val sizeMeters = "${df.format(asteroid.estimatedDiameter.meters.min)} - ${df.format(asteroid.estimatedDiameter.meters.max)} (m)"
-
-        holder.asteroidTextView.text = asteroid.name
-        holder.sizeMetersText.text = sizeMeters
-        holder.hazardousText.text = asteroid.isHazardous.toString()
-        holder.asteroidImage.setImageResource(
-                getImage(asteroid.isHazardous,
-                getAverageSize(asteroid.estimatedDiameter.meters.min, asteroid.estimatedDiameter.meters.max)))
-    }
-
-    private fun getAverageSize(min: Double, max: Double): AverageSize{
-        return when((min + max) / 2){
-            in 0.0..100.0 -> AverageSize.SMALL
-            in 100.1..500.0 -> AverageSize.MEDIUM
-            else -> AverageSize.BIG
-        }
-    }
-
-    private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
-        return when{
-            isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_dangerous_asteroid
-            isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_dangerous_asteroid
-            isHazardous && (averageSize == AverageSize.BIG) -> R.drawable.ic_big_dangerous_asteroid
-            !isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_asteroid
-            !isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_asteroid
-            else -> R.drawable.ic_big_asteroid
-        }
-    }
-
-
-    override fun getItemCount(): Int {
-        return if(asteroids.isEmpty()) 0 else asteroids.size - 1
+        val asteroid = asteroids[position]
+        holder.bind(asteroid)
     }
 
     fun setListOfAsteroids(asteroids: MutableList<Asteroid>){
@@ -75,21 +36,62 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerVi
         notifyDataSetChanged()
     }
 
-    inner class AsteroidsViewHolder(itemView: View,
-                              val asteroidTextView: TextView = itemView.findViewById(R.id.asteroidsNameText),
-                              //val sizeKilometersText: TextView = itemView.findViewById(R.id.sizeKilometers),
-                              val sizeMetersText: TextView = itemView.findViewById(R.id.sizeMeters),
-                              val hazardousText: TextView = itemView.findViewById(R.id.isHazardous),
-                              val asteroidImage: ImageView = itemView.findViewById(R.id.asteroidImage)
-    ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class AsteroidsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         init {
             itemView.setOnClickListener(this)
         }
 
+        companion object{
+            fun from(parent: ViewGroup): AsteroidsViewHolder{
+                val inflater = LayoutInflater.from(parent.context)
+                val view = inflater.inflate(R.layout.asteroids_list_item, parent, false)
+
+                return AsteroidsViewHolder(view)
+            }
+        }
+
+        val asteroidTextView: TextView = itemView.findViewById(R.id.asteroidsNameText)
+        val sizeMetersText: TextView = itemView.findViewById(R.id.sizeMeters)
+        val hazardousText: TextView = itemView.findViewById(R.id.isHazardous)
+        val asteroidImage: ImageView = itemView.findViewById(R.id.asteroidImage)
+
+        fun bind(asteroid: Asteroid){
+            val df = DecimalFormat("#.###")
+            df.roundingMode = RoundingMode.CEILING
+
+            val sizeMeters = "${df.format(asteroid.estimatedDiameter.meters.min)} - ${df.format(asteroid.estimatedDiameter.meters.max)} (m)"
+
+            asteroidTextView.text = asteroid.name
+            sizeMetersText.text = sizeMeters
+            hazardousText.text = asteroid.isHazardous.toString()
+            asteroidImage.setImageResource(
+                    getImage(asteroid.isHazardous,
+                            getAverageSize(asteroid.estimatedDiameter.meters.min, asteroid.estimatedDiameter.meters.max)))
+        }
+
+        private fun getAverageSize(min: Double, max: Double): AverageSize{
+            return when((min + max) / 2){
+                in 0.0..100.0 -> AverageSize.SMALL
+                in 100.1..500.0 -> AverageSize.MEDIUM
+                else -> AverageSize.BIG
+            }
+        }
+
+        private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
+            return when{
+                isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_dangerous_asteroid
+                isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_dangerous_asteroid
+                isHazardous && (averageSize == AverageSize.BIG) -> R.drawable.ic_big_dangerous_asteroid
+                !isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_asteroid
+                !isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_asteroid
+                else -> R.drawable.ic_big_asteroid
+            }
+        }
+
         override fun onClick(v: View) {
-            val asteroid = asteroids[bindingAdapterPosition]
-            listener.onClickHandler(asteroid, v)
+//            val asteroid = asteroids[bindingAdapterPosition]
+//            listener.onClickHandler(asteroid, v)
         }
     }
 }
