@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.model.Asteroid
@@ -12,28 +14,20 @@ import com.klekchyan.asteroidsnews.model.AverageSize
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerView.Adapter<AsteroidsAdapter.AsteroidsViewHolder>() {
+class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler):
+        ListAdapter<Asteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()) {
 
     interface AsteroidsAdapterOnClickHandler{
         fun onClickHandler(asteroid: Asteroid, view: View)
     }
-
-    private var asteroids = listOf<Asteroid>()
-
-    override fun getItemCount() = asteroids.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
         return AsteroidsViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
-        val asteroid = asteroids[position]
+        val asteroid = getItem(position)
         holder.bind(asteroid)
-    }
-
-    fun setListOfAsteroids(asteroids: MutableList<Asteroid>){
-        this.asteroids = asteroids
-        notifyDataSetChanged()
     }
 
     class AsteroidsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -93,6 +87,16 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler): RecyclerVi
 //            val asteroid = asteroids[bindingAdapterPosition]
 //            listener.onClickHandler(asteroid, v)
         }
+    }
+}
+
+class AsteroidsAdapterDiffCallBack: DiffUtil.ItemCallback<Asteroid>(){
+    override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+        return oldItem == newItem
     }
 }
 

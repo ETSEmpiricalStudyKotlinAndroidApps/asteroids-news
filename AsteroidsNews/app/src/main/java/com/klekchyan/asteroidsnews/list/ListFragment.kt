@@ -40,7 +40,7 @@ class ListFragment : Fragment(), AsteroidsAdapter.AsteroidsAdapterOnClickHandler
         recyclerView.adapter = asteroidsAdapter
 
         viewModel.listOfAsteroids.observe(viewLifecycleOwner, { newAsteroids ->
-            asteroidsAdapter.setListOfAsteroids(newAsteroids)
+            asteroidsAdapter.submitList(newAsteroids)
         })
 
         return binding.root
