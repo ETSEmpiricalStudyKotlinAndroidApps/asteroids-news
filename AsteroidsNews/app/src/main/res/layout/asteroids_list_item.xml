@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="asteroid"
+            type="com.klekchyan.asteroidsnews.model.Asteroid" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,7 +25,8 @@
             app:layout_constraintEnd_toStartOf="@+id/asteroidImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Asteroid" />
+            tools:text="Asteroid"
+            app:setAsteroidNameText="@{asteroid}"/>
 
         <TextView
             android:id="@+id/sizeText"
@@ -47,7 +54,8 @@
             app:layout_constraintEnd_toEndOf="@+id/sizeText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sizeText"
-            tools:text="220 - 450 (m)" />
+            tools:text="220 - 450 (m)"
+            app:setSizeMeters="@{asteroid}"/>
 
         <ImageView
             android:id="@+id/asteroidImage"
@@ -60,7 +68,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/asteroidsNameText"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_big_dangerous_asteroid"/>
+            tools:src="@drawable/ic_big_dangerous_asteroid"
+            app:setAsteroidImage="@{asteroid}"/>
 <!--            app:srcCompat="@drawable/ic_launcher_background"-->
 
 
@@ -90,7 +99,8 @@
             app:layout_constraintEnd_toStartOf="@+id/asteroidImage"
             app:layout_constraintStart_toStartOf="@+id/hazardousText"
             app:layout_constraintTop_toBottomOf="@+id/hazardousText"
-            tools:text="true" />
+            tools:text="true"
+            app:setHazardous="@{asteroid}"/>
 
         <ImageView
             android:id="@+id/divider"
