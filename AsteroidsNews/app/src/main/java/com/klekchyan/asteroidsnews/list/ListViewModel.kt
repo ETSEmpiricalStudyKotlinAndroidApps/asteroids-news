@@ -22,6 +22,18 @@ class ListViewModel: ViewModel() {
     val isHazardous: LiveData<Boolean>
         get() = _isHazardous
 
+    private val _navigateToSpecificAsteroid = MutableLiveData<Asteroid>()
+    val navigateToSpecificAsteroid: LiveData<Asteroid>
+        get() = _navigateToSpecificAsteroid
+
+    fun onSpecificAsteroidNavigated(){
+        _navigateToSpecificAsteroid.value = null
+    }
+
+    fun onAsteroidClicked(asteroid: Asteroid){
+        _navigateToSpecificAsteroid.value = asteroid
+    }
+
     init {
         getAllAsteroids()
         _isHazardous.value = false

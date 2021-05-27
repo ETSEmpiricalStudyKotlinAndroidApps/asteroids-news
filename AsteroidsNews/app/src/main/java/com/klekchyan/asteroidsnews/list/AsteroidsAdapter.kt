@@ -1,7 +1,6 @@
 package com.klekchyan.asteroidsnews.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,12 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.databinding.AsteroidsListItemBinding
 import com.klekchyan.asteroidsnews.model.Asteroid
 
-class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler):
+class AsteroidsAdapter(val listener: AsteroidsAdapterClickListener):
         ListAdapter<Asteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()) {
 
-    interface AsteroidsAdapterOnClickHandler{
-        fun onClickHandler(asteroid: Asteroid, view: View)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
         return AsteroidsViewHolder.from(parent)
@@ -22,15 +18,11 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler):
 
     override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
         val asteroid = getItem(position)
-        holder.bind(asteroid)
+        holder.bind(asteroid, listener)
     }
 
     class AsteroidsViewHolder(val binding: AsteroidsListItemBinding):
-            RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
-        init {
-            itemView.setOnClickListener(this)
-        }
+            RecyclerView.ViewHolder(binding.root) {
 
         companion object{
             fun from(parent: ViewGroup): AsteroidsViewHolder{
@@ -40,14 +32,10 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterOnClickHandler):
             }
         }
 
-        fun bind(asteroid: Asteroid){
+        fun bind(asteroid: Asteroid, listener: AsteroidsAdapterClickListener){
             binding.asteroid = asteroid
+            binding.cliclListener = listener
             binding.executePendingBindings()
-        }
-
-        override fun onClick(v: View) {
-//            val asteroid = asteroids[bindingAdapterPosition]
-//            listener.onClickHandler(asteroid, v)
         }
     }
 }
@@ -60,5 +48,9 @@ class AsteroidsAdapterDiffCallBack: DiffUtil.ItemCallback<Asteroid>(){
     override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem == newItem
     }
+}
+
+class AsteroidsAdapterClickListener(val clickListener: (asteroid: Asteroid) -> Unit){
+    fun onClick(asteroid: Asteroid) = clickListener(asteroid)
 }
 

@@ -7,11 +7,15 @@
         <variable
             name="asteroid"
             type="com.klekchyan.asteroidsnews.model.Asteroid" />
+        <variable
+            name="cliclListener"
+            type="com.klekchyan.asteroidsnews.list.AsteroidsAdapterClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> cliclListener.onClick(asteroid)}">
 
         <TextView
             android:id="@+id/asteroidsNameText"

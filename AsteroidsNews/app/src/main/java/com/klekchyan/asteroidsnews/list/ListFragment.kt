@@ -5,20 +5,17 @@ import android.view.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
-import com.klekchyan.asteroidsnews.model.Asteroid
 
-class ListFragment : Fragment(), AsteroidsAdapter.AsteroidsAdapterOnClickHandler {
+class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var asteroidsAdapter: AsteroidsAdapter
-    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var viewModel: ListViewModel
     private lateinit var menuSwitch: SwitchCompat
 
@@ -31,27 +28,26 @@ class ListFragment : Fragment(), AsteroidsAdapter.AsteroidsAdapterOnClickHandler
 
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
 
-        layoutManager = LinearLayoutManager(activity)
-        asteroidsAdapter = AsteroidsAdapter(this)
-        recyclerView = binding.asteroidsRecyclerView
-
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = asteroidsAdapter
+        val asteroidsAdapter = AsteroidsAdapter(AsteroidsAdapterClickListener {
+            viewModel.onAsteroidClicked(it)
+        })
+        
+        binding.asteroidsRecyclerView.adapter = asteroidsAdapter
 
         viewModel.listOfAsteroids.observe(viewLifecycleOwner, { newAsteroids ->
             asteroidsAdapter.submitList(newAsteroids)
         })
 
+        viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
+            asteroid?.let {
+                this.findNavController().navigate(
+                    ListFragmentDirections
+                        .actionListFragmentToSpecificAsteroidFragment(asteroid))
+                viewModel.onSpecificAsteroidNavigated()
+            }
+        })
+
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onClickHandler(asteroid: Asteroid, view: View) {
-        view.findNavController().navigate(ListFragmentDirections.actionListFragmentToSpecificAsteroidFragment(asteroid))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
