@@ -47,7 +47,7 @@ class ListViewModel: ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
 
         observer.subscribe({ asteroids ->
-            _listOfAllAsteroids.value = asteroids
+            _listOfAllAsteroids.value = asteroids.sortedBy { it.closeApproachData[0].date}.toMutableList()
             _filteredListOfAsteroids.value = _listOfAllAsteroids.value
         }, {
             Log.e("Parsing", it.message.toString())
@@ -59,7 +59,9 @@ class ListViewModel: ViewModel() {
             _filteredListOfAsteroids.value = _listOfAllAsteroids.value
             _isHazardous.value = false
         } else {
-            _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!.filter { it.isHazardous }.toMutableList()
+            _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!
+                .filter { it.isHazardous }
+                .toMutableList()
             _isHazardous.value = true
         }
     }

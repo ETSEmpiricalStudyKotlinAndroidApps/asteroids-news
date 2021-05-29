@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="text_style">
-<!--        <item name="android:layout_marginStart">@dimen/horizontal_margin</item>-->
-<!--        <item name="android:layout_marginEnd">@dimen/horizontal_margin</item>-->
+    <style name="bold_text_style">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
         <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:padding">@dimen/small_padding</item>
-<!--        <item name="android:textSize">@dimen/text_size</item>-->
     </style>
 
-    <style name="Theme.AsteroidsNews.Launcher" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="android:drawable">@color/background</item>
+    <style name="text_style">
+        <item name="android:fontFamily">@font/comfortaa</item>
+        <item name="android:padding">@dimen/small_padding</item>
     </style>
 
 </resources>

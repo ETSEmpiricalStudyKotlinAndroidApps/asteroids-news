@@ -2,17 +2,37 @@ package com.klekchyan.asteroidsnews.list
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.model.Asteroid
 import com.klekchyan.asteroidsnews.model.AverageSize
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+@BindingAdapter("setBackground")
+fun ConstraintLayout.setBackground(position: Int?){
+    position?.let {
+        val darkSnippet = ResourcesCompat.getDrawable(context.resources, R.drawable.dark_snippet, null)
+        val lightSnippet = ResourcesCompat.getDrawable(context.resources, R.drawable.light_snippet, null)
+        background = if (position % 2 == 0) darkSnippet else lightSnippet
+    }
+}
 
 @BindingAdapter("setAsteroidNameText")
 fun TextView.setAsteroidNameText(item: Asteroid?){
     item?.let {
         text = item.name
+    }
+}
+
+@BindingAdapter("setApproachDate")
+fun TextView.setApproachDate(item: Asteroid?){
+    item?.let {
+        text = it.closeApproachData[0].date.toString()
     }
 }
 

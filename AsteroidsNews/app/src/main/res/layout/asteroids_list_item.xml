@@ -10,113 +10,61 @@
         <variable
             name="cliclListener"
             type="com.klekchyan.asteroidsnews.list.AsteroidsAdapterClickListener" />
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/large_margin"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:layout_marginTop="@dimen/margin"
+        app:setBackground="@{position}"
         android:onClick="@{() -> cliclListener.onClick(asteroid)}">
 
-        <TextView
-            android:id="@+id/asteroidsNameText"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:gravity="center_horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/asteroidImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Asteroid"
-            app:setAsteroidNameText="@{asteroid}"/>
-
-        <TextView
-            android:id="@+id/sizeText"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@string/asteroidSize"
-            app:layout_constraintBottom_toTopOf="@+id/sizeMeters"
-            app:layout_constraintEnd_toStartOf="@+id/hazardousText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/asteroidsNameText" />
-
-        <TextView
-            android:id="@+id/sizeMeters"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:textSize="@dimen/small_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/asteroidImage"
-            app:layout_constraintEnd_toEndOf="@+id/sizeText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sizeText"
-            tools:text="220 - 450 (m)"
-            app:setSizeMeters="@{asteroid}"/>
-
         <ImageView
-            android:id="@+id/asteroidImage"
+            android:id="@+id/asteroid_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/asteroidsNameText"
-            app:layout_constraintTop_toTopOf="parent"
+            app:setAsteroidImage="@{asteroid}"
             tools:src="@drawable/ic_big_dangerous_asteroid"
-            app:setAsteroidImage="@{asteroid}"/>
-<!--            app:srcCompat="@drawable/ic_launcher_background"-->
 
-
-        <TextView
-            android:id="@+id/hazardousText"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@string/hazardous"
-            app:layout_constraintBottom_toTopOf="@+id/isHazardous"
-            app:layout_constraintEnd_toStartOf="@+id/asteroidImage"
-            app:layout_constraintStart_toEndOf="@+id/sizeText"
-            app:layout_constraintTop_toBottomOf="@+id/asteroidsNameText" />
-
-        <TextView
-            android:id="@+id/isHazardous"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:textSize="@dimen/small_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/asteroidImage"
-            app:layout_constraintEnd_toStartOf="@+id/asteroidImage"
-            app:layout_constraintStart_toStartOf="@+id/hazardousText"
-            app:layout_constraintTop_toBottomOf="@+id/hazardousText"
-            tools:text="true"
-            app:setHazardous="@{asteroid}"/>
-
-        <ImageView
-            android:id="@+id/divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin_large"
-            android:layout_marginBottom="@dimen/vertical_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/asteroid_name"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/asteroidsNameText"
-            app:layout_constraintStart_toStartOf="@+id/asteroidsNameText"
-            app:layout_constraintTop_toBottomOf="@+id/asteroidImage"
-            app:srcCompat="@drawable/ic_divider2" />
+            />
+
+        <TextView
+            android:id="@+id/asteroid_name"
+            style="@style/bold_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:setAsteroidNameText="@{asteroid}"
+            tools:text="Asteroid"
+
+            app:layout_constraintStart_toEndOf="@+id/asteroid_image"
+            app:layout_constraintEnd_toStartOf="@id/approach_date"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/approach_date"
+            style="@style/text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:setApproachDate="@{asteroid}"
+
+            app:layout_constraintBaseline_toBaselineOf="@+id/asteroid_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/asteroid_name"
+            tools:text="2015-Sep-08 20:28" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,9 +6,9 @@
     android:opacity="opaque">
     <item android:drawable="@color/background"/>
     <item
-        android:width="80dp"
+        android:width="120dp"
         android:height="100dp"
-        android:drawable="@drawable/zaebalo"
+        android:drawable="@drawable/nasa_logo"
         android:gravity="center"/>
 
 </layer-list>

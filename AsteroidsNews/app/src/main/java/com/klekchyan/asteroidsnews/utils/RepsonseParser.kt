@@ -3,10 +3,13 @@ package com.klekchyan.asteroidsnews.utils
 import com.google.gson.Gson
 import com.klekchyan.asteroidsnews.model.Asteroid
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
 
 const val START_DATE = "start_date="
 const val END_DATE = "end_date="
+private val dateFormatter = SimpleDateFormat("yyyy-MMM-dd HH:mm", Locale.ENGLISH)
 
 fun getListOfAsteroidsFromResponse(response: String): MutableList<Asteroid>{
 
@@ -47,4 +50,8 @@ private fun getStartAndEndDates(obj: JSONObject): Pair<LocalDate, LocalDate>{
     val endDate = LocalDate.parse(end)
 
     return startDate to endDate
+}
+
+fun String.getDateFromString(): Date?{
+    return dateFormatter.parse(this)
 }
