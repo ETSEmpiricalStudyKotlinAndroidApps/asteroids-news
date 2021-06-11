@@ -1,19 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".SpecificAsteroidFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".specificAsteroid.SpecificAsteroidFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <data>
+        <variable
+            name="asteroidViewModel"
+            type="com.klekchyan.asteroidsnews.specificAsteroid.SpecificAsteroidViewModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:id="@+id/text_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/middle_section_background"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:adjustViewBounds="true"
+
+                android:src="@drawable/gradient_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/timer_block"
+                 />
+
+            <ImageView
+                android:id="@+id/velocity_image3"
+                android:layout_width="130dp"
+                android:layout_height="0dp"
+                android:src="@drawable/data_block"
+                app:layout_constraintBottom_toBottomOf="@+id/Hazardous"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/Hazardous"
+                app:layout_constraintTop_toTopOf="@+id/Hazardous" />
+
+            <ImageView
+                android:id="@+id/velocity_image4"
+                android:layout_width="130dp"
+                android:layout_height="0dp"
+                android:src="@drawable/data_block"
+                app:layout_constraintBottom_toBottomOf="@+id/absolute_magnitude"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/absolute_magnitude"
+                app:layout_constraintTop_toTopOf="@+id/absolute_magnitude" />
+
+            <ImageView
+                android:id="@+id/velocity_image5"
+                android:layout_width="130dp"
+                android:layout_height="0dp"
+                android:src="@drawable/data_block"
+                app:layout_constraintBottom_toBottomOf="@+id/orbiting_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/orbiting_body"
+                app:layout_constraintTop_toTopOf="@+id/orbiting_body" />
+
+            <ImageView
+                android:id="@+id/velocity_image2"
+                android:layout_width="130dp"
+                android:layout_height="0dp"
+                android:src="@drawable/data_block"
+                app:layout_constraintBottom_toBottomOf="@+id/diameter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/diameter"
+                app:layout_constraintTop_toTopOf="@+id/diameter" />
+
+            <ImageView
+                android:id="@+id/velocity_image"
+                android:layout_width="130dp"
+                android:layout_height="0dp"
+                android:src="@drawable/data_block"
+                app:layout_constraintBottom_toBottomOf="@+id/velocity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/velocity"
+                app:layout_constraintTop_toTopOf="@+id/velocity" />
+
+            <ImageView
+                android:id="@+id/timer_block"
+                android:layout_width="300dp"
+                android:layout_height="0dp"
+                android:src="@drawable/timer_block"
+
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/characteristics"
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/characteristics"
+                android:textSize="24sp"
+                android:layout_marginTop="16dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timer_block" />
+
+            <TextView
+                android:id="@+id/velocity"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/velocity"
+                android:layout_marginStart="@dimen/large_margin"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/diameter"
+                app:layout_constraintEnd_toEndOf="@+id/characteristics"
+                app:layout_constraintStart_toStartOf="@+id/characteristics"
+                app:layout_constraintTop_toBottomOf="@+id/characteristics"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <TextView
+                android:id="@+id/velocity2"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/velocity"
+                app:layout_constraintBaseline_toBaselineOf="@+id/velocity"
+                app:layout_constraintEnd_toEndOf="@+id/velocity_image"
+                app:layout_constraintStart_toStartOf="@+id/velocity_image" />
+
+            <TextView
+                android:id="@+id/diameter"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/diameter"
+                android:layout_marginStart="@dimen/large_margin"
+                app:layout_constraintBottom_toTopOf="@+id/Hazardous"
+                app:layout_constraintEnd_toEndOf="@+id/characteristics"
+                app:layout_constraintStart_toStartOf="@+id/characteristics"
+                app:layout_constraintTop_toBottomOf="@+id/velocity" />
+
+            <TextView
+                android:id="@+id/Hazardous"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/hazardous"
+                android:layout_marginStart="@dimen/large_margin"
+                app:layout_constraintBottom_toTopOf="@+id/absolute_magnitude"
+                app:layout_constraintEnd_toEndOf="@+id/characteristics"
+                app:layout_constraintStart_toStartOf="@+id/characteristics"
+                app:layout_constraintTop_toBottomOf="@+id/diameter" />
+
+            <TextView
+                android:id="@+id/absolute_magnitude"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/absolute_magnitude"
+                android:layout_marginStart="@dimen/large_margin"
+                app:layout_constraintBottom_toTopOf="@+id/orbiting_body"
+                app:layout_constraintEnd_toEndOf="@+id/characteristics"
+                app:layout_constraintStart_toStartOf="@+id/characteristics"
+                app:layout_constraintTop_toBottomOf="@+id/Hazardous" />
+
+            <TextView
+                android:id="@+id/orbiting_body"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/orbiting_body"
+                android:layout_marginStart="@dimen/large_margin"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_section_background"
+                app:layout_constraintEnd_toEndOf="@+id/characteristics"
+                app:layout_constraintStart_toStartOf="@+id/characteristics"
+                app:layout_constraintTop_toBottomOf="@+id/absolute_magnitude" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

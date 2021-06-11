@@ -1,10 +1,15 @@
 <resources>
-    <string name="app_name">AsteroidsNews</string>
+    <string name="app_name">Asteroids News</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="asteroids_list">There will list of asteroids</string>
     <string name="Test">Test</string>
     <string name="asteroidSize">Size</string>
-    <string name="hazardous">Hazardous</string>
     <string name="reload">Reload</string>
     <string name="only_hazardous">Hazardous</string>
+    <string name="characteristics">Characteristics</string>
+    <string name="velocity">Velocity:</string>
+    <string name="diameter">Diameter:</string>
+    <string name="hazardous">Hazardous:</string>
+    <string name="absolute_magnitude">Absolute magnitude:</string>
+    <string name="orbiting_body">Orbiting body:</string>
 </resources>

@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/specificAsteroidFragment"
-        android:name="com.klekchyan.asteroidsnews.SpecificAsteroidFragment"
+        android:name="com.klekchyan.asteroidsnews.specificAsteroid.SpecificAsteroidFragment"
         android:label="fragment_specific_asteroid"
         tools:layout="@layout/fragment_specific_asteroid" >
         <action
