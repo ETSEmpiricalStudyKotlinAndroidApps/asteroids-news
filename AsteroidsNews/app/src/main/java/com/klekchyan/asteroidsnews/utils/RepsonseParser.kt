@@ -11,7 +11,7 @@ const val START_DATE = "start_date="
 const val END_DATE = "end_date="
 private val dateFormatter = SimpleDateFormat("yyyy-MMM-dd HH:mm", Locale.ENGLISH)
 
-fun getListOfAsteroidsFromResponse(response: String): MutableList<Asteroid>{
+suspend fun getListOfAsteroidsFromResponse(response: String): MutableList<Asteroid>{
 
     val mainObject = JSONObject(response)
     val nearEarthObjects = mainObject.getJSONObject("near_earth_objects")

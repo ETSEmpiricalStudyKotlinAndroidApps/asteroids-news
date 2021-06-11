@@ -1,4 +1,5 @@
 package com.klekchyan.asteroidsnews.model
+
 import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.utils.getDateFromString
 import java.io.Serializable

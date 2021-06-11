@@ -1,21 +1,26 @@
 package com.klekchyan.asteroidsnews.list
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.klekchyan.asteroidsnews.network.NasaApi
 import com.klekchyan.asteroidsnews.model.Asteroid
-import com.klekchyan.asteroidsnews.utils.RequestType
 import com.klekchyan.asteroidsnews.utils.getListOfAsteroidsFromResponse
-import com.klekchyan.asteroidsnews.utils.getObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ListViewModel: ViewModel() {
-    private val _listOfAllAsteroids = MutableLiveData<MutableList<Asteroid>>()
-    private val _filteredListOfAsteroids = MutableLiveData<MutableList<Asteroid>>()
-    val listOfAsteroids: LiveData<MutableList<Asteroid>>
+
+    private val viewModelJob = Job()
+    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val _listOfAllAsteroids = MutableLiveData<List<Asteroid>>()
+    private val _filteredListOfAsteroids = MutableLiveData<List<Asteroid>>()
+    val listOfAsteroids: LiveData<List<Asteroid>>
         get() = _filteredListOfAsteroids
 
     private val _isHazardous = MutableLiveData<Boolean>()
@@ -39,19 +44,21 @@ class ListViewModel: ViewModel() {
         _isHazardous.value = false
     }
 
-    @SuppressLint("CheckResult")
-    fun getAllAsteroids(){
-        val observer = getObserver(RequestType.ALL_ASTEROIDS)
-                .map { getListOfAsteroidsFromResponse(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-
-        observer.subscribe({ asteroids ->
-            _listOfAllAsteroids.value = asteroids.sortedBy { it.closeApproachData[0].date}.toMutableList()
-            _filteredListOfAsteroids.value = _listOfAllAsteroids.value
-        }, {
-            Log.e("Parsing", it.message.toString())
-        })
+    fun getAllAsteroids(startDay: String = "", endDay: String = ""){
+        viewModelScope.launch {
+            val getAllAsteroidsDeferred = NasaApi.retrofitService.getAllAsteroids(startDay, endDay)
+            try{
+                val response = getAllAsteroidsDeferred.await()
+                Log.w("ListViewModel", "$response")
+                val asteroids = getListOfAsteroidsFromResponse(response)
+                _listOfAllAsteroids.value = asteroids
+                _filteredListOfAsteroids.value = _listOfAllAsteroids.value
+            } catch (e: Exception){
+                Log.w("ListViewModel", "${e.message}")
+                _listOfAllAsteroids.value = ArrayList()
+                _filteredListOfAsteroids.value = _listOfAllAsteroids.value
+            }
+        }
     }
 
     fun getFilteredAsteroids(isHazardous: Boolean){
