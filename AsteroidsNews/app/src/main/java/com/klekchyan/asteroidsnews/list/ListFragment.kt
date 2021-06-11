@@ -13,27 +13,20 @@ import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
 
-    private lateinit var binding: FragmentListBinding
     private lateinit var viewModel: ListViewModel
     private lateinit var menuSwitch: SwitchCompat
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_list,
-                container,
-                false)
+
+        val binding = FragmentListBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
 
-        val asteroidsAdapter = AsteroidsAdapter(AsteroidsAdapterClickListener {
-            viewModel.onAsteroidClicked(it)
-        })
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         
-        binding.asteroidsRecyclerView.adapter = asteroidsAdapter
-
-        viewModel.listOfAsteroids.observe(viewLifecycleOwner, { newAsteroids ->
-            asteroidsAdapter.submitList(newAsteroids)
+        binding.asteroidsRecyclerView.adapter = AsteroidsAdapter(AsteroidsAdapterClickListener {
+            viewModel.onAsteroidClicked(it)
         })
 
         viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
@@ -45,6 +38,7 @@ class ListFragment : Fragment() {
             }
         })
 
+        setHasOptionsMenu(true)
         return binding.root
     }
 

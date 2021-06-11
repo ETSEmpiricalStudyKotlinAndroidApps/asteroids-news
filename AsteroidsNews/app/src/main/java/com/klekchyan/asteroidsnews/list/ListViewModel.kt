@@ -7,16 +7,19 @@ import androidx.lifecycle.ViewModel
 import com.klekchyan.asteroidsnews.network.NasaApi
 import com.klekchyan.asteroidsnews.model.Asteroid
 import com.klekchyan.asteroidsnews.utils.getListOfAsteroidsFromResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.Exception
+
+enum class NasaApiStatus { LOADING, DONE, ERROR }
 
 class ListViewModel: ViewModel() {
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val _status = MutableLiveData(NasaApiStatus.DONE)
+    val status: LiveData<NasaApiStatus>
+        get() = _status
 
     private val _listOfAllAsteroids = MutableLiveData<List<Asteroid>>()
     private val _filteredListOfAsteroids = MutableLiveData<List<Asteroid>>()
@@ -48,12 +51,17 @@ class ListViewModel: ViewModel() {
         viewModelScope.launch {
             val getAllAsteroidsDeferred = NasaApi.retrofitService.getAllAsteroids(startDay, endDay)
             try{
-                val response = getAllAsteroidsDeferred.await()
-                Log.w("ListViewModel", "$response")
-                val asteroids = getListOfAsteroidsFromResponse(response)
+                _status.value = NasaApiStatus.LOADING
+                var asteroids = mutableListOf<Asteroid>()
+                withContext(Dispatchers.IO){
+                    val response = getAllAsteroidsDeferred.await()
+                    asteroids = getListOfAsteroidsFromResponse(response)
+                }
+                _status.value = NasaApiStatus.DONE
                 _listOfAllAsteroids.value = asteroids
                 _filteredListOfAsteroids.value = _listOfAllAsteroids.value
             } catch (e: Exception){
+                _status.value = NasaApiStatus.ERROR
                 Log.w("ListViewModel", "${e.message}")
                 _listOfAllAsteroids.value = ArrayList()
                 _filteredListOfAsteroids.value = _listOfAllAsteroids.value
@@ -71,5 +79,10 @@ class ListViewModel: ViewModel() {
                 .toMutableList()
             _isHazardous.value = true
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
