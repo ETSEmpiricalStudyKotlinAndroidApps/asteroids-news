@@ -22,13 +22,8 @@ class ListViewModel: ViewModel() {
         get() = _status
 
     private val _listOfAllAsteroids = MutableLiveData<List<Asteroid>>()
-    private val _filteredListOfAsteroids = MutableLiveData<List<Asteroid>>()
     val listOfAsteroids: LiveData<List<Asteroid>>
-        get() = _filteredListOfAsteroids
-
-    private val _isHazardous = MutableLiveData<Boolean>()
-    val isHazardous: LiveData<Boolean>
-        get() = _isHazardous
+        get() = _listOfAllAsteroids
 
     private val _navigateToSpecificAsteroid = MutableLiveData<Asteroid>()
     val navigateToSpecificAsteroid: LiveData<Asteroid>
@@ -44,7 +39,6 @@ class ListViewModel: ViewModel() {
 
     init {
         getAllAsteroids()
-        _isHazardous.value = false
     }
 
     fun getAllAsteroids(startDay: String = "", endDay: String = ""){
@@ -53,31 +47,21 @@ class ListViewModel: ViewModel() {
             try{
                 _status.value = NasaApiStatus.LOADING
                 var asteroids = mutableListOf<Asteroid>()
+
                 withContext(Dispatchers.IO){
                     val response = getAllAsteroidsDeferred.await()
                     asteroids = getListOfAsteroidsFromResponse(response)
+                        .sortedBy { it.closeApproachData[0].date }
+                        .toMutableList()
                 }
+
                 _status.value = NasaApiStatus.DONE
                 _listOfAllAsteroids.value = asteroids
-                _filteredListOfAsteroids.value = _listOfAllAsteroids.value
             } catch (e: Exception){
                 _status.value = NasaApiStatus.ERROR
                 Log.w("ListViewModel", "${e.message}")
                 _listOfAllAsteroids.value = ArrayList()
-                _filteredListOfAsteroids.value = _listOfAllAsteroids.value
             }
-        }
-    }
-
-    fun getFilteredAsteroids(isHazardous: Boolean){
-        if(!isHazardous) {
-            _filteredListOfAsteroids.value = _listOfAllAsteroids.value
-            _isHazardous.value = false
-        } else {
-            _filteredListOfAsteroids.value = _listOfAllAsteroids.value!!
-                .filter { it.isHazardous }
-                .toMutableList()
-            _isHazardous.value = true
         }
     }
 

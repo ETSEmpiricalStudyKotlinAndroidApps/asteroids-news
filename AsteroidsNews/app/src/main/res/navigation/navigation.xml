@@ -7,34 +7,29 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.klekchyan.asteroidsnews.list.ListFragment"
-        android:label="fragment_list"
+        android:label="All asteroids"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_specificAsteroidFragment"
             app:destination="@id/specificAsteroidFragment" />
-        <action
-            android:id="@+id/action_listFragment_to_filterFragment"
-            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/specificAsteroidFragment"
         android:name="com.klekchyan.asteroidsnews.specificAsteroid.SpecificAsteroidFragment"
-        android:label="fragment_specific_asteroid"
+        android:label="Asteroid"
         tools:layout="@layout/fragment_specific_asteroid" >
-        <action
-            android:id="@+id/action_specificAsteroidFragment_to_listFragment"
-            app:popUpTo="@id/listFragment" />
         <argument
             android:name="asteroid"
             app:argType="com.klekchyan.asteroidsnews.model.Asteroid" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.klekchyan.asteroidsnews.FilterFragment"
-        android:label="fragment_filter"
-        tools:layout="@layout/fragment_filter" >
-        <action
-            android:id="@+id/action_filterFragment_to_listFragment"
-            app:popUpTo="@id/listFragment" />
-    </fragment>
+        android:name="com.klekchyan.asteroidsnews.filter.FilterFragment"
+        android:label="Filters"
+        tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.klekchyan.asteroidsnews.info.InfoFragment"
+        android:label="Info"
+        tools:layout="@layout/fragment_info" />
 </navigation>

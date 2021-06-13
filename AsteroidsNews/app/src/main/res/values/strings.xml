@@ -12,4 +12,7 @@
     <string name="hazardous">Hazardous:</string>
     <string name="absolute_magnitude">Absolute magnitude:</string>
     <string name="orbiting_body">Orbiting body:</string>
+    <string name="info_menu_item">Info</string>
+    <string name="filter_menu_item">Filter</string>
+    <string name="list_menu_item">List</string>
 </resources>

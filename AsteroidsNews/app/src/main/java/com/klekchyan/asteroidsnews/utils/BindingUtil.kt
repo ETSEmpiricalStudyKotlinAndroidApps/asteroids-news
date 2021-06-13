@@ -22,20 +22,6 @@ fun ConstraintLayout.setBackground(position: Int?){
     }
 }
 
-@BindingAdapter("setAsteroidNameText")
-fun TextView.setAsteroidNameText(item: Asteroid?){
-    item?.let {
-        text = item.name
-    }
-}
-
-@BindingAdapter("setApproachDate")
-fun TextView.setApproachDate(item: Asteroid?){
-    item?.let {
-        text = it.closeApproachData[0].date.toString()
-    }
-}
-
 @BindingAdapter("setSizeMeters")
 fun TextView.setSizeMeters(item: Asteroid?){
     val df = DecimalFormat("#.###")
@@ -43,13 +29,6 @@ fun TextView.setSizeMeters(item: Asteroid?){
     item?.let {
         val sizeMeters = "${df.format(it.estimatedDiameter.meters.min)} - ${df.format(it.estimatedDiameter.meters.max)}"
         text = sizeMeters
-    }
-}
-
-@BindingAdapter("setHazardous")
-fun TextView.setHazardous(item: Asteroid?){
-    item?.let {
-        text = it.isHazardous.toString()
     }
 }
 

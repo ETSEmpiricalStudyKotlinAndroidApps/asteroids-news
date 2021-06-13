@@ -18,6 +18,10 @@ private const val PARAMETER_API_KEY = "api_key"
 
 private const val API_KEY = "iPIGH6W4IyUt01pS3cOtKOgLNYzTlFDoHMgY139m"
 
+/*    NasaApi sends JSON with undefined item count,
+so it's needed to use ScalarsConverter to retrieve response as a String,
+and than it's needed to parse response on its own.
+To parse response this app has utils/ResponseParser. */
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
