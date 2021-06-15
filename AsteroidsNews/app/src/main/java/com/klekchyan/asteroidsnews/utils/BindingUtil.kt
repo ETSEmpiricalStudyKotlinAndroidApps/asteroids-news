@@ -13,15 +13,6 @@ import com.klekchyan.asteroidsnews.model.AverageSize
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-@BindingAdapter("setBackground")
-fun ConstraintLayout.setBackground(position: Int?){
-    position?.let {
-        val darkSnippet = ResourcesCompat.getDrawable(context.resources, R.drawable.dark_snippet, null)
-        val lightSnippet = ResourcesCompat.getDrawable(context.resources, R.drawable.light_snippet, null)
-        background = if (position % 2 == 0) darkSnippet else lightSnippet
-    }
-}
-
 @BindingAdapter("setSizeMeters")
 fun TextView.setSizeMeters(item: Asteroid?){
     val df = DecimalFormat("#.###")

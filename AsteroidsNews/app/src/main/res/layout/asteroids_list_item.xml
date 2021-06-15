@@ -20,8 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/large_margin"
         android:layout_marginEnd="@dimen/large_margin"
-        android:layout_marginTop="@dimen/margin"
-        app:setBackground="@{position}"
+        android:layout_marginTop="@dimen/large_margin"
+        android:elevation="@dimen/general_elevation"
+        android:background="@drawable/light_snippet"
         android:onClick="@{() -> cliclListener.onClick(asteroid)}">
 
         <ImageView
