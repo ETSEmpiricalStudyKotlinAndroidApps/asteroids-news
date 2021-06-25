@@ -18,11 +18,7 @@ data class ExtendedAsteroid(
     val minDiameterMeters: Double,
     val maxDiameterMeters: Double,
     val isHazardous: Boolean,
-    val closeApproachDate: String,
-    val kilometersPerHourVelocity: Double,
-    val astronomicalMissDistance: Double,
-    val kilometersMissDistance: Double,
-    val orbitingBody: String,
+    val closeApproachData: List<CloseApproachData>,
     val orbitId: String,
     val firstObservationDate: String,
     val lastObservationDate: String,
@@ -46,4 +42,12 @@ data class ExtendedAsteroid(
     val orbitClassDescription: String,
     val orbitClassRange: String,
     val isSentryObject: Boolean
+)
+
+data class CloseApproachData(
+    val closeApproachDate: String,
+    val kilometersPerHourVelocity: Double,
+    val astronomicalMissDistance: Double,
+    val kilometersMissDistance: Double,
+    val orbitingBody: String
 )

@@ -15,7 +15,7 @@ interface AsteroidDao{
 
 }
 
-@Database(entities = [DatabaseSimpleAsteroid::class, DatabaseExtendedAsteroid::class], version = 1)
+@Database(entities = [DatabaseSimpleAsteroid::class], version = 1)
 abstract class AsteroidsDatabase: RoomDatabase(){
     abstract val asteroidDao: AsteroidDao
 }
