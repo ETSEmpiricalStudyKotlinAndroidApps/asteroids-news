@@ -6,7 +6,7 @@
     <data>
         <variable
             name="asteroid"
-            type="com.klekchyan.asteroidsnews.model.Asteroid" />
+            type="com.klekchyan.asteroidsnews.domain.SimpleAsteroid" />
         <variable
             name="cliclListener"
             type="com.klekchyan.asteroidsnews.list.AsteroidsAdapterClickListener" />
@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{asteroid.closeApproachData[0].date.toString()}"
+            android:text="@{asteroid.closeApproachDate}"
 
             app:layout_constraintBaseline_toBaselineOf="@+id/asteroid_name"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,8 +14,10 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        val application = requireActivity().application
         val binding = FragmentListBinding.inflate(inflater)
-        val viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        val viewModelFactory = ListViewModelFactory(application)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -28,7 +30,7 @@ class ListFragment : Fragment() {
             asteroid?.let {
                 this.findNavController().navigate(
                     ListFragmentDirections
-                        .actionListFragmentToSpecificAsteroidFragment(asteroid))
+                        .actionListFragmentToSpecificAsteroidFragment(asteroid.id))
                 viewModel.onSpecificAsteroidNavigated()
             }
         })

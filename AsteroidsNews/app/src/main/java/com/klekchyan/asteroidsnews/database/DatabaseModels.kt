@@ -3,7 +3,7 @@ package com.klekchyan.asteroidsnews.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.klekchyan.asteroidsnews.domain.SimpledAsteroid
+import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 
 @Entity(tableName = "simple_asteroid")
@@ -19,9 +19,9 @@ data class DatabaseSimpleAsteroid(
     val closeApproachDate: String
 )
 
-fun List<DatabaseSimpleAsteroid>.asDomainSimpleModel(): List<SimpledAsteroid>{
+fun List<DatabaseSimpleAsteroid>.asSimpleDomainModel(): List<SimpleAsteroid>{
     return map{
-        SimpledAsteroid(
+        SimpleAsteroid(
             id = it.id,
             name = it.name,
             averageSize = it.averageSize,

@@ -19,8 +19,8 @@
         android:label="Asteroid"
         tools:layout="@layout/fragment_specific_asteroid" >
         <argument
-            android:name="asteroid"
-            app:argType="com.klekchyan.asteroidsnews.model.Asteroid" />
+            android:name="asteroidId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"

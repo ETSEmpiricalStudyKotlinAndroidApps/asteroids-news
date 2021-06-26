@@ -1,33 +1,19 @@
-package com.klekchyan.asteroidsnews.list
+package com.klekchyan.asteroidsnews.utils
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
-import com.klekchyan.asteroidsnews.model.Asteroid
-import com.klekchyan.asteroidsnews.model.AverageSize
-import java.math.RoundingMode
-import java.text.DecimalFormat
-
-@BindingAdapter("setSizeMeters")
-fun TextView.setSizeMeters(item: Asteroid?){
-    val df = DecimalFormat("#.###")
-    df.roundingMode = RoundingMode.CEILING
-    item?.let {
-        val sizeMeters = "${df.format(it.estimatedDiameter.meters.min)} - ${df.format(it.estimatedDiameter.meters.max)}"
-        text = sizeMeters
-    }
-}
+import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
+import com.klekchyan.asteroidsnews.list.AsteroidsAdapter
+import com.klekchyan.asteroidsnews.list.NasaApiStatus
+import com.klekchyan.asteroidsnews.network.AverageSize
 
 @BindingAdapter("setAsteroidImage")
-fun ImageView.setAsteroidImage(item: Asteroid?){
+fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
     item?.let {
-        setImageResource(getImage(it.isHazardous,
-                getAverageSize(it.estimatedDiameter.meters.min, it.estimatedDiameter.meters.max)))
+        setImageResource(getImage(it.isHazardous, it.averageSize))
     }
 }
 
@@ -47,17 +33,9 @@ fun ImageView.setStatus(status: NasaApiStatus?){
 }
 
 @BindingAdapter("listData")
-fun RecyclerView.setListOfData(asteroids: List<Asteroid>?){
+fun RecyclerView.setListOfData(asteroids: List<SimpleAsteroid>?){
     val adapter = adapter as AsteroidsAdapter
     adapter.submitList(asteroids)
-}
-
-private fun getAverageSize(min: Double, max: Double): AverageSize {
-    return when((min + max) / 2){
-        in 0.0..100.0 -> AverageSize.SMALL
-        in 100.1..500.0 -> AverageSize.MEDIUM
-        else -> AverageSize.BIG
-    }
 }
 
 private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{

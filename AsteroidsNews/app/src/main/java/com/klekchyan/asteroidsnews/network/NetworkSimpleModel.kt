@@ -2,9 +2,7 @@ package com.klekchyan.asteroidsnews.network
 
 import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.database.DatabaseSimpleAsteroid
-import com.klekchyan.asteroidsnews.domain.SimpledAsteroid
-import com.klekchyan.asteroidsnews.utils.getDateFromString
-import java.util.*
+import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 
 data class NetworkSimpleAsteroid(
     val id: Long,
@@ -40,9 +38,9 @@ data class Meter(
 
 enum class AverageSize{ SMALL, MEDIUM, BIG }
 
-fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpledAsteroid>{
+fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpleAsteroid>{
     return map{
-        SimpledAsteroid(
+        SimpleAsteroid(
             id = it.id,
             name = it.name,
             averageSize = it.averageSize,
@@ -52,7 +50,7 @@ fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpledAsteroid>{
     }
 }
 
-fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): List<DatabaseSimpleAsteroid>{
+fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): Array<DatabaseSimpleAsteroid>{
     return map{
         DatabaseSimpleAsteroid(
             id = it.id,
@@ -61,6 +59,6 @@ fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): List<DatabaseSimpleAst
             isHazardous = it.isHazardous,
             closeApproachDate = it.closeApproachData[0].closeApproachDate
         )
-    }
+    }.toTypedArray()
 }
 

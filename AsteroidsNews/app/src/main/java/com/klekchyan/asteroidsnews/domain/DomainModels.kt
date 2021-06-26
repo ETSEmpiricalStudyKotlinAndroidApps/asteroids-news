@@ -2,7 +2,7 @@ package com.klekchyan.asteroidsnews.domain
 
 import com.klekchyan.asteroidsnews.network.AverageSize
 
-data class SimpledAsteroid(
+data class SimpleAsteroid(
     val id: Long,
     val name: String,
     val averageSize: AverageSize,

@@ -20,7 +20,7 @@ class SpecificAsteroidFragment : Fragment() {
                 false)
         val arguments = SpecificAsteroidFragmentArgs.fromBundle(requireArguments())
 
-        val viewModelFactory = SpecificAsteroidViewModelFactory(arguments.asteroid)
+        val viewModelFactory = SpecificAsteroidViewModelFactory(arguments.asteroidId)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(SpecificAsteroidViewModel::class.java)
 
         binding.asteroidViewModel = viewModel

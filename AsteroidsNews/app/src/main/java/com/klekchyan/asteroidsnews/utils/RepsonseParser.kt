@@ -1,7 +1,7 @@
 package com.klekchyan.asteroidsnews.utils
 
 import com.google.gson.Gson
-import com.klekchyan.asteroidsnews.model.Asteroid
+import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -11,7 +11,7 @@ const val START_DATE = "start_date="
 const val END_DATE = "end_date="
 private val dateFormatter = SimpleDateFormat("yyyy-MMM-dd HH:mm", Locale.ENGLISH)
 
-suspend fun getListOfAsteroidsFromResponse(response: String): MutableList<Asteroid>{
+fun getListOfAsteroidsFromResponse(response: String): MutableList<NetworkSimpleAsteroid>{
 
     val mainObject = JSONObject(response)
     val nearEarthObjects = mainObject.getJSONObject("near_earth_objects")
@@ -20,9 +20,9 @@ suspend fun getListOfAsteroidsFromResponse(response: String): MutableList<Astero
     return getAsteroids(dates, nearEarthObjects)
 }
 
-private fun getAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<Asteroid>{
+private fun getAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
 
-    val allAsteroids = mutableListOf<Asteroid>()
+    val allAsteroids = mutableListOf<NetworkSimpleAsteroid>()
 
     var startDate = dates.first
     var endDate = dates.second
@@ -31,7 +31,7 @@ private fun getAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JS
         val array = nearEarthObjects.getJSONArray(startDate.toString())
         val length = array.length()
         for(i in 0 until length){
-            val asteroid = Gson().fromJson(array[i].toString(), Asteroid::class.java)
+            val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)
             allAsteroids.add(asteroid)
         }
         startDate = startDate.plusDays(1L)

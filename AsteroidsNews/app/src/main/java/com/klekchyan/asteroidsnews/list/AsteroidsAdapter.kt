@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.databinding.AsteroidsListItemBinding
-import com.klekchyan.asteroidsnews.model.Asteroid
+import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 
-class AsteroidsAdapter(val listener: AsteroidsAdapterClickListener):
-        ListAdapter<Asteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()) {
+class AsteroidsAdapter(private val listener: AsteroidsAdapterClickListener):
+        ListAdapter<SimpleAsteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
@@ -32,7 +32,7 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterClickListener):
             }
         }
 
-        fun bind(asteroid: Asteroid, listener: AsteroidsAdapterClickListener, position: Int){
+        fun bind(asteroid: SimpleAsteroid, listener: AsteroidsAdapterClickListener, position: Int){
             binding.position = position
             binding.asteroid = asteroid
             binding.cliclListener = listener
@@ -41,17 +41,17 @@ class AsteroidsAdapter(val listener: AsteroidsAdapterClickListener):
     }
 }
 
-class AsteroidsAdapterDiffCallBack: DiffUtil.ItemCallback<Asteroid>(){
-    override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+class AsteroidsAdapterDiffCallBack: DiffUtil.ItemCallback<SimpleAsteroid>(){
+    override fun areItemsTheSame(oldItem: SimpleAsteroid, newItem: SimpleAsteroid): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+    override fun areContentsTheSame(oldItem: SimpleAsteroid, newItem: SimpleAsteroid): Boolean {
         return oldItem == newItem
     }
 }
 
-class AsteroidsAdapterClickListener(val clickListener: (asteroid: Asteroid) -> Unit){
-    fun onClick(asteroid: Asteroid) = clickListener(asteroid)
+class AsteroidsAdapterClickListener(val clickListener: (asteroid: SimpleAsteroid) -> Unit){
+    fun onClick(asteroid: SimpleAsteroid) = clickListener(asteroid)
 }
 
