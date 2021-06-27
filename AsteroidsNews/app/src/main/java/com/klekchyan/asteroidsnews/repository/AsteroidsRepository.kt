@@ -39,7 +39,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
         }
     }
 
-    suspend fun refreshData(){
+    suspend fun refreshAllAsteroids(){
         withContext(Dispatchers.IO){
             try {
                 val response = NasaApi.retrofitService.getAllAsteroidsAsync().await()

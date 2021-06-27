@@ -33,7 +33,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         Timber.d("listViewModel was created")
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                repository.refreshData()
+                repository.refreshAllAsteroids()
             }
         }
     }

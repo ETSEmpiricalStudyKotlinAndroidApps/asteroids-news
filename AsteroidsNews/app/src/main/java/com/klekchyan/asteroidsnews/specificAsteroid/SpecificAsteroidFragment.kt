@@ -19,14 +19,14 @@ class SpecificAsteroidFragment : Fragment() {
                 container,
                 false)
         val arguments = SpecificAsteroidFragmentArgs.fromBundle(requireArguments())
-
         val application = requireActivity().application
-
         val viewModelFactory = SpecificAsteroidViewModelFactory(arguments.asteroidId, application)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(SpecificAsteroidViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.closeApproachDataRecyclerView.adapter = CloseApproachDataAdapter()
 
         return binding.root
     }

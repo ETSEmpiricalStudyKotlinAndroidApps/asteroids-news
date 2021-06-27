@@ -5,11 +5,15 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
+import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.list.AsteroidsAdapter
 import com.klekchyan.asteroidsnews.list.NasaApiStatus
 import com.klekchyan.asteroidsnews.network.AverageSize
+import com.klekchyan.asteroidsnews.specificAsteroid.CloseApproachDataAdapter
 
+
+//Binding for ListFragment
 @BindingAdapter("setAsteroidImage")
 fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
     item?.let {
@@ -32,8 +36,8 @@ fun ImageView.setStatus(status: NasaApiStatus?){
     }
 }
 
-@BindingAdapter("listData")
-fun RecyclerView.setListOfData(asteroids: List<SimpleAsteroid>?){
+@BindingAdapter("listOfAsteroids")
+fun RecyclerView.setListOfAsteroids(asteroids: List<SimpleAsteroid>?){
     val adapter = adapter as AsteroidsAdapter
     adapter.submitList(asteroids)
 }
@@ -47,4 +51,11 @@ private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
         !isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_asteroid
         else -> R.drawable.ic_big_asteroid
     }
+}
+
+//Binding for SpecificAsteroidFragment
+@BindingAdapter("listOfCloseApproachData")
+fun RecyclerView.setListOfData(data: List<CloseApproachData>?){
+    val adapter = adapter as CloseApproachDataAdapter
+    adapter.submitList(data)
 }
