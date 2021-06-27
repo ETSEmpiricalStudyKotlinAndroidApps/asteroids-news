@@ -10,9 +10,6 @@
         <variable
             name="cliclListener"
             type="com.klekchyan.asteroidsnews.list.AsteroidsAdapterClickListener" />
-        <variable
-            name="position"
-            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

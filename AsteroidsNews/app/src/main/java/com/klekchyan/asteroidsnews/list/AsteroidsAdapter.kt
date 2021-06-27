@@ -18,7 +18,7 @@ class AsteroidsAdapter(private val listener: AsteroidsAdapterClickListener):
 
     override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
         val asteroid = getItem(position)
-        holder.bind(asteroid, listener, position)
+        holder.bind(asteroid, listener)
     }
 
     class AsteroidsViewHolder(val binding: AsteroidsListItemBinding):
@@ -32,8 +32,7 @@ class AsteroidsAdapter(private val listener: AsteroidsAdapterClickListener):
             }
         }
 
-        fun bind(asteroid: SimpleAsteroid, listener: AsteroidsAdapterClickListener, position: Int){
-            binding.position = position
+        fun bind(asteroid: SimpleAsteroid, listener: AsteroidsAdapterClickListener){
             binding.asteroid = asteroid
             binding.cliclListener = listener
             binding.executePendingBindings()

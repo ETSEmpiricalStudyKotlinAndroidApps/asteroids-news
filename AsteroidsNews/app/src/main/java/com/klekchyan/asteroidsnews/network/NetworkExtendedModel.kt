@@ -93,17 +93,16 @@ data class NetworkOrbitClass(
     val orbitClassRange: String
 )
 
-fun List<NetworkExtendedModel>.asExtendedDomainModel(): List<ExtendedAsteroid>{
-    return map{
-        ExtendedAsteroid(
-            id = it.id,
-            name = it.name,
-            nasaJplUrl = it.nasaJplUrl,
-            absoluteMagnitude = it.absoluteMagnitude,
-            minDiameterMeters = it.estimatedDiameter.meters.min,
-            maxDiameterMeters = it.estimatedDiameter.meters.max,
-            isHazardous = it.isHazardous,
-            closeApproachData = it.networkCloseApproachData.map { networkCloseApproachData ->
+fun NetworkExtendedModel.asExtendedDomainModel(): ExtendedAsteroid{
+    return ExtendedAsteroid(
+            id = this.id,
+            name = this.name,
+            nasaJplUrl = this.nasaJplUrl,
+            absoluteMagnitude = this.absoluteMagnitude,
+            minDiameterMeters = this.estimatedDiameter.meters.min,
+            maxDiameterMeters = this.estimatedDiameter.meters.max,
+            isHazardous = this.isHazardous,
+            closeApproachData = this.networkCloseApproachData.map { networkCloseApproachData ->
                 CloseApproachData(
                     closeApproachDate = networkCloseApproachData.closeApproachDate,
                     kilometersPerHourVelocity = networkCloseApproachData.relativeVelocity.kilometersPerHour,
@@ -111,29 +110,28 @@ fun List<NetworkExtendedModel>.asExtendedDomainModel(): List<ExtendedAsteroid>{
                     kilometersMissDistance = networkCloseApproachData.networkMissDistance.kilometers,
                     orbitingBody = networkCloseApproachData.orbitingBody
                 ) },
-            orbitId = it.networkOrbitalData.orbitId,
-            firstObservationDate = it.networkOrbitalData.firstObservationDate,
-            lastObservationDate = it.networkOrbitalData.lastObservationDate,
-            dataArcInDays = it.networkOrbitalData.dataArcInDays,
-            orbitUncertainly = it.networkOrbitalData.orbitUncertainly,
-            minimumOrbitIntersection = it.networkOrbitalData.minimumOrbitIntersection,
-            jupiterTisserandInvariant = it.networkOrbitalData.jupiterTisserandInvariant,
-            eccentricity = it.networkOrbitalData.eccentricity,
-            semiMajorAxis = it.networkOrbitalData.semiMajorAxis,
-            inclination = it.networkOrbitalData.inclination,
-            ascendingNodeLongitude = it.networkOrbitalData.ascendingNodeLongitude,
-            orbitalPeriod = it.networkOrbitalData.orbitalPeriod,
-            perihelionDistance = it.networkOrbitalData.perihelionDistance,
-            perihelionArgument = it.networkOrbitalData.perihelionArgument,
-            aphelionDistance = it.networkOrbitalData.aphelionDistance,
-            perihelionTime = it.networkOrbitalData.perihelionTime,
-            meanAnomaly = it.networkOrbitalData.meanAnomaly,
-            meanMotion = it.networkOrbitalData.meanMotion,
-            equinox = it.networkOrbitalData.equinox,
-            orbitClassType = it.networkOrbitalData.networkOrbitClass.orbitClassType,
-            orbitClassDescription = it.networkOrbitalData.networkOrbitClass.orbitClassDescription,
-            orbitClassRange = it.networkOrbitalData.networkOrbitClass.orbitClassRange,
-            isSentryObject = it.isSentryObject
-        )
-    }
+            orbitId = this.networkOrbitalData.orbitId,
+            firstObservationDate = this.networkOrbitalData.firstObservationDate,
+            lastObservationDate = this.networkOrbitalData.lastObservationDate,
+            dataArcInDays = this.networkOrbitalData.dataArcInDays,
+            orbitUncertainly = this.networkOrbitalData.orbitUncertainly,
+            minimumOrbitIntersection = this.networkOrbitalData.minimumOrbitIntersection,
+            jupiterTisserandInvariant = this.networkOrbitalData.jupiterTisserandInvariant,
+            eccentricity = this.networkOrbitalData.eccentricity,
+            semiMajorAxis = this.networkOrbitalData.semiMajorAxis,
+            inclination = this.networkOrbitalData.inclination,
+            ascendingNodeLongitude = this.networkOrbitalData.ascendingNodeLongitude,
+            orbitalPeriod = this.networkOrbitalData.orbitalPeriod,
+            perihelionDistance = this.networkOrbitalData.perihelionDistance,
+            perihelionArgument = this.networkOrbitalData.perihelionArgument,
+            aphelionDistance = this.networkOrbitalData.aphelionDistance,
+            perihelionTime = this.networkOrbitalData.perihelionTime,
+            meanAnomaly = this.networkOrbitalData.meanAnomaly,
+            meanMotion = this.networkOrbitalData.meanMotion,
+            equinox = this.networkOrbitalData.equinox,
+            orbitClassType = this.networkOrbitalData.networkOrbitClass.orbitClassType,
+            orbitClassDescription = this.networkOrbitalData.networkOrbitClass.orbitClassDescription,
+            orbitClassRange = this.networkOrbitalData.networkOrbitClass.orbitClassRange,
+            isSentryObject = this.isSentryObject
+    )
 }

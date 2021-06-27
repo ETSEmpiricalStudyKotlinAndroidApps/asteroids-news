@@ -1,25 +1,35 @@
 package com.klekchyan.asteroidsnews.specificAsteroid
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.app.Application
+import androidx.lifecycle.*
+import com.klekchyan.asteroidsnews.database.getDatabase
+import com.klekchyan.asteroidsnews.repository.AsteroidsRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SpecificAsteroidViewModel(val id: Long): ViewModel() {
+class SpecificAsteroidViewModel(val id: Long, application: Application): AndroidViewModel(application) {
 
-    private val _asteroidId = MutableLiveData<Long>()
-    val asteroidId: LiveData<Long>
-        get() = _asteroidId
+    private val database = getDatabase(application)
+    private val repository = AsteroidsRepository(database)
+
+    val asteroid = repository.currentExtendedAsteroid
 
     init {
-        _asteroidId.value = this.id
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                repository.refreshExtendedAsteroid(id)
+            }
+        }
     }
 }
 
-class SpecificAsteroidViewModelFactory(val asteroidId: Long): ViewModelProvider.Factory {
+class SpecificAsteroidViewModelFactory(
+        private val asteroidId: Long,
+        private val application: Application): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SpecificAsteroidViewModel::class.java)) {
-            return SpecificAsteroidViewModel(asteroidId) as T
+            return SpecificAsteroidViewModel(asteroidId, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

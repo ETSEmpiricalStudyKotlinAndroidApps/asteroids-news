@@ -20,10 +20,12 @@ class SpecificAsteroidFragment : Fragment() {
                 false)
         val arguments = SpecificAsteroidFragmentArgs.fromBundle(requireArguments())
 
-        val viewModelFactory = SpecificAsteroidViewModelFactory(arguments.asteroidId)
+        val application = requireActivity().application
+
+        val viewModelFactory = SpecificAsteroidViewModelFactory(arguments.asteroidId, application)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(SpecificAsteroidViewModel::class.java)
 
-        binding.asteroidViewModel = viewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         return binding.root

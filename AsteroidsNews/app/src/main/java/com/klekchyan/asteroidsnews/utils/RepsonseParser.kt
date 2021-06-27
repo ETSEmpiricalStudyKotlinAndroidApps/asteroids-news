@@ -1,8 +1,10 @@
 package com.klekchyan.asteroidsnews.utils
 
 import com.google.gson.Gson
+import com.klekchyan.asteroidsnews.network.NetworkExtendedModel
 import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
 import org.json.JSONObject
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -11,16 +13,24 @@ const val START_DATE = "start_date="
 const val END_DATE = "end_date="
 private val dateFormatter = SimpleDateFormat("yyyy-MMM-dd HH:mm", Locale.ENGLISH)
 
-fun getListOfAsteroidsFromResponse(response: String): MutableList<NetworkSimpleAsteroid>{
+fun getListOfSimpleAsteroidsFromResponse(response: String): MutableList<NetworkSimpleAsteroid>{
 
     val mainObject = JSONObject(response)
     val nearEarthObjects = mainObject.getJSONObject("near_earth_objects")
     val dates = getStartAndEndDates(mainObject)
 
-    return getAsteroids(dates, nearEarthObjects)
+    Timber.d("parsing was finished")
+
+    return getAllAsteroids(dates, nearEarthObjects)
 }
 
-private fun getAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
+fun getExtendedAsteroidFromResponse(response: String): NetworkExtendedModel{
+    val networkAsteroid = Gson().fromJson(response, NetworkExtendedModel::class.java)
+    Timber.d("Asteroid was parsed. Id - ${networkAsteroid.id}")
+    return networkAsteroid
+}
+
+private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
 
     val allAsteroids = mutableListOf<NetworkSimpleAsteroid>()
 
@@ -50,8 +60,4 @@ private fun getStartAndEndDates(obj: JSONObject): Pair<LocalDate, LocalDate>{
     val endDate = LocalDate.parse(end)
 
     return startDate to endDate
-}
-
-fun String.getDateFromString(): Date?{
-    return dateFormatter.parse(this)
 }

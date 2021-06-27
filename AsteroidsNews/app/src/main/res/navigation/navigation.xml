@@ -19,7 +19,7 @@
         android:label="Asteroid"
         tools:layout="@layout/fragment_specific_asteroid" >
         <argument
-            android:name="asteroidId"
+            android:name="asteroid_id"
             app:argType="long" />
     </fragment>
     <fragment

@@ -6,20 +6,18 @@
 
     <data>
         <variable
-            name="asteroidViewModel"
+            name="viewModel"
             type="com.klekchyan.asteroidsnews.specificAsteroid.SpecificAsteroidViewModel" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/specific_asteroid_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:text="@{viewModel.asteroid.name}"
+            android:textSize="30sp" />
+    </FrameLayout>
 </layout>
