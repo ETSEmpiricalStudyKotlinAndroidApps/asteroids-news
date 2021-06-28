@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
-import com.klekchyan.asteroidsnews.list.AsteroidsAdapter
-import com.klekchyan.asteroidsnews.list.NasaApiStatus
+import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
+import com.klekchyan.asteroidsnews.view.list.NasaApiStatus
 import com.klekchyan.asteroidsnews.network.AverageSize
-import com.klekchyan.asteroidsnews.specificAsteroid.CloseApproachDataAdapter
+import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
 
 
 //Binding for ListFragment

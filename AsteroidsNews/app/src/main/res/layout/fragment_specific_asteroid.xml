@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".specificAsteroid.SpecificAsteroidFragment">
+    tools:context=".view.specificAsteroid.SpecificAsteroidFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.klekchyan.asteroidsnews.specificAsteroid.SpecificAsteroidViewModel" />
+            type="com.klekchyan.asteroidsnews.view.specificAsteroid.SpecificAsteroidViewModel" />
     </data>
 
     <LinearLayout

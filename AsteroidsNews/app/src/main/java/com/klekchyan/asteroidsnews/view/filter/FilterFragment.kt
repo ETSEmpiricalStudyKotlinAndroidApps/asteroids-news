@@ -1,4 +1,4 @@
-package com.klekchyan.asteroidsnews.filter
+package com.klekchyan.asteroidsnews.view.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater

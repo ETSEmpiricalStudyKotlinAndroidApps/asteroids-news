@@ -1,4 +1,4 @@
-package com.klekchyan.asteroidsnews.specificAsteroid
+package com.klekchyan.asteroidsnews.view.specificAsteroid
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

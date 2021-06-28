@@ -1,4 +1,4 @@
-package com.klekchyan.asteroidsnews.info
+package com.klekchyan.asteroidsnews.view.info
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

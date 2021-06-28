@@ -9,7 +9,7 @@
             type="com.klekchyan.asteroidsnews.domain.SimpleAsteroid" />
         <variable
             name="cliclListener"
-            type="com.klekchyan.asteroidsnews.list.AsteroidsAdapterClickListener" />
+            type="com.klekchyan.asteroidsnews.view.list.AsteroidsAdapterClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
