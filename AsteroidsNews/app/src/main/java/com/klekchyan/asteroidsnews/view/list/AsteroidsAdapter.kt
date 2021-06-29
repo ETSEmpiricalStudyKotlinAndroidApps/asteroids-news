@@ -3,6 +3,7 @@ package com.klekchyan.asteroidsnews.view.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.databinding.AsteroidsListItemBinding

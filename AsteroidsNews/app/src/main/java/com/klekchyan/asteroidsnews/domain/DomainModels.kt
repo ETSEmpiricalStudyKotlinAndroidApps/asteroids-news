@@ -1,5 +1,7 @@
 package com.klekchyan.asteroidsnews.domain
 
+import com.klekchyan.asteroidsnews.database.DatabaseFavoriteAsteroid
+import com.klekchyan.asteroidsnews.database.DatabaseSimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 
 data class SimpleAsteroid(
@@ -51,3 +53,13 @@ data class CloseApproachData(
     val kilometersMissDistance: Double,
     val orbitingBody: String
 )
+
+fun SimpleAsteroid.asDatabaseFavoriteModel(): DatabaseFavoriteAsteroid{
+    return DatabaseFavoriteAsteroid(
+        id = this.id,
+        name = this.name,
+        averageSize = this.averageSize,
+        isHazardous = this.isHazardous,
+        closeApproachDate = this.closeApproachDate
+    )
+}
