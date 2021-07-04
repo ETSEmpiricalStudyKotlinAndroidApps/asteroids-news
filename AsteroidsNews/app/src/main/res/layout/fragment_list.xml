@@ -23,7 +23,6 @@
             android:textSize="22sp"
             android:onClick="@{() -> viewModel.showAllAsteroids()}"
 
-
             app:layout_constraintEnd_toStartOf="@+id/favorite_asteroids"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            listOfAsteroids="@{viewModel.listOfAsteroids}"
             tools:listitem="@layout/asteroids_list_item"
 
             app:layout_constraintBottom_toBottomOf="parent"

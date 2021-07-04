@@ -10,7 +10,8 @@ import com.klekchyan.asteroidsnews.databinding.AsteroidsListItemBinding
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 
 class AsteroidsAdapter(private val listener: AsteroidsAdapterClickListener):
-        ListAdapter<SimpleAsteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()) {
+        ListAdapter<SimpleAsteroid, AsteroidsAdapter.AsteroidsViewHolder>(AsteroidsAdapterDiffCallBack()),
+        AsteroidTouchHelperAdapter{
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
@@ -20,6 +21,10 @@ class AsteroidsAdapter(private val listener: AsteroidsAdapterClickListener):
     override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
         val asteroid = getItem(position)
         holder.bind(asteroid, listener)
+    }
+
+    override fun onItemSwiped(position: Int): SimpleAsteroid {
+        return getItem(position)
     }
 
     class AsteroidsViewHolder(val binding: AsteroidsListItemBinding):

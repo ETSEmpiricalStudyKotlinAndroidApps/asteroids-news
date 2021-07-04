@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
+import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -24,7 +24,7 @@ class ListFragment : Fragment() {
             viewModel.onAsteroidClicked(it)
         })
 
-        val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(viewModel))
+        val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(viewModel, adapter))
         asteroidTouchHelper.attachToRecyclerView(binding.asteroidsRecyclerView)
 
         binding.lifecycleOwner = this
@@ -42,12 +42,18 @@ class ListFragment : Fragment() {
 
         viewModel.shownList.observe(viewLifecycleOwner, { shownList ->
             when(shownList){
-                ShownList.ALL -> viewModel.listOfAsteroids.observe(viewLifecycleOwner, {
-                    adapter.submitList(it)
-                })
-                ShownList.FAVORITE -> viewModel.listOfFavoriteAsteroids.observe(viewLifecycleOwner, {
-                    adapter.submitList(it)
-                })
+                ShownList.ALL -> {
+                    binding.allAsteroids.textSize =
+                        resources.getDimension(R.dimen.highlighted_text_size)
+                    binding.favoriteAsteroids.textSize =
+                        resources.getDimension(R.dimen.not_highlighted_text_size)
+                }
+                ShownList.FAVORITE -> {
+                    binding.favoriteAsteroids.textSize =
+                        resources.getDimension(R.dimen.highlighted_text_size)
+                    binding.allAsteroids.textSize =
+                        resources.getDimension(R.dimen.not_highlighted_text_size)
+                }
             }
         })
 

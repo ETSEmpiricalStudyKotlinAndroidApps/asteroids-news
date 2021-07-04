@@ -1,17 +1,23 @@
 package com.klekchyan.asteroidsnews.view.list
 
-import android.content.Context
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 
-class AsteroidTouchHelperCallback(val viewModel: ListViewModel): ItemTouchHelper.Callback() {
+interface AsteroidTouchHelperAdapter{
+    fun onItemSwiped(position: Int): SimpleAsteroid
+}
+
+class AsteroidTouchHelperCallback(
+        val viewModel: ListViewModel,
+        val adapter: AsteroidsAdapter): ItemTouchHelper.Callback() {
+
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        return makeMovementFlags(dragFlags, swipeFlags)
+        return makeMovementFlags(0, swipeFlags)
     }
 
     override fun onMove(
@@ -23,7 +29,12 @@ class AsteroidTouchHelperCallback(val viewModel: ListViewModel): ItemTouchHelper
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        viewModel.onAsteroidSwiped(viewHolder.itemId)
+        val asteroid = adapter.onItemSwiped(viewHolder.absoluteAdapterPosition)
+        viewModel.onAsteroidSwiped(asteroid)
     }
 
+    override fun isItemViewSwipeEnabled(): Boolean {
+        //TODO()
+        return super.isItemViewSwipeEnabled()
+    }
 }

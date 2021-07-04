@@ -8,6 +8,7 @@ import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
+import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
 import com.klekchyan.asteroidsnews.view.list.NasaApiStatus
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
 
@@ -33,6 +34,12 @@ fun ImageView.setStatus(status: NasaApiStatus?){
             setImageResource(R.drawable.ic_connection_error)
         }
     }
+}
+
+@BindingAdapter("listOfAsteroids")
+fun RecyclerView.setListOfAsteroids(asteroids: List<SimpleAsteroid>?){
+    val adapter = this.adapter as AsteroidsAdapter
+    adapter.submitList(asteroids)
 }
 
 private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
