@@ -11,14 +11,16 @@ import com.klekchyan.asteroidsnews.databinding.FragmentFilterBinding
 
 class FilterFragment : Fragment() {
 
+    private var binding: FragmentFilterBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val binding: FragmentFilterBinding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_filter,
-                                                                        container,
-                                                                        false)
-        return binding.root
+        binding = FragmentFilterBinding.inflate(inflater)
+        return binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

@@ -16,7 +16,7 @@ class AsteroidTouchHelperCallback(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
         return makeMovementFlags(0, swipeFlags)
     }
 

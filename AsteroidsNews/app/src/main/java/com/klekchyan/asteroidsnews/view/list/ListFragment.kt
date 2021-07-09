@@ -5,58 +5,52 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
+import com.klekchyan.asteroidsnews.databinding.FragmentListBindingImpl
 
 class ListFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private var binding: FragmentListBinding? = null
+    private val viewModel: ListViewModel by viewModels {
+        ListViewModelFactory(requireActivity().application)
+    }
 
-        val application = requireActivity().application
-        val binding = FragmentListBinding.inflate(inflater)
-        val viewModelFactory = ListViewModelFactory(application)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
-        val adapter = AsteroidsAdapter(AsteroidsAdapterClickListener {
-            viewModel.onAsteroidClicked(it)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentListBinding.inflate(inflater)
+        return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = AsteroidsAdapter(AsteroidsAdapterClickListener { asteroid ->
+            viewModel.onAsteroidClicked(asteroid)
         })
 
         val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(viewModel, adapter))
-        asteroidTouchHelper.attachToRecyclerView(binding.asteroidsRecyclerView)
+        asteroidTouchHelper.attachToRecyclerView(binding?.asteroidsRecyclerView)
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.asteroidsRecyclerView.adapter  = adapter
+        binding?.lifecycleOwner = this
+        binding?.viewModel = viewModel
+        binding?.asteroidsRecyclerView?.adapter  = adapter
 
-        viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
+        viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
             asteroid?.let {
                 this.findNavController().navigate(
                     ListFragmentDirections
-                        .actionListFragmentToSpecificAsteroidFragment(asteroid.id))
+                        .actionListFragmentToSpecificAsteroidFragment(it.id))
                 viewModel.onSpecificAsteroidNavigated()
             }
         })
+    }
 
-        viewModel.shownList.observe(viewLifecycleOwner, { shownList ->
-            when(shownList){
-                ShownList.ALL -> {
-                    binding.allAsteroids.textSize =
-                        resources.getDimension(R.dimen.highlighted_text_size)
-                    binding.favoriteAsteroids.textSize =
-                        resources.getDimension(R.dimen.not_highlighted_text_size)
-                }
-                ShownList.FAVORITE -> {
-                    binding.favoriteAsteroids.textSize =
-                        resources.getDimension(R.dimen.highlighted_text_size)
-                    binding.allAsteroids.textSize =
-                        resources.getDimension(R.dimen.not_highlighted_text_size)
-                }
-            }
-        })
-
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
