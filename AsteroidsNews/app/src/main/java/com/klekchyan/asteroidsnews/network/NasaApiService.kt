@@ -19,7 +19,7 @@ private const val PARAMETER_END_DATE = "end_date" //YYYY-MM-DD
 private const val PARAMETER_ASTEROID_ID = "asteroid_id" //asteroid_id
 private const val PARAMETER_API_KEY = "api_key"
 
-private const val API_KEY = "DEMO_KEY"
+private const val API_KEY = "iPIGH6W4IyUt01pS3cOtKOgLNYzTlFDoHMgY139m"//"DEMO_KEY"//
 
 private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)

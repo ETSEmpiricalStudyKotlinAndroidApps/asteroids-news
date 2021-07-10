@@ -16,7 +16,6 @@ import com.klekchyan.asteroidsnews.utils.getExtendedAsteroidFromResponse
 import com.klekchyan.asteroidsnews.utils.getListOfSimpleAsteroidsFromResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import timber.log.Timber
 
 class AsteroidsRepository(private val database: AsteroidsDatabase){
@@ -49,7 +48,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
                     currentExtendedAsteroid.value = networkAsteroid.asExtendedDomainModel()
                 }
                 Timber.d("Refreshing ExtendedAsteroid was successful")
-            } catch (e: HttpException){
+            } catch (e: Exception){
                 Timber.d(e)
             }
         }
@@ -60,9 +59,10 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
             try {
                 val response = NasaApi.retrofitService.getAllAsteroidsAsync().await()
                 val asteroids = getListOfSimpleAsteroidsFromResponse(response)
+                database.asteroidDao.deleteAllFromSimpleAsteroid()
                 database.asteroidDao.insertAllSimpleAsteroids(*asteroids.asSimpledDatabaseModel())
                 Timber.d("Refresh all asteroids was successful")
-            } catch (e: HttpException){
+            } catch (e: Exception){
                 Timber.d(e)
             }
         }

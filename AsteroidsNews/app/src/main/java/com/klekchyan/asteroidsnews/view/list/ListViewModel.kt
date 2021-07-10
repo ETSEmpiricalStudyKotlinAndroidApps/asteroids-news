@@ -1,16 +1,12 @@
 package com.klekchyan.asteroidsnews.view.list
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.*
-import com.google.android.material.snackbar.Snackbar
 import com.klekchyan.asteroidsnews.database.getDatabase
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
-import com.klekchyan.asteroidsnews.domain.asDatabaseFavoriteModel
 import com.klekchyan.asteroidsnews.repository.AsteroidsRepository
-import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
-import okhttp3.Dispatcher
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 enum class NasaApiStatus { LOADING, DONE, ERROR }

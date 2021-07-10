@@ -1,19 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="data"
             type="com.klekchyan.asteroidsnews.domain.CloseApproachData" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/left_line"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@color/black"
+
+            app:layout_constraintEnd_toStartOf="@id/close_approach_date"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/close_approach_date"
+            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"/>
+
+        <ImageView
+            android:id="@+id/right_line"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@color/black"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/close_approach_date"
+            app:layout_constraintTop_toTopOf="@id/close_approach_date"
+            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"/>
+
         <TextView
             android:id="@+id/close_approach_date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@{data.closeApproachDate}"/>
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@{data.closeApproachDate}"
+            app:layout_constraintEnd_toStartOf="@id/right_line"
+
+            app:layout_constraintStart_toEndOf="@id/left_line"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2021 02 15" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

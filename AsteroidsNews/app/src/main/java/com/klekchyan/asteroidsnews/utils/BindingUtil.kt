@@ -1,7 +1,9 @@
 package com.klekchyan.asteroidsnews.utils
 
+import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
@@ -10,6 +12,7 @@ import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
 import com.klekchyan.asteroidsnews.view.list.NasaApiStatus
+import com.klekchyan.asteroidsnews.view.list.ShownList
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
 
 

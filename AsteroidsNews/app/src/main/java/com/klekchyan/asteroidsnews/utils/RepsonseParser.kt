@@ -1,8 +1,11 @@
 package com.klekchyan.asteroidsnews.utils
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.klekchyan.asteroidsnews.network.NetworkExtendedModel
 import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
+import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -18,8 +21,6 @@ fun getListOfSimpleAsteroidsFromResponse(response: String): MutableList<NetworkS
     val mainObject = JSONObject(response)
     val nearEarthObjects = mainObject.getJSONObject("near_earth_objects")
     val dates = getStartAndEndDates(mainObject)
-
-    Timber.d("parsing was finished")
 
     return getAllAsteroids(dates, nearEarthObjects)
 }
@@ -37,18 +38,24 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
     var startDate = dates.first
     var endDate = dates.second
 
-    while(startDate <= endDate){
-        val array = nearEarthObjects.getJSONArray(startDate.toString())
-        val length = array.length()
-        for(i in 0 until length){
-            val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)
-            allAsteroids.add(asteroid)
+    try{
+        while(startDate <= endDate){
+            val array = nearEarthObjects.getJSONArray(startDate.toString())
+            val length = array.length()
+            for(i in 0 until length){
+                val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)
+                allAsteroids.add(asteroid)
+            }
+            startDate = startDate.plusDays(1L)
         }
-        startDate = startDate.plusDays(1L)
+        Timber.d("parsing was finished")
+    } catch (e: JSONException){
+        Timber.d(e)
     }
     return allAsteroids
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
 private fun getStartAndEndDates(obj: JSONObject): Pair<LocalDate, LocalDate>{
     val links = obj.getJSONObject("links")
     val selfLink = links.get("self").toString()

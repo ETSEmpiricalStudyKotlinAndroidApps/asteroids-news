@@ -1,18 +1,14 @@
 package com.klekchyan.asteroidsnews.view.list
 
+import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
-import com.klekchyan.asteroidsnews.databinding.FragmentListBindingImpl
 
 class ListFragment : Fragment() {
 
@@ -23,6 +19,8 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentListBinding.inflate(inflater)
+        setHasOptionsMenu(true)
+
         return binding!!.root
     }
 
@@ -41,12 +39,37 @@ class ListFragment : Fragment() {
 
         viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
             asteroid?.let {
-                this.findNavController().navigate(
+                findNavController().navigate(
                     ListFragmentDirections
                         .actionListFragmentToSpecificAsteroidFragment(it.id))
                 viewModel.onSpecificAsteroidNavigated()
             }
         })
+
+        viewModel.shownList.observe(viewLifecycleOwner, { shownList ->
+            when(shownList){
+                ShownList.ALL -> {
+                    binding?.allAsteroids?.typeface = Typeface.DEFAULT_BOLD
+                    binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT
+                }
+                ShownList.FAVORITE -> {
+                    binding?.allAsteroids?.typeface = Typeface.DEFAULT
+                    binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT_BOLD
+                }
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.filter_item){
+            findNavController().navigate(ListFragmentDirections.actionListFragmentToFilterFragment())
+        }
+        return true
     }
 
     override fun onDestroyView() {

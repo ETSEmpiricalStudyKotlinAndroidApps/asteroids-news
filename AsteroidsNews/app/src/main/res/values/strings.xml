@@ -17,4 +17,5 @@
     <string name="list_menu_item">List</string>
     <string name="all_asteroids">All</string>
     <string name="favorite_asteroids">Favorite</string>
+    <string name="filter_item_menu">Filter</string>
 </resources>

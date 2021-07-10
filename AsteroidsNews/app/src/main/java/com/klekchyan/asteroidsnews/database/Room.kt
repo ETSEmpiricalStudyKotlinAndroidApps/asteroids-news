@@ -14,6 +14,9 @@ interface AsteroidDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllSimpleAsteroids(vararg asteroid: DatabaseSimpleAsteroid)
 
+    @Query("DELETE FROM simple_asteroid")
+    fun deleteAllFromSimpleAsteroid()
+
     @Query("SELECT * FROM favorite_asteroid")
     fun getFavoriteAsteroids(): LiveData<List<DatabaseFavoriteAsteroid>>
 
