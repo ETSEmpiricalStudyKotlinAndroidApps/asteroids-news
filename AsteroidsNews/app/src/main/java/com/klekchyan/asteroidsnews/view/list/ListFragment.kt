@@ -9,15 +9,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
+import com.klekchyan.asteroidsnews.view.filter.FilterViewModel
 
 class ListFragment : Fragment() {
 
     private var binding: FragmentListBinding? = null
-    private val viewModel: ListViewModel by viewModels {
-        ListViewModelFactory(requireActivity().application)
-    }
+    private val listViewModel: ListViewModel by viewModels()
+    private val filterViewModel: FilterViewModel by viewModels({ requireActivity() })
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListBinding.inflate(inflater)
         setHasOptionsMenu(true)
 
@@ -27,37 +27,52 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = AsteroidsAdapter(AsteroidsAdapterClickListener { asteroid ->
-            viewModel.onAsteroidClicked(asteroid)
+            listViewModel.onAsteroidClicked(asteroid)
         })
 
-        val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(viewModel, adapter))
+        val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(listViewModel, adapter))
         asteroidTouchHelper.attachToRecyclerView(binding?.asteroidsRecyclerView)
 
         binding?.lifecycleOwner = this
-        binding?.viewModel = viewModel
+        binding?.viewModel = listViewModel
         binding?.asteroidsRecyclerView?.adapter  = adapter
 
-        viewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
+        listViewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
             asteroid?.let {
                 findNavController().navigate(
                     ListFragmentDirections
                         .actionListFragmentToSpecificAsteroidFragment(it.id))
-                viewModel.onSpecificAsteroidNavigated()
+                listViewModel.onSpecificAsteroidNavigateDone()
             }
         })
 
-        viewModel.shownList.observe(viewLifecycleOwner, { shownList ->
-            when(shownList){
-                ShownList.ALL -> {
-                    binding?.allAsteroids?.typeface = Typeface.DEFAULT_BOLD
-                    binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT
-                }
-                ShownList.FAVORITE -> {
-                    binding?.allAsteroids?.typeface = Typeface.DEFAULT
-                    binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT_BOLD
-                }
+        listViewModel.navigateToFilterFragment.observe(viewLifecycleOwner, { isClicked ->
+            if (isClicked){
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToFilterFragment())
+                listViewModel.onFilterNavigateDone()
             }
         })
+
+        listViewModel.shownList.observe(viewLifecycleOwner, { shownList ->
+            when(shownList){
+                ShownList.ALL -> selectAll()
+                ShownList.FAVORITE -> selectFavorite()
+            }
+        })
+
+        filterViewModel.dateRange.observe(viewLifecycleOwner, { dateRange ->
+            listViewModel.changeDateRange(dateRange)
+        })
+    }
+
+    private fun selectAll(){
+        binding?.allAsteroids?.typeface = Typeface.DEFAULT_BOLD
+        binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT
+    }
+
+    private fun selectFavorite(){
+        binding?.allAsteroids?.typeface = Typeface.DEFAULT
+        binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT_BOLD
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,7 +82,7 @@ class ListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.filter_item){
-            findNavController().navigate(ListFragmentDirections.actionListFragmentToFilterFragment())
+            listViewModel.onFilterClicked()
         }
         return true
     }

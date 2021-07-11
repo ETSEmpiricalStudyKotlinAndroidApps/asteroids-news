@@ -44,9 +44,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
             try {
                 val response = NasaApi.retrofitService.getSpecificAsteroidAsync(id.toInt()).await()
                 val networkAsteroid = getExtendedAsteroidFromResponse(response)
-                withContext(Dispatchers.Main){
-                    currentExtendedAsteroid.value = networkAsteroid.asExtendedDomainModel()
-                }
+                currentExtendedAsteroid.postValue(networkAsteroid.asExtendedDomainModel())
                 Timber.d("Refreshing ExtendedAsteroid was successful")
             } catch (e: Exception){
                 Timber.d(e)
@@ -54,10 +52,10 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
         }
     }
 
-    suspend fun refreshAllAsteroids(){
+    suspend fun refreshAllAsteroids(startDate: String = "", endDate: String = ""){
         withContext(Dispatchers.IO){
             try {
-                val response = NasaApi.retrofitService.getAllAsteroidsAsync().await()
+                val response = NasaApi.retrofitService.getAllAsteroidsAsync(startDate, endDate).await()
                 val asteroids = getListOfSimpleAsteroidsFromResponse(response)
                 database.asteroidDao.deleteAllFromSimpleAsteroid()
                 database.asteroidDao.insertAllSimpleAsteroids(*asteroids.asSimpledDatabaseModel())

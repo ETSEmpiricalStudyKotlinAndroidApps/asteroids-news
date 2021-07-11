@@ -41,10 +41,12 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
     try{
         while(startDate <= endDate){
             val array = nearEarthObjects.getJSONArray(startDate.toString())
-            val length = array.length()
-            for(i in 0 until length){
-                val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)
-                allAsteroids.add(asteroid)
+            if(array != null && array.length() != 0){
+                val length = array.length()
+                for(i in 0 until length){
+                    val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)
+                    allAsteroids.add(asteroid)
+                }
             }
             startDate = startDate.plusDays(1L)
         }
@@ -55,7 +57,6 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
     return allAsteroids
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 private fun getStartAndEndDates(obj: JSONObject): Pair<LocalDate, LocalDate>{
     val links = obj.getJSONObject("links")
     val selfLink = links.get("self").toString()

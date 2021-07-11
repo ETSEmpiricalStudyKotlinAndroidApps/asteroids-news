@@ -4,21 +4,32 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.klekchyan.asteroidsnews.network.AverageSize
-import java.util.*
 
 class FilterViewModel: ViewModel() {
 
-    private val _startDate = MutableLiveData<Date>()
-    private val _endDate = MutableLiveData<Date>()
+    private val _dateRange = MutableLiveData<Pair<Long, Long>>()
     private val _isHazardous = MutableLiveData<Boolean>()
     private val _size = MutableLiveData<AverageSize>()
 
-    val startDate: LiveData<Date>
-        get() = _startDate
-    val endDate: LiveData<Date>
-        get() = _endDate
+    private val _openDatePicker = MutableLiveData(false)
+
+    val dateRange: LiveData<Pair<Long, Long>>
+        get() = _dateRange
     val isHazardous: LiveData<Boolean>
         get() = _isHazardous
     val size: LiveData<AverageSize>
         get() = _size
+    val openDatePicker: LiveData<Boolean>
+        get() = _openDatePicker
+
+    fun onOpenDatePicker(){
+        _openDatePicker.value = true
+    }
+    fun openDatePickerDone(){
+        _openDatePicker.value = false
+    }
+
+    fun setDateRange(range: Pair<Long, Long>){
+        _dateRange.value = range
+    }
 }
