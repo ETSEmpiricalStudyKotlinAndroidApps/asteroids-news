@@ -3,9 +3,9 @@ package com.klekchyan.asteroidsnews.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
+import java.util.*
 
 @Entity(tableName = "simple_asteroid")
 data class DatabaseSimpleAsteroid(
@@ -17,7 +17,7 @@ data class DatabaseSimpleAsteroid(
     @ColumnInfo(name = "is_hazardous")
     val isHazardous: Boolean,
     @ColumnInfo(name = "close_approach_date")
-    val closeApproachDate: String,
+    val closeApproachDate: Long,
     @ColumnInfo(name = "orbiting_body")
     val orbitingBody: String
 )
@@ -32,7 +32,7 @@ data class DatabaseFavoriteAsteroid(
     @ColumnInfo(name = "is_hazardous")
     val isHazardous: Boolean,
     @ColumnInfo(name = "close_approach_date")
-    val closeApproachDate: String,
+    val closeApproachDate: Long,
     @ColumnInfo(name = "orbiting_body")
     val orbitingBody: String
 )
@@ -44,7 +44,7 @@ fun List<DatabaseSimpleAsteroid>.asSimpleDomainModel(): List<SimpleAsteroid>{
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachDate,
+            closeApproachDate = Date(it.closeApproachDate),
             orbitingBody = it.orbitingBody
         )
     }
@@ -57,7 +57,7 @@ fun List<DatabaseFavoriteAsteroid>.asSimpleDomainModelFromFavorite(): List<Simpl
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachDate,
+            closeApproachDate = Date(it.closeApproachDate),
             orbitingBody = it.orbitingBody
         )
     }

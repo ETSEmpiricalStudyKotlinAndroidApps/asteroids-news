@@ -1,15 +1,15 @@
 package com.klekchyan.asteroidsnews.domain
 
 import com.klekchyan.asteroidsnews.database.DatabaseFavoriteAsteroid
-import com.klekchyan.asteroidsnews.database.DatabaseSimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
+import java.util.*
 
 data class SimpleAsteroid(
     val id: Long,
     val name: String,
     val averageSize: AverageSize,
     val isHazardous: Boolean,
-    val closeApproachDate: String,
+    val closeApproachDate: Date,
     val orbitingBody: String
 )
 
@@ -48,7 +48,7 @@ data class ExtendedAsteroid(
 )
 
 data class CloseApproachData(
-    val closeApproachDate: String,
+    val closeApproachDate: Date,
     val kilometersPerHourVelocity: Double,
     val astronomicalMissDistance: Double,
     val kilometersMissDistance: Double,
@@ -61,7 +61,7 @@ fun SimpleAsteroid.asDatabaseFavoriteModel(): DatabaseFavoriteAsteroid{
         name = this.name,
         averageSize = this.averageSize,
         isHazardous = this.isHazardous,
-        closeApproachDate = this.closeApproachDate,
+        closeApproachDate = this.closeApproachDate.time,
         orbitingBody = this.orbitingBody
     )
 }

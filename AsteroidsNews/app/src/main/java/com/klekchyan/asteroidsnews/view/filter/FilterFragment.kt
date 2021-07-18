@@ -12,6 +12,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import com.klekchyan.asteroidsnews.databinding.FragmentFilterBinding
 import com.klekchyan.asteroidsnews.network.AverageSize
+import com.klekchyan.asteroidsnews.utils.DateType
+import com.klekchyan.asteroidsnews.utils.dateTypeCast
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -100,9 +102,8 @@ class FilterFragment : Fragment() {
     }
 
     private fun setChangeableDateRange(range: Pair<Long, Long>){
-        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        val startDate = dateFormat.format(range.first)
-        val endDate = dateFormat.format(range.second)
+        val startDate = dateTypeCast(Date(range.first), DateType.DATE)
+        val endDate = dateTypeCast(Date(range.second), DateType.DATE)
         val string = "$startDate - $endDate"
         binding?.changeableDateText?.text = string
     }

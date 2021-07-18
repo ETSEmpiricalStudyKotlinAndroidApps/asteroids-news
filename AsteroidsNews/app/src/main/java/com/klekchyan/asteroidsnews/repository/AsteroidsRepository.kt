@@ -37,18 +37,18 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
         Transformations.map(database.asteroidDao.getAllSimpleAsteroids()){ it.asSimpleDomainModel()
             .filter { asteroid ->
                 (asteroid.averageSize in filter.sizeRange.first..filter.sizeRange.second) &&
-                asteroid.isHazardous == if(filter.onlyHazardous) filter.onlyHazardous else asteroid.isHazardous
-
-            } }
+                asteroid.isHazardous == if(filter.onlyHazardous) filter.onlyHazardous else asteroid.isHazardous }
+            .sortedBy { asteroid -> asteroid.closeApproachDate }
+        }
     }
 
     val favoriteAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(filter){ filter ->
         Transformations.map(database.asteroidDao.getFavoriteAsteroids()){ it.asSimpleDomainModelFromFavorite()
             .filter { asteroid ->
                 (asteroid.averageSize in filter.sizeRange.first..filter.sizeRange.second) &&
-                        asteroid.isHazardous == if(filter.onlyHazardous) filter.onlyHazardous else asteroid.isHazardous
-
-            } }
+                asteroid.isHazardous == if(filter.onlyHazardous) filter.onlyHazardous else asteroid.isHazardous }
+            .sortedBy { asteroid -> asteroid.closeApproachDate }
+        }
     }
 
     fun setFilter(filter: Filter){

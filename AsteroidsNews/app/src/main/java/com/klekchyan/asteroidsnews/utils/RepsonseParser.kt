@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
-const val START_DATE = "start_date="
-const val END_DATE = "end_date="
-private val dateFormatter = SimpleDateFormat("yyyy-MMM-dd HH:mm", Locale.ENGLISH)
+private const val START_DATE = "start_date="
+private const val END_DATE = "end_date="
+
 
 fun getListOfSimpleAsteroidsFromResponse(response: String): MutableList<NetworkSimpleAsteroid>{
 
@@ -39,7 +39,7 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
     try{
         while(startDate <= endDate){
             val array = nearEarthObjects.getJSONArray(startDate.toString())
-            if(array != null && array.length() != 0){
+            if(array.length() != 0){
                 val length = array.length()
                 for(i in 0 until length){
                     val asteroid = Gson().fromJson(array[i].toString(), NetworkSimpleAsteroid::class.java)

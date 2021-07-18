@@ -24,6 +24,12 @@ fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
     }
 }
 
+@BindingAdapter("setDate")
+fun TextView.setDate(date: Date){
+    val dateString = dateTypeCast(date, DateType.DATE_AND_TIME)
+    text = dateString
+}
+
 @BindingAdapter("setStatus")
 fun ImageView.setStatus(status: NasaApiStatus?){
     when(status){

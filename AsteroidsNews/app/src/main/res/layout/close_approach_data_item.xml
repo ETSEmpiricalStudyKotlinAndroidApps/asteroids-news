@@ -42,7 +42,7 @@
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
-            android:text="@{data.closeApproachDate}"
+            setDate="@{data.closeApproachDate}"
             app:layout_constraintEnd_toStartOf="@id/right_line"
 
             app:layout_constraintStart_toEndOf="@id/left_line"
