@@ -9,10 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.slider.RangeSlider
 import com.klekchyan.asteroidsnews.databinding.FragmentFilterBinding
+import com.klekchyan.asteroidsnews.network.AverageSize
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-private val PICKER_TAG = "pickerTag"
+private const val PICKER_TAG = "pickerTag"
+private const val LIMIT_DATE_RANGE = 7
 
 class FilterFragment : Fragment() {
 
@@ -26,8 +32,48 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated was called")
+        val picker = getDateRangePicker()
 
-        val validator = RangeDateValidator(7)
+        binding?.viewModel = filterViewModel
+        binding?.averageSizeSlider?.setLabelFormatter{ currentNumber ->
+            getLabelFormatter(currentNumber)
+        }
+        binding?.changeableDateText?.setOnClickListener {
+            filterViewModel.onOpenDatePicker()
+        }
+        binding?.onlyHazardousSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+            filterViewModel.hazardousSwitchIsChanged(isChecked)
+        }
+        binding?.averageSizeSlider?.addOnChangeListener { slider, value, fromUser ->
+            val range = getAverageSizeRange(slider)
+            filterViewModel.averageSizeSliderIsChanged(range)
+        }
+
+        filterViewModel.openDatePicker.observe(viewLifecycleOwner, { isClicked ->
+            if(isClicked){
+                picker.show(requireActivity().supportFragmentManager, PICKER_TAG)
+                filterViewModel.openDatePickerDone()
+            }
+        })
+
+        filterViewModel.dateRange.observe(viewLifecycleOwner, { range ->
+            setChangeableDateRange(range)
+        })
+
+        filterViewModel.isHazardousFilter.observe(viewLifecycleOwner, { isHazardous ->
+            binding?.onlyHazardousSwitch?.isChecked = isHazardous
+        })
+
+        filterViewModel.averageSizeFilter.observe(viewLifecycleOwner, { range ->
+            binding?.averageSizeSlider?.values = listOf(
+                                                    range.first.numericalValue,
+                                                    range.second.numericalValue)
+        })
+    }
+
+    private fun getDateRangePicker() : MaterialDatePicker<Pair<Long, Long>>{
+        val validator = RangeDateValidator(LIMIT_DATE_RANGE)
         val calendarConstraintsBuilder = CalendarConstraints.Builder()
         calendarConstraintsBuilder.setValidator(validator)
 
@@ -43,23 +89,45 @@ class FilterFragment : Fragment() {
 
         validator.setDatePicker(picker)
 
-        binding?.dateButton?.setOnClickListener {
-            filterViewModel.onOpenDatePicker()
-        }
-
-        filterViewModel.openDatePicker.observe(viewLifecycleOwner, { isClicked ->
-            if(isClicked){
-                picker.show(requireActivity().supportFragmentManager, PICKER_TAG)
-                filterViewModel.openDatePickerDone()
-            }
-        })
-
-        picker.addOnPositiveButtonClickListener { pair ->
-            filterViewModel.setDateRange(pair.first to pair.second)
+        picker.addOnPositiveButtonClickListener { range ->
+            filterViewModel.setDateRange(Pair(range.first, range.second))
         }
         picker.addOnNegativeButtonClickListener {  }
         picker.addOnCancelListener {  }
         picker.addOnDismissListener {  }
+
+        return picker
+    }
+
+    private fun setChangeableDateRange(range: Pair<Long, Long>){
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val startDate = dateFormat.format(range.first)
+        val endDate = dateFormat.format(range.second)
+        val string = "$startDate - $endDate"
+        binding?.changeableDateText?.text = string
+    }
+
+    private fun getLabelFormatter(currentNumber: Float): String{
+        return when(currentNumber){
+            0f -> "Small"
+            1f -> "Medium"
+            else -> "Big"
+        }
+    }
+
+    private fun getAverageSizeRange(range: RangeSlider): Pair<AverageSize, AverageSize>{
+        val min = when(range.values.minOrNull()){
+            0f -> AverageSize.SMALL
+            1f -> AverageSize.MEDIUM
+            else -> AverageSize.BIG
+        }
+        val max = when(range.values.maxOrNull()){
+            0f -> AverageSize.SMALL
+            1f -> AverageSize.MEDIUM
+            else -> AverageSize.BIG
+        }
+
+        return Pair(min, max)
     }
 
     override fun onDestroyView() {

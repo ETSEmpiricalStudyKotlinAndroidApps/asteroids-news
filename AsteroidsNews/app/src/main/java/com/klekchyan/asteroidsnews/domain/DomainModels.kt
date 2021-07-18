@@ -9,7 +9,8 @@ data class SimpleAsteroid(
     val name: String,
     val averageSize: AverageSize,
     val isHazardous: Boolean,
-    val closeApproachDate: String
+    val closeApproachDate: String,
+    val orbitingBody: String
 )
 
 data class ExtendedAsteroid(
@@ -60,6 +61,7 @@ fun SimpleAsteroid.asDatabaseFavoriteModel(): DatabaseFavoriteAsteroid{
         name = this.name,
         averageSize = this.averageSize,
         isHazardous = this.isHazardous,
-        closeApproachDate = this.closeApproachDate
+        closeApproachDate = this.closeApproachDate,
+        orbitingBody = this.orbitingBody
     )
 }

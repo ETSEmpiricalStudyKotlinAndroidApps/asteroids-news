@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
 import com.klekchyan.asteroidsnews.view.filter.FilterViewModel
+import timber.log.Timber
 
 class ListFragment : Fragment() {
 
@@ -60,8 +61,16 @@ class ListFragment : Fragment() {
             }
         })
 
-        filterViewModel.dateRange.observe(viewLifecycleOwner, { dateRange ->
-            listViewModel.changeDateRange(dateRange)
+        filterViewModel.dateRange.observe(viewLifecycleOwner, { newDateRange ->
+            listViewModel.changeDateRange(newDateRange)
+        })
+
+        filterViewModel.isHazardousFilter.observe(viewLifecycleOwner, { isHazardous ->
+            listViewModel.changeFilterByHazardous(isHazardous)
+        })
+
+        filterViewModel.averageSizeFilter.observe(viewLifecycleOwner, { range ->
+            listViewModel.changeFilterByAverageSize(range)
         })
     }
 

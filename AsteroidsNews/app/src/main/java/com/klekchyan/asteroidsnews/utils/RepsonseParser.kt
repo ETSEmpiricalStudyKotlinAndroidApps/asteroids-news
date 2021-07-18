@@ -1,7 +1,5 @@
 package com.klekchyan.asteroidsnews.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.klekchyan.asteroidsnews.network.NetworkExtendedModel
 import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid

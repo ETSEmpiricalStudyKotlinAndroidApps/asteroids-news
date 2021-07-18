@@ -1,9 +1,9 @@
 package com.klekchyan.asteroidsnews.utils
 
-import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.util.Pair
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
@@ -12,9 +12,9 @@ import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
 import com.klekchyan.asteroidsnews.view.list.NasaApiStatus
-import com.klekchyan.asteroidsnews.view.list.ShownList
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 //Binding for ListFragment
 @BindingAdapter("setAsteroidImage")
@@ -61,4 +61,14 @@ private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
 fun RecyclerView.setListOfData(data: List<CloseApproachData>?){
     val adapter = adapter as CloseApproachDataAdapter
     adapter.submitList(data)
+}
+
+//Binding for FilterFragment
+@BindingAdapter("setDateRange")
+fun TextView.setDateRange(range: Pair<Long, Long>){
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val startDate = dateFormat.format(range.first)
+    val endDate = dateFormat.format(range.second)
+    val string = "$startDate - $endDate"
+    text = string
 }

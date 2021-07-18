@@ -5,7 +5,7 @@
     <string name="Test">Test</string>
     <string name="asteroidSize">Size</string>
     <string name="reload">Reload</string>
-    <string name="only_hazardous">Hazardous</string>
+    <string name="only_hazardous">Only hazardous:</string>
     <string name="characteristics">Characteristics</string>
     <string name="velocity">Velocity:</string>
     <string name="diameter">Diameter:</string>
@@ -18,4 +18,6 @@
     <string name="all_asteroids">All</string>
     <string name="favorite_asteroids">Favorite</string>
     <string name="filter_item_menu">Filter</string>
+    <string name="date_range">Date range:</string>
+    <string name="average_size">Average size</string>
 </resources>

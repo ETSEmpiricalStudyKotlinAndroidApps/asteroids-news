@@ -24,7 +24,9 @@ data class NetworkSimpleAsteroid(
 
 data class SimplifiedCloseApproachData(
     @SerializedName("close_approach_date_full")
-    val closeApproachDate: String
+    val closeApproachDate: String,
+    @SerializedName("orbiting_body")
+    val orbitingBody: String
 )
 
 data class Diameter(val meters: Meter)
@@ -36,7 +38,7 @@ data class Meter(
     val max: Double
 )
 
-enum class AverageSize{ SMALL, MEDIUM, BIG }
+enum class AverageSize(val numericalValue: Float){ SMALL(0f), MEDIUM(1f), BIG(2f) }
 
 fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpleAsteroid>{
     return map{
@@ -45,7 +47,8 @@ fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpleAsteroid>{
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachData[0].closeApproachDate
+            closeApproachDate = it.closeApproachData[0].closeApproachDate,
+            orbitingBody = it.closeApproachData[0].orbitingBody
         )
     }
 }
@@ -57,7 +60,8 @@ fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): Array<DatabaseSimpleAs
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachData[0].closeApproachDate
+            closeApproachDate = it.closeApproachData[0].closeApproachDate,
+            orbitingBody = it.closeApproachData[0].orbitingBody
         )
     }.toTypedArray()
 }
