@@ -10,44 +10,101 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:background="@drawable/ic_background">
 
         <ImageView
             android:id="@+id/left_line"
             android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:background="@color/black"
+            android:layout_height="2dp"
+            android:background="@color/white"
 
+            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"
             app:layout_constraintEnd_toStartOf="@id/close_approach_date"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/close_approach_date"
-            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"/>
+            app:layout_constraintTop_toTopOf="@id/close_approach_date" />
 
         <ImageView
             android:id="@+id/right_line"
             android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:background="@color/black"
+            android:layout_height="2dp"
+            android:background="@color/white"
 
+            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/close_approach_date"
-            app:layout_constraintTop_toTopOf="@id/close_approach_date"
-            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"/>
+            app:layout_constraintTop_toTopOf="@id/close_approach_date" />
 
         <TextView
             android:id="@+id/close_approach_date"
+            setDate="@{data.closeApproachDate}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
-            setDate="@{data.closeApproachDate}"
+            android:layout_marginEnd="@dimen/margin"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/right_line"
 
             app:layout_constraintStart_toEndOf="@id/left_line"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2021 02 15" />
+
+        <ImageView
+            android:id="@+id/planet"
+            setPlanet="@{data}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/orbiting_body_name"
+            app:layout_constraintTop_toBottomOf="@+id/right_line"
+            app:layout_constraintVertical_bias="0.2"
+            tools:src="@drawable/ic_earth" />
+
+        <TextView
+            android:id="@+id/orbiting_body_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/large_margin"
+            android:text="@{data.planet.nameOfPlanet}"
+            android:textColor="@color/white"
+
+            android:textSize="20sp"
+
+            app:layout_constraintBottom_toBottomOf="@+id/planet"
+            app:layout_constraintEnd_toStartOf="@+id/planet"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/planet"
+            tools:text="Earth" />
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/astronomical_miss_distance"-->
+<!--            setAstronomicalMissDistance="@{data.astronomicalMissDistance}"-->
+<!--            android:layout_width="303dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            tools:layout_editor_absoluteY="451dp"-->
+<!--            tools:text="Astronomical miss distance 0.32353252351" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="303dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="TextView"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            tools:layout_editor_absoluteY="543dp" />-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

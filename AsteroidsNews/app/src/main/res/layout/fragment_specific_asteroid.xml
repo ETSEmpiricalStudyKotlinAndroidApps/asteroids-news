@@ -10,22 +10,72 @@
             type="com.klekchyan.asteroidsnews.view.specificAsteroid.SpecificAsteroidViewModel" />
     </data>
 
-    <LinearLayout
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:background="@drawable/ic_background">-->
+<!--        <TextView-->
+<!--            android:id="@+id/specific_asteroid_name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{viewModel.asteroid.name}"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="30sp"-->
+<!--            android:textColor="@color/white"-->
+<!--            tools:text="SGH (512)"/>-->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/close_approach_data_recycler_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            android:orientation="horizontal"-->
+<!--            listOfCloseApproachData="@{viewModel.asteroid.closeApproachData}"/>-->
+<!--    </LinearLayout>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/ic_background">
+
         <TextView
             android:id="@+id/specific_asteroid_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.asteroid.name}"
-            android:textSize="30sp" />
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/close_approach_data_recycler_view"
+            tools:text="SGH (512)" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/close_approach_data_recycler_view"
+            listOfCloseApproachData="@{viewModel.asteroid}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="0dp"
             android:orientation="horizontal"
-            listOfCloseApproachData="@{viewModel.asteroid.closeApproachData}"/>
-    </LinearLayout>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/specific_asteroid_name" />
+
+        <ImageView
+            android:id="@+id/flying_asteroid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_big_dangerous_asteroid"
+            tools:src = "@drawable/ic_big_dangerous_asteroid"
+
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="@id/close_approach_data_recycler_view"
+            app:layout_constraintBottom_toBottomOf="@id/close_approach_data_recycler_view"
+            app:layout_constraintEnd_toEndOf="@id/close_approach_data_recycler_view"
+            app:layout_constraintStart_toStartOf="@id/close_approach_data_recycler_view"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

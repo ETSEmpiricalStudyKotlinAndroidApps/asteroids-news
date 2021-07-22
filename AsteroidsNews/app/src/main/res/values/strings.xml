@@ -20,4 +20,5 @@
     <string name="filter_item_menu">Filter</string>
     <string name="date_range">Date range:</string>
     <string name="average_size">Average size</string>
+    <string name="astronomical_miss_distance">Astronomical miss distance</string>
 </resources>

@@ -8,6 +8,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
+import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
+import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
@@ -64,9 +66,30 @@ private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
 
 //Binding for SpecificAsteroidFragment
 @BindingAdapter("listOfCloseApproachData")
-fun RecyclerView.setListOfData(data: List<CloseApproachData>?){
+fun RecyclerView.setListOfData(asteroid: ExtendedAsteroid?){
     val adapter = adapter as CloseApproachDataAdapter
-    adapter.submitList(data)
+    adapter.addHeaderAndSubmitList(asteroid)
+}
+
+@BindingAdapter("setPlanet")
+fun ImageView.setPlanet(data: CloseApproachData?){
+    data?.let {
+        setImageResource(when(data.planet){
+            Planet.MERC -> R.drawable.ic_mercury
+            Planet.VENUS -> R.drawable.ic_venus
+            Planet.EARTH -> R.drawable.ic_earth
+            Planet.MARS -> R.drawable.ic_mars
+            Planet.JUPTR -> R.drawable.ic_jupiter
+            else -> R.drawable.ic_big_dangerous_asteroid
+            //TODO Need to add ic for undefined planet
+        })
+    }
+}
+
+@BindingAdapter("setAstronomicalMissDistance")
+fun TextView.setAstronomicalMissDistance(distance: Double?){
+    val data = context.getString(R.string.astronomical_miss_distance) +  "\n" + distance.toString()
+    text = data
 }
 
 //Binding for FilterFragment

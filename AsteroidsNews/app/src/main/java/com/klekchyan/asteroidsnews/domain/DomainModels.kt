@@ -53,7 +53,21 @@ data class CloseApproachData(
     val astronomicalMissDistance: Double,
     val kilometersMissDistance: Double,
     val orbitingBody: String
-)
+) {
+    val planet: Planet
+        get() = Planet.valueOf(orbitingBody.uppercase())
+}
+
+enum class Planet(val nameOfPlanet: String ){
+    MERC("Mercury"),
+    VENUS("Venus"),
+    EARTH("Earth"),
+    MARS("Mars"),
+    JUPTR("Jupiter"),
+//    SATURN,
+//    URANUS,
+//    NEPTUNE
+}
 
 fun SimpleAsteroid.asDatabaseFavoriteModel(): DatabaseFavoriteAsteroid{
     return DatabaseFavoriteAsteroid(
