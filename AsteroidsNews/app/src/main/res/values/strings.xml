@@ -19,6 +19,10 @@
     <string name="favorite_asteroids">Favorite</string>
     <string name="filter_item_menu">Filter</string>
     <string name="date_range">Date range:</string>
-    <string name="average_size">Average size</string>
-    <string name="astronomical_miss_distance">Astronomical miss distance</string>
+    <string name="average_diameter">Average diameter:</string>
+    <string name="astronomical_miss_distance">Astronomical miss distance:</string>
+    <string name="first_observation_date">First observation date:</string>
+    <string name="inclination">Inclination:</string>
+    <string name="date">Date:</string>
+    <string name="amd">AMD</string>
 </resources>

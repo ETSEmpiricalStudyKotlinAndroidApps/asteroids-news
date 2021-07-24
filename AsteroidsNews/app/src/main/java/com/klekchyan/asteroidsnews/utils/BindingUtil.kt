@@ -8,7 +8,6 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
-import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
 import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
@@ -66,9 +65,9 @@ private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
 
 //Binding for SpecificAsteroidFragment
 @BindingAdapter("listOfCloseApproachData")
-fun RecyclerView.setListOfData(asteroid: ExtendedAsteroid?){
+fun RecyclerView.setListOfData(list: List<CloseApproachData>?){
     val adapter = adapter as CloseApproachDataAdapter
-    adapter.addHeaderAndSubmitList(asteroid)
+    adapter.addHeaderAndSubmitList(list)
 }
 
 @BindingAdapter("setPlanet")

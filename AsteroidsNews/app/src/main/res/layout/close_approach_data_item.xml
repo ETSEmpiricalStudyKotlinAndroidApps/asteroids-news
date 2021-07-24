@@ -8,103 +8,170 @@
             type="com.klekchyan.asteroidsnews.domain.CloseApproachData" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/ic_background">
 
-        <ImageView
-            android:id="@+id/left_line"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/white"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
+        android:elevation="4dp"
+        android:layout_marginTop="@dimen/large_margin"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin">
 
-            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"
-            app:layout_constraintEnd_toStartOf="@id/close_approach_date"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/close_approach_date" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/right_line"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/white"
+            <TextView
+                android:id="@+id/orbiting_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{data.planet.nameOfPlanet}"
+                tools:text="Earth"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/margin" />
 
-            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/close_approach_date"
-            app:layout_constraintTop_toTopOf="@id/close_approach_date" />
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                setPlanet="@{data}"
+                tools:src="@drawable/ic_earth"
+                android:layout_gravity="center_horizontal"/>
 
-        <TextView
-            android:id="@+id/close_approach_date"
-            setDate="@{data.closeApproachDate}"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@id/right_line"
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:rowCount="4"
+                android:columnCount="2"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginBottom="@dimen/large_margin">
 
-            app:layout_constraintStart_toEndOf="@id/left_line"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2021 02 15" />
+                <TextView
+                    android:text="@string/date"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/large_margin"
+                    />
+                <TextView
+                    setDate="@{data.closeApproachDate}"
+                    tools:text="2021.02.02 13:34"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/large_margin"/>
 
-        <ImageView
-            android:id="@+id/planet"
-            setPlanet="@{data}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                <TextView
+                    android:text="@string/velocity"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/large_margin"
+                    />
+                <TextView
+                    android:text="@{String.valueOf(data.kilometersPerHourVelocity)}"
+                    tools:text="0.23235235325"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/large_margin"/>
+                <TextView
+                    android:text="@string/amd"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/large_margin"/>
+                <TextView
+                    android:text="@{String.valueOf(data.astronomicalMissDistance)}"
+                    tools:text="235325"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/large_margin"
+                    />
+            </GridLayout>
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/orbiting_body_name"
-            app:layout_constraintTop_toBottomOf="@+id/right_line"
-            app:layout_constraintVertical_bias="0.2"
-            tools:src="@drawable/ic_earth" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/orbiting_body_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/large_margin"
-            android:text="@{data.planet.nameOfPlanet}"
-            android:textColor="@color/white"
 
-            android:textSize="20sp"
 
-            app:layout_constraintBottom_toBottomOf="@+id/planet"
-            app:layout_constraintEnd_toStartOf="@+id/planet"
-            app:layout_constraintHorizontal_bias="0.7"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/planet"
-            tools:text="Earth" />
+    </com.google.android.material.card.MaterialCardView>
 
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:background="@drawable/ic_background">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/left_line"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="@color/white"-->
+
+<!--            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/close_approach_date"-->
+<!--            app:layout_constraintHorizontal_chainStyle="spread"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/close_approach_date" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/right_line"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="@color/white"-->
+
+<!--            app:layout_constraintBottom_toBottomOf="@id/close_approach_date"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/close_approach_date"-->
+<!--            app:layout_constraintTop_toTopOf="@id/close_approach_date" />-->
 
 <!--        <TextView-->
-<!--            android:id="@+id/astronomical_miss_distance"-->
-<!--            setAstronomicalMissDistance="@{data.astronomicalMissDistance}"-->
-<!--            android:layout_width="303dp"-->
-<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/close_approach_date"-->
+<!--            setDate="@{data.closeApproachDate}"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginStart="@dimen/margin"-->
+<!--            android:layout_marginTop="@dimen/margin"-->
+<!--            android:layout_marginEnd="@dimen/margin"-->
 <!--            android:textColor="@color/white"-->
-<!--            android:textSize="18sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/right_line"-->
+
+<!--            app:layout_constraintStart_toEndOf="@id/left_line"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:text="2021 02 15" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/planet"-->
+<!--            setPlanet="@{data}"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:layout_editor_absoluteY="451dp"-->
-<!--            tools:text="Astronomical miss distance 0.32353252351" />-->
+<!--            app:layout_constraintStart_toEndOf="@id/orbiting_body_name"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/right_line"-->
+<!--            app:layout_constraintVertical_bias="0.2"-->
+<!--            tools:src="@drawable/ic_earth" />-->
 
 <!--        <TextView-->
-<!--            android:id="@+id/textView3"-->
-<!--            android:layout_width="303dp"-->
+<!--            android:id="@+id/orbiting_body_name"-->
+<!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:text="TextView"-->
+<!--            android:layout_marginEnd="@dimen/large_margin"-->
+<!--            android:text="@{data.planet.nameOfPlanet}"-->
 <!--            android:textColor="@color/white"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
+
+<!--            android:textSize="20sp"-->
+
+<!--            app:layout_constraintBottom_toBottomOf="@+id/planet"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/planet"-->
+<!--            app:layout_constraintHorizontal_bias="0.7"-->
+<!--            app:layout_constraintHorizontal_chainStyle="packed"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:layout_editor_absoluteY="543dp" />-->
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            app:layout_constraintTop_toTopOf="@+id/planet"-->
+<!--            tools:text="Earth" />-->
+<!--        -->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </layout>

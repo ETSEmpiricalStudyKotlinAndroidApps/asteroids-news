@@ -9,73 +9,188 @@
             name="viewModel"
             type="com.klekchyan.asteroidsnews.view.specificAsteroid.SpecificAsteroidViewModel" />
     </data>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical"-->
-<!--        android:background="@drawable/ic_background">-->
-<!--        <TextView-->
-<!--            android:id="@+id/specific_asteroid_name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@{viewModel.asteroid.name}"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textSize="30sp"-->
-<!--            android:textColor="@color/white"-->
-<!--            tools:text="SGH (512)"/>-->
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/close_approach_data_recycler_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            android:orientation="horizontal"-->
-<!--            listOfCloseApproachData="@{viewModel.asteroid.closeApproachData}"/>-->
-<!--    </LinearLayout>-->
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_background">
-
-        <TextView
-            android:id="@+id/specific_asteroid_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.asteroid.name}"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/close_approach_data_recycler_view"
-            tools:text="SGH (512)" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/close_approach_data_recycler_view"
-            listOfCloseApproachData="@{viewModel.asteroid}"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/specific_asteroid_name" />
-
-        <ImageView
-            android:id="@+id/flying_asteroid"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_big_dangerous_asteroid"
-            tools:src = "@drawable/ic_big_dangerous_asteroid"
+            android:orientation="vertical">
 
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="@id/close_approach_data_recycler_view"
-            app:layout_constraintBottom_toBottomOf="@id/close_approach_data_recycler_view"
-            app:layout_constraintEnd_toEndOf="@id/close_approach_data_recycler_view"
-            app:layout_constraintStart_toStartOf="@id/close_approach_data_recycler_view"/>
+            <TextView
+                android:id="@+id/specific_asteroid_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.asteroid.name}"
+                android:layout_gravity="center_horizontal"
+                android:textSize="30sp"
+                tools:text="SGH (512)" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/close_approach_data_recycler_view"
+                listOfCloseApproachData="@{viewModel.asteroid.closeApproachData}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/close_approach_data_item" />
+
+            <GridLayout
+                android:id="@+id/information_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="9"
+                android:layout_marginTop="@dimen/large_margin">
+
+                <TextView
+                    android:id="@+id/absolute_magnitude_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@string/absolute_magnitude" />
+
+                <TextView
+                    android:id="@+id/absolute_magnitude_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:padding="@dimen/small_padding"
+
+                    android:text="@{String.valueOf(viewModel.asteroid.absoluteMagnitude)}"
+                    tools:text="0.234235" />
+
+                <TextView
+                    android:id="@+id/average_diameter_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@string/average_diameter" />
+
+                <TextView
+                    android:id="@+id/average_diameter_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@{String.valueOf(viewModel.asteroid.maxDiameterMeters)}"
+                    tools:text="2343223"/>
+
+                <TextView
+                    android:id="@+id/first_observation_date_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@string/first_observation_date" />
+
+                <TextView
+                    android:id="@+id/first_observation_date_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@{String.valueOf(viewModel.asteroid.firstObservationDate)}"
+                    tools:text="2021.1.1 23:32"/>
+
+                <TextView
+                    android:id="@+id/inclination_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@string/inclination" />
+
+                <TextView
+                    android:id="@+id/inclination_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="1"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+
+                    android:padding="@dimen/small_padding"
+                    android:text="@{viewModel.asteroid.inclination}"
+                    />
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/orbital_period"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@{asteroid.orbitalPeriod}"-->
+                <!--                android:textColor="@color/white"/>-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/perihelion_distance"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@{asteroid.perihelionDistance}"-->
+                <!--                android:textColor="@color/white"/>-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/aphelion_distance"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@{asteroid.aphelionDistance}"-->
+                <!--                android:textColor="@color/white"/>-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/orbit_class_type"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@{asteroid.orbitClassType}"-->
+                <!--                android:textColor="@color/white"/>-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/is_sentry_object"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@{String.valueOf(asteroid.sentryObject)}"-->
+                <!--                android:textColor="@color/white"/>-->
+
+            </GridLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

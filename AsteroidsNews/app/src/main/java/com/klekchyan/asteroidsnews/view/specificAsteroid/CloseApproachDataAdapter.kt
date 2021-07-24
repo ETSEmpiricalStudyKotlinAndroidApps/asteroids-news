@@ -27,7 +27,7 @@ class CloseApproachDataAdapter :
         return when(viewType){
             TYPE_HEADER -> HeaderViewHolder.from(parent)
             TYPE_ITEM -> CloseApproachDataViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType ${viewType}")
+            else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
@@ -36,11 +36,6 @@ class CloseApproachDataAdapter :
             is CloseApproachDataViewHolder -> {
                 val item = getItem(position) as DataItem.CloseApproachDataItem
                 holder.bind(item.closeApproachData) }
-            is HeaderViewHolder -> {
-                val item = getItem(position) as DataItem.Header
-                holder.bind(item.asteroid)
-            }
-
         }
     }
 
@@ -51,12 +46,11 @@ class CloseApproachDataAdapter :
         }
     }
 
-    fun addHeaderAndSubmitList(asteroid: ExtendedAsteroid?){
-        val list = asteroid?.closeApproachData
+    fun addHeaderAndSubmitList(list: List<CloseApproachData>?){
         adapterScope.launch {
             val items = when (list) {
-                null -> listOf(DataItem.Header(asteroid))
-                else -> listOf(DataItem.Header(asteroid)) + list.map{DataItem.CloseApproachDataItem(it)}
+                null -> listOf(DataItem.Header)
+                else -> listOf(DataItem.Header) + list.map{DataItem.CloseApproachDataItem(it)}
             }
             withContext(Dispatchers.Main) {
                 submitList(items)
@@ -88,10 +82,6 @@ class HeaderViewHolder(val binding: CloseApproachDataHeaderBinding): RecyclerVie
             return HeaderViewHolder(binding)
         }
     }
-
-    fun bind(asteroid: ExtendedAsteroid?){
-        binding.asteroid = asteroid
-    }
 }
 
 class CloseApproachDataAdapterDiffCallback: DiffUtil.ItemCallback<DataItem>(){
@@ -111,7 +101,7 @@ sealed class DataItem {
         override val date = closeApproachData?.closeApproachDate
     }
 
-    data class Header(val asteroid: ExtendedAsteroid?) : DataItem(){
+    object Header : DataItem(){
         override val date = Date()
     }
 }
