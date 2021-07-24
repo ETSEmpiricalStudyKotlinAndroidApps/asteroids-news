@@ -6,9 +6,7 @@ import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.*
 
 private const val START_DATE = "start_date="
 private const val END_DATE = "end_date="

@@ -13,12 +13,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.util.Pair
 import com.klekchyan.asteroidsnews.network.AverageSize
+import com.klekchyan.asteroidsnews.utils.getDateStringForNasaApiRequest
 
 enum class NasaApiStatus { LOADING, DONE, ERROR }
 enum class ShownList { ALL, FAVORITE }
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     private val database = getDatabase(application)
     private val repository = AsteroidsRepository(database)
 
@@ -83,14 +84,14 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     fun changeDateRange(newDateRange: Pair<Long, Long>){
 
-        val newStartDate = dateFormat.format(newDateRange.first)
-        val newEndDate = dateFormat.format(newDateRange.second)
+        val newStartDate = newDateRange.first.getDateStringForNasaApiRequest()
+        val newEndDate = newDateRange.second.getDateStringForNasaApiRequest()
 
         //Crutch!! It's needed because changeDateRange is called without any date changing
         // and execute repository.refreshAllAsteroids()
         if(currentDateRange != null){
-            val currentStartDate = dateFormat.format(currentDateRange!!.first)
-            val currentEndDate = dateFormat.format(currentDateRange!!.second)
+            val currentStartDate = currentDateRange!!.first.getDateStringForNasaApiRequest()
+            val currentEndDate = currentDateRange!!.second.getDateStringForNasaApiRequest()
             if(newStartDate == currentStartDate && newEndDate == currentEndDate) return
         }
 

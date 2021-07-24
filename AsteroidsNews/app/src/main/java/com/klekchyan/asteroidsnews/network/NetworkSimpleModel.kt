@@ -3,7 +3,7 @@ package com.klekchyan.asteroidsnews.network
 import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.database.DatabaseSimpleAsteroid
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
-import com.klekchyan.asteroidsnews.utils.getDateFromString
+import com.klekchyan.asteroidsnews.utils.getDateFromNasaApiResponseFormat
 
 data class NetworkSimpleAsteroid(
     val id: Long,
@@ -48,7 +48,7 @@ fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpleAsteroid>{
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = getDateFromString(it.closeApproachData[0].closeApproachDate),
+            closeApproachDate = it.closeApproachData[0].closeApproachDate.getDateFromNasaApiResponseFormat(),
             orbitingBody = it.closeApproachData[0].orbitingBody
         )
     }
@@ -61,7 +61,7 @@ fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): Array<DatabaseSimpleAs
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = getDateFromString(it.closeApproachData[0].closeApproachDate).time,
+            closeApproachDate = it.closeApproachData[0].closeApproachDate.getDateFromNasaApiResponseFormat().time,
             orbitingBody = it.closeApproachData[0].orbitingBody
         )
     }.toTypedArray()
