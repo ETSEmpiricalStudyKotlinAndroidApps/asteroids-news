@@ -14,6 +14,7 @@ import java.util.*
 import androidx.core.util.Pair
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.utils.getDateStringForNasaApiRequest
+import java.util.concurrent.TimeUnit
 
 enum class NasaApiStatus { LOADING, DONE, ERROR }
 enum class ShownList { ALL, FAVORITE }
@@ -26,14 +27,15 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     private val _shownList = MutableLiveData<ShownList>()
     private val _navigateToSpecificAsteroid = MutableLiveData<SimpleAsteroid?>()
     private val _navigateToFilterFragment = MutableLiveData<Boolean>(false)
-    private var currentDateRange: Pair<Long, Long>? = null
-
+    private var currentDateRange: Pair<Long, Long> =
+        Pair(System.currentTimeMillis(), System.currentTimeMillis() + TimeUnit.DAYS.toMillis(6))
     val shownList: LiveData<ShownList>
         get() = _shownList
     val navigateToSpecificAsteroid: LiveData<SimpleAsteroid?>
         get() = _navigateToSpecificAsteroid
     val navigateToFilterFragment: LiveData<Boolean>
         get() = _navigateToFilterFragment
+    val progressIndicatorState: LiveData<Boolean> = repository.downloadingState
     val listOfAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(shownList){ list ->
         when(list){
             ShownList.ALL -> repository.allAsteroids
@@ -44,8 +46,13 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     init {
         Timber.d("listViewModel was created")
         _shownList.value = ShownList.ALL
+        startRefreshing("", "")
+    }
+
+    private fun startRefreshing(startDate: String, endDate: String){
+        Timber.d("startRefreshing $startDate - $endDate")
         viewModelScope.launch(IO) {
-            repository.refreshAllAsteroids()
+            repository.refreshAllAsteroids(startDate, endDate)
         }
     }
 
@@ -89,16 +96,12 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
         //Crutch!! It's needed because changeDateRange is called without any date changing
         // and execute repository.refreshAllAsteroids()
-        if(currentDateRange != null){
-            val currentStartDate = currentDateRange!!.first.getDateStringForNasaApiRequest()
-            val currentEndDate = currentDateRange!!.second.getDateStringForNasaApiRequest()
-            if(newStartDate == currentStartDate && newEndDate == currentEndDate) return
-        }
+        val currentStartDate = currentDateRange!!.first.getDateStringForNasaApiRequest()
+        val currentEndDate = currentDateRange!!.second.getDateStringForNasaApiRequest()
+        if(newStartDate == currentStartDate && newEndDate == currentEndDate) return
 
         Timber.d("changeDateRange $newDateRange")
-        viewModelScope.launch(IO) {
-            repository.refreshAllAsteroids(newStartDate, newEndDate)
-        }
+        startRefreshing(newStartDate, newEndDate)
         currentDateRange = newDateRange
     }
 

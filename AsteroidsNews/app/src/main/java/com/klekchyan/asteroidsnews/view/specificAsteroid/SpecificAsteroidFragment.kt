@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.klekchyan.asteroidsnews.databinding.FragmentSpecificAsteroidBinding
@@ -29,6 +30,20 @@ class SpecificAsteroidFragment : Fragment() {
         binding?.viewModel = viewModel
         binding?.lifecycleOwner = this
         binding?.closeApproachDataRecyclerView?.adapter = CloseApproachDataAdapter()
+
+        viewModel.progressIndicatorState.observe(viewLifecycleOwner, { state ->
+            if(state) showProgressIndicator() else showAsteroidData()
+        })
+    }
+
+    private fun showProgressIndicator(){
+        binding?.progressIndicator?.isVisible = true
+        binding?.asteroidData?.visibility = View.GONE
+    }
+
+    private fun showAsteroidData(){
+        binding?.progressIndicator?.visibility = View.GONE
+        binding?.asteroidData?.isVisible = true
     }
 
     override fun onDestroyView() {

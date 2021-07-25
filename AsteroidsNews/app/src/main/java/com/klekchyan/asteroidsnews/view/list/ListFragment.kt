@@ -3,6 +3,8 @@ package com.klekchyan.asteroidsnews.view.list
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -59,6 +61,15 @@ class ListFragment : Fragment() {
                 ShownList.ALL -> selectAll()
                 ShownList.FAVORITE -> selectFavorite()
             }
+        })
+
+        listViewModel.progressIndicatorState.observe(viewLifecycleOwner, { state ->
+            if(state){
+                binding?.progressIndicator?.isVisible = state
+            } else {
+                binding?.progressIndicator?.visibility = View.GONE
+            }
+
         })
 
         filterViewModel.dateRange.observe(viewLifecycleOwner, { newDateRange ->

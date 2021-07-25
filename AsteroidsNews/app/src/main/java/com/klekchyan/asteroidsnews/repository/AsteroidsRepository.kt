@@ -27,11 +27,16 @@ data class Filter(
 
 class AsteroidsRepository(private val database: AsteroidsDatabase){
 
-    private val _filter = MutableLiveData(Filter())
-    val filter: LiveData<Filter>
-        get() = _filter
+    private val filter = MutableLiveData(Filter())
+    private val _downloadingState = MutableLiveData<Boolean>()
+    val downloadingState: LiveData<Boolean>
+        get() = _downloadingState
     val currentFilterInstance: Filter?
-        get() = _filter.value
+        get() = filter.value
+
+    init {
+        Timber.d("AsteroidsRepository was created")
+    }
 
     val allAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(filter){ filter ->
         Transformations.map(database.asteroidDao.getAllSimpleAsteroids()){ it.asSimpleDomainModel()
@@ -52,7 +57,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
     }
 
     fun setFilter(filter: Filter){
-        _filter.value = filter
+        this.filter.value = filter
     }
 
     val currentExtendedAsteroid = MutableLiveData<ExtendedAsteroid>()
@@ -69,6 +74,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
     }
 
     suspend fun refreshExtendedAsteroid(id: Long) {
+        setDownloadingState(true)
         withContext(Dispatchers.IO) {
             try {
                 val response = NasaApi.retrofitService.getSpecificAsteroidAsync(id.toInt()).await()
@@ -79,19 +85,26 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
                 Timber.d(e)
             }
         }
+        setDownloadingState(false)
     }
 
     suspend fun refreshAllAsteroids(startDate: String = "", endDate: String = ""){
-        withContext(Dispatchers.IO){
-            try {
-                val response = NasaApi.retrofitService.getAllAsteroidsAsync(startDate, endDate).await()
-                val asteroids = getListOfSimpleAsteroidsFromResponse(response)
-                database.asteroidDao.deleteAllFromSimpleAsteroid()
-                database.asteroidDao.insertAllSimpleAsteroids(*asteroids.asSimpledDatabaseModel())
-                Timber.d("Refresh all asteroids was successful")
-            } catch (e: Exception){
-                Timber.d(e)
-            }
+        setDownloadingState(true)
+        try {
+            val response = NasaApi.retrofitService.getAllAsteroidsAsync(startDate, endDate).await()
+            val asteroids = getListOfSimpleAsteroidsFromResponse(response)
+            database.asteroidDao.deleteAllFromSimpleAsteroid()
+            database.asteroidDao.insertAllSimpleAsteroids(*asteroids.asSimpledDatabaseModel())
+            Timber.d("Refresh all asteroids was successful")
+        } catch (e: Exception){
+            Timber.d(e)
+        }
+        setDownloadingState(false)
+    }
+
+    private suspend fun setDownloadingState(state: Boolean){
+        withContext(Dispatchers.Main){
+            _downloadingState.value = state
         }
     }
 }

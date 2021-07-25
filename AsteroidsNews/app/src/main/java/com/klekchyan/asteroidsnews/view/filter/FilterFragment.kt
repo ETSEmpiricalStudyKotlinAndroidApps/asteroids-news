@@ -35,7 +35,7 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Timber.d("onViewCreated was called")
-        val picker = getDateRangePicker()
+
 
         binding?.viewModel = filterViewModel
         binding?.averageSizeSlider?.setLabelFormatter{ currentNumber ->
@@ -54,6 +54,7 @@ class FilterFragment : Fragment() {
 
         filterViewModel.openDatePicker.observe(viewLifecycleOwner, { isClicked ->
             if(isClicked){
+                val picker = getDateRangePicker()
                 picker.show(requireActivity().supportFragmentManager, PICKER_TAG)
                 filterViewModel.openDatePickerDone()
             }

@@ -50,6 +50,18 @@
             app:constraint_referenced_ids="all_asteroids, favorite_asteroids"
             app:barrierDirection="bottom"/>
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+
+            app:layout_constraintTop_toBottomOf="@id/header_barrier"
+            app:layout_constraintBottom_toTopOf="@id/asteroids_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/asteroids_recycler_view"
             android:layout_width="0dp"
@@ -61,6 +73,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_barrier"/>
+            app:layout_constraintTop_toBottomOf="@id/progress_indicator"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

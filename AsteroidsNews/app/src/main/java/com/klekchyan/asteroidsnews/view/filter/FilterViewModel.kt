@@ -38,7 +38,7 @@ class FilterViewModel: ViewModel() {
             System.currentTimeMillis() + TimeUnit.DAYS.toMillis(6)
         )
         _averageSizeFilter.value = Pair(AverageSize.SMALL, AverageSize.BIG)
-        Timber.d("init FilterViewModel was called")
+        Timber.d("FilterViewModel was created")
     }
 
     fun onOpenDatePicker(){

@@ -14,6 +14,7 @@ class SpecificAsteroidViewModel(val id: Long, application: Application): Android
     private val repository = AsteroidsRepository(database)
 
     val asteroid = repository.currentExtendedAsteroid
+    val progressIndicatorState = repository.downloadingState
 
     init {
         viewModelScope.launch {
