@@ -26,7 +26,8 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     private val _shownList = MutableLiveData<ShownList>()
     private val _navigateToSpecificAsteroid = MutableLiveData<SimpleAsteroid?>()
-    private val _navigateToFilterFragment = MutableLiveData<Boolean>(false)
+    private val _navigateToFilterFragment = MutableLiveData<Boolean>()
+    private val _navigateToInfoFragment = MutableLiveData<Boolean>()
     private var currentDateRange: Pair<Long, Long> =
         Pair(System.currentTimeMillis(), System.currentTimeMillis() + TimeUnit.DAYS.toMillis(6))
     val shownList: LiveData<ShownList>
@@ -35,6 +36,8 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         get() = _navigateToSpecificAsteroid
     val navigateToFilterFragment: LiveData<Boolean>
         get() = _navigateToFilterFragment
+    val navigateToInfoFragment: LiveData<Boolean>
+        get() = _navigateToInfoFragment
     val progressIndicatorState: LiveData<Boolean> = repository.downloadingState
     val listOfAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(shownList){ list ->
         when(list){
@@ -72,6 +75,14 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     fun onAsteroidClicked(asteroid: SimpleAsteroid){
         _navigateToSpecificAsteroid.value = asteroid
+    }
+
+    fun onInfoClicked(){
+        _navigateToInfoFragment.value = true
+    }
+
+    fun onInfoNavigateDone(){
+        _navigateToInfoFragment.value = false
     }
 
     fun onAsteroidSwiped(asteroid: SimpleAsteroid){

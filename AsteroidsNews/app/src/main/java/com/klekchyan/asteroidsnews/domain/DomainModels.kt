@@ -64,6 +64,7 @@ enum class Planet(val nameOfPlanet: String ){
     EARTH("Earth"),
     MARS("Mars"),
     JUPTR("Jupiter"),
+    MOON("Moon")
 //    SATURN,
 //    URANUS,
 //    NEPTUNE

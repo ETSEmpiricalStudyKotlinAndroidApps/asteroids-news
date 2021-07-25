@@ -10,69 +10,87 @@
             type="com.klekchyan.asteroidsnews.view.list.ListViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/all_asteroids"
-            style="@style/text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/all_asteroids"
-            android:textSize="18sp"
-            android:onClick="@{() -> viewModel.showAllAsteroids()}"
-
-            app:layout_constraintEnd_toStartOf="@+id/favorite_asteroids"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/favorite_asteroids"
-            style="@style/text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/favorite_asteroids"
-            android:textSize="18sp"
-            android:onClick="@{() -> viewModel.showFavoriteAsteroids()}"
-
-            app:layout_constraintBaseline_toBaselineOf="@+id/all_asteroids"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/all_asteroids"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/header_barrier"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="all_asteroids, favorite_asteroids"
-            app:barrierDirection="bottom"/>
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_indicator"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/all_asteroids"
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/all_asteroids"
+                android:textSize="18sp"
+                android:onClick="@{() -> viewModel.showAllAsteroids()}"
+
+                app:layout_constraintEnd_toStartOf="@+id/favorite_asteroids"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/favorite_asteroids"
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/favorite_asteroids"
+                android:textSize="18sp"
+                android:onClick="@{() -> viewModel.showFavoriteAsteroids()}"
+
+                app:layout_constraintBaseline_toBaselineOf="@+id/all_asteroids"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/all_asteroids"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/header_barrier"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:constraint_referenced_ids="all_asteroids, favorite_asteroids"
+                app:barrierDirection="bottom"/>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible"
+
+                app:layout_constraintTop_toBottomOf="@id/header_barrier"
+                app:layout_constraintBottom_toTopOf="@id/asteroids_recycler_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/asteroids_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                listOfAsteroids="@{viewModel.listOfAsteroids}"
+                tools:listitem="@layout/asteroids_list_item"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_indicator"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="invisible"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/floating_action_button"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="?attr/colorOnPrimary"/>
 
-            app:layout_constraintTop_toBottomOf="@id/header_barrier"
-            app:layout_constraintBottom_toTopOf="@id/asteroids_recycler_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/asteroids_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            listOfAsteroids="@{viewModel.listOfAsteroids}"
-            tools:listitem="@layout/asteroids_list_item"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_indicator"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

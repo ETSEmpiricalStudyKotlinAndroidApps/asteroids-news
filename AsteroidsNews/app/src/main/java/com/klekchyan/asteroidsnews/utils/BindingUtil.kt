@@ -79,6 +79,7 @@ fun ImageView.setPlanet(data: CloseApproachData?){
             Planet.EARTH -> R.drawable.ic_earth
             Planet.MARS -> R.drawable.ic_mars
             Planet.JUPTR -> R.drawable.ic_jupiter
+            Planet.MOON -> R.drawable.ic_moon
             else -> R.drawable.ic_big_dangerous_asteroid
             //TODO Need to add ic for undefined planet
         })

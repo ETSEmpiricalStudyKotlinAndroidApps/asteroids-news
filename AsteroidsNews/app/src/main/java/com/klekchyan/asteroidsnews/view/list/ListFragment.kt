@@ -3,7 +3,6 @@ package com.klekchyan.asteroidsnews.view.list
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
 import com.klekchyan.asteroidsnews.view.filter.FilterViewModel
-import timber.log.Timber
 
 class ListFragment : Fragment() {
 
@@ -39,6 +37,9 @@ class ListFragment : Fragment() {
         binding?.lifecycleOwner = this
         binding?.viewModel = listViewModel
         binding?.asteroidsRecyclerView?.adapter  = adapter
+        binding?.floatingActionButton?.setOnClickListener {
+            listViewModel.onFilterClicked()
+        }
 
         listViewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
             asteroid?.let {
@@ -53,6 +54,13 @@ class ListFragment : Fragment() {
             if (isClicked){
                 findNavController().navigate(ListFragmentDirections.actionListFragmentToFilterFragment())
                 listViewModel.onFilterNavigateDone()
+            }
+        })
+
+        listViewModel.navigateToInfoFragment.observe(viewLifecycleOwner, { isClicked ->
+            if (isClicked){
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToInfoFragment())
+                listViewModel.onInfoNavigateDone()
             }
         })
 
@@ -96,13 +104,13 @@ class ListFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.list_fragment_menu, menu)
+        inflater.inflate(R.menu.list_fragment_bar_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.filter_item){
-            listViewModel.onFilterClicked()
+        if(item.itemId == R.id.info_item){
+            listViewModel.onInfoClicked()
         }
         return true
     }
