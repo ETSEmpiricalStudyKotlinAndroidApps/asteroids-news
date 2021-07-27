@@ -23,6 +23,9 @@ interface AsteroidDao{
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertFavoriteAsteroid(asteroid: DatabaseFavoriteAsteroid)
 
+    @Delete
+    fun deleteAsteroidFromFavorite(asteroid: DatabaseFavoriteAsteroid)
+
 }
 
 @Database(entities = [DatabaseSimpleAsteroid::class, DatabaseFavoriteAsteroid::class], version = 4)

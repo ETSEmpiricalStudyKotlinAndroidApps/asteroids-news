@@ -3,11 +3,11 @@ package com.klekchyan.asteroidsnews.view.list
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
 import com.klekchyan.asteroidsnews.view.filter.FilterViewModel
@@ -18,6 +18,8 @@ class ListFragment : Fragment() {
     private val listViewModel: ListViewModel by viewModels()
     private val filterViewModel: FilterViewModel by viewModels({ requireActivity() })
 
+    private var isFavoriteList = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListBinding.inflate(inflater)
         setHasOptionsMenu(true)
@@ -27,12 +29,19 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = AsteroidsAdapter(AsteroidsAdapterClickListener { asteroid ->
-            listViewModel.onAsteroidClicked(asteroid)
+        val adapter = AsteroidsAdapter(AsteroidsAdapterClickListener { asteroid, id ->
+            when(id){
+                0 -> listViewModel.onAsteroidClicked(asteroid)
+                1 -> {
+                    listViewModel.onAddAsteroidToFavoriteClicked(asteroid)
+                    Toast.makeText(context, "Asteroid was added to favorite", Toast.LENGTH_SHORT).show()
+                }
+                2 -> {
+                    listViewModel.onDeleteAsteroidFromFavoriteClicked(asteroid)
+                    Toast.makeText(context, "Asteroid was deleted from favorite", Toast.LENGTH_SHORT).show()
+                }
+            }
         })
-
-        val asteroidTouchHelper = ItemTouchHelper(AsteroidTouchHelperCallback(listViewModel, adapter))
-        asteroidTouchHelper.attachToRecyclerView(binding?.asteroidsRecyclerView)
 
         binding?.lifecycleOwner = this
         binding?.viewModel = listViewModel
@@ -40,6 +49,10 @@ class ListFragment : Fragment() {
         binding?.floatingActionButton?.setOnClickListener {
             listViewModel.onFilterClicked()
         }
+
+        listViewModel.listOfAsteroids.observe(viewLifecycleOwner, { list ->
+            adapter.changeList(list, isFavoriteList)
+        })
 
         listViewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
             asteroid?.let {
@@ -65,9 +78,15 @@ class ListFragment : Fragment() {
         })
 
         listViewModel.shownList.observe(viewLifecycleOwner, { shownList ->
-            when(shownList){
-                ShownList.ALL -> selectAll()
-                ShownList.FAVORITE -> selectFavorite()
+            isFavoriteList = when(shownList){
+                ShownList.ALL -> {
+                    selectAll()
+                    false
+                }
+                ShownList.FAVORITE -> {
+                    selectFavorite()
+                    true
+                }
             }
         })
 

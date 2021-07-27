@@ -16,7 +16,6 @@ import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.utils.getDateStringForNasaApiRequest
 import java.util.concurrent.TimeUnit
 
-enum class NasaApiStatus { LOADING, DONE, ERROR }
 enum class ShownList { ALL, FAVORITE }
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
@@ -30,6 +29,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     private val _navigateToInfoFragment = MutableLiveData<Boolean>()
     private var currentDateRange: Pair<Long, Long> =
         Pair(System.currentTimeMillis(), System.currentTimeMillis() + TimeUnit.DAYS.toMillis(6))
+
     val shownList: LiveData<ShownList>
         get() = _shownList
     val navigateToSpecificAsteroid: LiveData<SimpleAsteroid?>
@@ -43,6 +43,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         when(list){
             ShownList.ALL -> repository.allAsteroids
             ShownList.FAVORITE -> repository.favoriteAsteroids
+            else -> throw ClassCastException("Unknown list $list")
         }
     }
 
@@ -85,19 +86,24 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         _navigateToInfoFragment.value = false
     }
 
-    fun onAsteroidSwiped(asteroid: SimpleAsteroid){
-        viewModelScope.launch(IO) {
-            repository.addAsteroidToFavorite(asteroid)
-        }
-        Timber.d("onAsteroidSwiped:asteroid is found and added to database")
-    }
-
     fun onFilterClicked(){
         _navigateToFilterFragment.value = true
     }
 
     fun onFilterNavigateDone(){
         _navigateToFilterFragment.value = false
+    }
+
+    fun onAddAsteroidToFavoriteClicked(asteroid: SimpleAsteroid){
+        viewModelScope.launch(IO) {
+            repository.addAsteroidToFavorite(asteroid)
+        }
+    }
+
+    fun onDeleteAsteroidFromFavoriteClicked(asteroid: SimpleAsteroid){
+        viewModelScope.launch(IO) {
+            repository.deleteAsteroidFromFavorite(asteroid)
+        }
     }
 
     fun changeDateRange(newDateRange: Pair<Long, Long>){
@@ -107,8 +113,8 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
         //Crutch!! It's needed because changeDateRange is called without any date changing
         // and execute repository.refreshAllAsteroids()
-        val currentStartDate = currentDateRange!!.first.getDateStringForNasaApiRequest()
-        val currentEndDate = currentDateRange!!.second.getDateStringForNasaApiRequest()
+        val currentStartDate = currentDateRange.first.getDateStringForNasaApiRequest()
+        val currentEndDate = currentDateRange.second.getDateStringForNasaApiRequest()
         if(newStartDate == currentStartDate && newEndDate == currentEndDate) return
 
         Timber.d("changeDateRange $newDateRange")

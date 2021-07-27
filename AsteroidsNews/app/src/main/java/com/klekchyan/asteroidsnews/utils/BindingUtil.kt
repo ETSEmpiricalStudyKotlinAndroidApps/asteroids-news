@@ -1,6 +1,5 @@
 package com.klekchyan.asteroidsnews.utils
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.util.Pair
@@ -12,7 +11,6 @@ import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
-import com.klekchyan.asteroidsnews.view.list.NasaApiStatus
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,24 +24,9 @@ fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
 }
 
 @BindingAdapter("setDate")
-fun TextView.setDate(date: Date){
-    val dateString = dateTypeCast(date, DateType.DATE_AND_TIME)
+fun TextView.setDate(date: Date?){
+    val dateString = dateTypeCast(date ?: Date(), DateType.DATE_AND_TIME)
     text = dateString
-}
-
-@BindingAdapter("setStatus")
-fun ImageView.setStatus(status: NasaApiStatus?){
-    when(status){
-        NasaApiStatus.LOADING -> {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.loading_animation)
-        }
-        NasaApiStatus.DONE -> visibility = View.GONE
-        else -> {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.ic_connection_error)
-        }
-    }
 }
 
 @BindingAdapter("listOfAsteroids")

@@ -69,6 +69,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
     implementation "androidx.recyclerview:recyclerview-selection:$recycler_view_selection_version"
 
+    //SwipeRevealLayout
+    implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:$swipe_reveal_layout"
+
     // Room database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

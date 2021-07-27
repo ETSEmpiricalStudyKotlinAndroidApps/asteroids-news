@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -12,59 +14,89 @@
             type="com.klekchyan.asteroidsnews.view.list.AsteroidsAdapterClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.chauthai.swipereveallayout.SwipeRevealLayout
+        android:id="@+id/swipelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:dragEdge="right"
+        app:mode="same_level"
+
         android:layout_marginStart="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:elevation="@dimen/general_elevation"
-        android:background="@drawable/light_snippet"
-        android:onClick="@{() -> cliclListener.onClick(asteroid)}">
+        android:background="@drawable/light_snippet">
 
-        <ImageView
-            android:id="@+id/asteroid_image"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:setAsteroidImage="@{asteroid}"
-            tools:src="@drawable/ic_big_dangerous_asteroid"
+            android:layout_height="match_parent">
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/asteroid_name"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            <ImageView
+                android:id="@+id/add_to_favorite_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite"
+                android:onClick="@{() -> cliclListener.onClick(asteroid, 1)}"/>
+            <ImageView
+                android:id="@+id/delete_from_favorite_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:onClick="@{() -> cliclListener.onClick(asteroid, 2)}"/>
 
-        <TextView
-            android:id="@+id/asteroid_name"
-            style="@style/bold_text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@{asteroid.name}"
-            tools:text="Asteroid"
+        </LinearLayout>
 
-            app:layout_constraintStart_toEndOf="@+id/asteroid_image"
-            app:layout_constraintEnd_toStartOf="@id/approach_date"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/asteroid_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{() -> cliclListener.onClick(asteroid, 0)}">
 
-        <TextView
-            android:id="@+id/approach_date"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            setDate="@{asteroid.closeApproachDate}"
+            <ImageView
+                android:id="@+id/asteroid_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setAsteroidImage="@{asteroid}"
+                tools:src="@drawable/ic_big_dangerous_asteroid"
 
-            app:layout_constraintBaseline_toBaselineOf="@+id/asteroid_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/asteroid_name"
-            tools:text="2015.09.08 20:28" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/asteroid_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/asteroid_name"
+                style="@style/bold_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{asteroid.name}"
+                tools:text="Asteroid"
+
+                app:layout_constraintStart_toEndOf="@+id/asteroid_image"
+                app:layout_constraintEnd_toStartOf="@id/approach_date"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/approach_date"
+                style="@style/text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                setDate="@{asteroid.closeApproachDate}"
+
+                app:layout_constraintBaseline_toBaselineOf="@+id/asteroid_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/asteroid_name"
+                tools:text="2015.09.08 20:28" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.chauthai.swipereveallayout.SwipeRevealLayout>
 
 </layout>

@@ -73,6 +73,17 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
         }
     }
 
+    suspend fun deleteAsteroidFromFavorite(asteroid: SimpleAsteroid){
+        withContext(Dispatchers.IO){
+            try{
+                database.asteroidDao.deleteAsteroidFromFavorite(asteroid.asDatabaseFavoriteModel())
+                Timber.d("Deleting from favorite was successful")
+            } catch (e: Exception){
+                Timber.d(e)
+            }
+        }
+    }
+
     suspend fun refreshExtendedAsteroid(id: Long) {
         setDownloadingState(true)
         withContext(Dispatchers.IO) {
