@@ -1,7 +1,7 @@
 package com.klekchyan.asteroidsnews.utils
 
 import com.google.gson.Gson
-import com.klekchyan.asteroidsnews.network.NetworkExtendedModel
+import com.klekchyan.asteroidsnews.network.NetworkExtendedAsteroid
 import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
 import org.json.JSONException
 import org.json.JSONObject
@@ -11,7 +11,11 @@ import java.time.LocalDate
 private const val START_DATE = "start_date="
 private const val END_DATE = "end_date="
 
-
+/**
+ * Returns all asteroids as NetworkSimpleAsteroids
+ *
+ * @param response is a response as string from NasaApi
+ * */
 fun getListOfSimpleAsteroidsFromResponse(response: String): MutableList<NetworkSimpleAsteroid>{
 
     val mainObject = JSONObject(response)
@@ -21,18 +25,30 @@ fun getListOfSimpleAsteroidsFromResponse(response: String): MutableList<NetworkS
     return getAllAsteroids(dates, nearEarthObjects)
 }
 
-fun getExtendedAsteroidFromResponse(response: String): NetworkExtendedModel{
-    val networkAsteroid = Gson().fromJson(response, NetworkExtendedModel::class.java)
+/**
+ * Returns asteroid as NetworkExtendedAsteroid
+ *
+ * @param response is a response as string from NasaApi
+ * */
+fun getExtendedAsteroidFromResponse(response: String): NetworkExtendedAsteroid{
+    val networkAsteroid = Gson().fromJson(response, NetworkExtendedAsteroid::class.java)
     Timber.d("Asteroid was parsed. Id - ${networkAsteroid.id}")
     return networkAsteroid
 }
 
+/**
+ * Goes through each date of date range and looks for asteroids to add to common list to return its.
+ * GSON is used to parse JSON and create NetworkSimpleAsteroid object
+ *
+ * @param dates date range of response
+ * @param nearEarthObjects JSON object containing sets of asteroids belonging to each date
+ * */
 private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
 
     val allAsteroids = mutableListOf<NetworkSimpleAsteroid>()
 
     var startDate = dates.first
-    var endDate = dates.second
+    val endDate = dates.second
 
     try{
         while(startDate <= endDate){
@@ -53,14 +69,19 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
     return allAsteroids
 }
 
-private fun getStartAndEndDates(obj: JSONObject): Pair<LocalDate, LocalDate>{
-    val links = obj.getJSONObject("links")
+/**
+ * Returns date range
+ *
+ * @param mainObject JSON object containing link 'self' which contains start and end dates of request
+ * */
+private fun getStartAndEndDates(mainObject: JSONObject): Pair<LocalDate, LocalDate>{
+    val links = mainObject.getJSONObject("links")
     val selfLink = links.get("self").toString()
 
     val start = selfLink.substringAfter(START_DATE).substringBefore("&")
     val end = selfLink.substringAfter(END_DATE).substringBefore("&")
 
-    var startDate = LocalDate.parse(start)
+    val startDate = LocalDate.parse(start)
     val endDate = LocalDate.parse(end)
 
     return startDate to endDate

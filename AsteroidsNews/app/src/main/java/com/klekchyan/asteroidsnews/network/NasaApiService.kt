@@ -28,10 +28,10 @@ private val client = OkHttpClient.Builder()
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
 
-/*    NasaApi sends JSON with undefined item count,
-so it's needed to use ScalarsConverter to retrieve response as a String,
-and than it's needed to parse response on its own.
-To parse response this app has utils/ResponseParser. */
+/**
+ * It's needed to use ScalarsConverterFactory because NasaApi sends JSON with undefined
+ * items count with undefined names, so to parse response @see utils.ResponseParser.kt is used.
+ * */
 private val retrofit = Retrofit.Builder()
         .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
@@ -47,7 +47,7 @@ interface NasaApiService {
         @Query(PARAMETER_API_KEY) apiKey: String = API_KEY
     ) : Deferred<String>
 
-    @GET("neo/{asteroid_id}") //https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=DEMO_KEY
+    @GET("neo/{asteroid_id}")
     fun getSpecificAsteroidAsync(
             @Path(PARAMETER_ASTEROID_ID) asteroidId: Int,
             @Query(PARAMETER_API_KEY) apiKey: String = API_KEY

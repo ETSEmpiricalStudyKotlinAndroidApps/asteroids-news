@@ -5,7 +5,7 @@ import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
 import com.klekchyan.asteroidsnews.utils.getDateFromNasaApiResponseFormat
 
-data class NetworkExtendedModel(
+data class NetworkExtendedAsteroid(
     val id: Long,
     val name: String,
     @SerializedName("nasa_jpl_url")
@@ -94,7 +94,7 @@ data class NetworkOrbitClass(
     val orbitClassRange: String
 )
 
-fun NetworkExtendedModel.asExtendedDomainModel(): ExtendedAsteroid{
+fun NetworkExtendedAsteroid.asExtendedDomainModel(): ExtendedAsteroid{
     return ExtendedAsteroid(
             id = this.id,
             name = this.name,
