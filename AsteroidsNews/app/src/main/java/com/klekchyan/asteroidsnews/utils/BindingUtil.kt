@@ -10,7 +10,6 @@ import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
-import com.klekchyan.asteroidsnews.view.list.AsteroidsAdapter
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,12 +26,6 @@ fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
 fun TextView.setDate(date: Date?){
     val dateString = dateTypeCast(date ?: Date(), DateType.DATE_AND_TIME)
     text = dateString
-}
-
-@BindingAdapter("listOfAsteroids")
-fun RecyclerView.setListOfAsteroids(asteroids: List<SimpleAsteroid>?){
-    val adapter = this.adapter as AsteroidsAdapter
-    adapter.submitList(asteroids)
 }
 
 private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{

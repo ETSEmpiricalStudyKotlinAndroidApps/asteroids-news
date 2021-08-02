@@ -41,8 +41,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     val listOfAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(shownList){ list ->
         when(list){
             ShownList.ALL -> repository.allAsteroids
-            ShownList.FAVORITE -> repository.favoriteAsteroids
-            else -> throw ClassCastException("Unknown list $list")
+            else -> repository.favoriteAsteroids
         }
     }
     val isEmptyList: LiveData<Boolean> = Transformations.map(listOfAsteroids){

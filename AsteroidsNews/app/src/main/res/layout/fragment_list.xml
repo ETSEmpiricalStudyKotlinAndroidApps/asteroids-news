@@ -62,7 +62,6 @@
                 android:visibility="invisible"
 
                 app:layout_constraintTop_toBottomOf="@id/header_barrier"
-                app:layout_constraintBottom_toTopOf="@id/asteroids_recycler_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
             <TextView

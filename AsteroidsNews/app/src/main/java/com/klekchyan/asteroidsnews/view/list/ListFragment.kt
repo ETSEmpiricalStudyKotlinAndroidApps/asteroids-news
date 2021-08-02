@@ -20,8 +20,6 @@ class ListFragment : Fragment() {
     private val listViewModel: ListViewModel by viewModels()
     private val filterViewModel: FilterViewModel by viewModels({ requireActivity() })
 
-    private var isFavoriteList = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListBinding.inflate(inflater)
         setHasOptionsMenu(true)
@@ -54,7 +52,8 @@ class ListFragment : Fragment() {
 
         //ListViewModel observation
         listViewModel.listOfAsteroids.observe(viewLifecycleOwner, { list ->
-            adapter.changeList(list, isFavoriteList)
+            adapter.changeList(list, listViewModel.shownList.value)
+
         })
 
         listViewModel.isEmptyList.observe(viewLifecycleOwner, { isEmpty ->
@@ -85,16 +84,9 @@ class ListFragment : Fragment() {
         })
 
         listViewModel.shownList.observe(viewLifecycleOwner, { shownList ->
-            isFavoriteList = when(shownList){
-                ShownList.ALL -> {
-                    selectAll()
-                    false
-                }
-                ShownList.FAVORITE -> {
-                    selectFavorite()
-                    true
-                }
-                else -> throw ClassCastException("Unknown type")
+            when(shownList){
+                ShownList.ALL -> selectAll()
+                else -> selectFavorite()
             }
         })
 
