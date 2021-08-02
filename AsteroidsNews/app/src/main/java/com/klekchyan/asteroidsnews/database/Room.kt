@@ -8,6 +8,12 @@ import androidx.room.migration.Migration
 @Dao
 interface AsteroidDao{
 
+    @Transaction
+    fun refreshAsteroids(vararg asteroid: DatabaseSimpleAsteroid){
+        deleteAllFromSimpleAsteroid()
+        insertAllSimpleAsteroids(*asteroid)
+    }
+
     @Query("SELECT * FROM simple_asteroid")
     fun getAllSimpleAsteroids(): LiveData<List<DatabaseSimpleAsteroid>>
 
@@ -24,7 +30,7 @@ interface AsteroidDao{
     fun insertFavoriteAsteroid(asteroid: DatabaseFavoriteAsteroid)
 
     @Delete
-    fun deleteAsteroidFromFavorite(asteroid: DatabaseFavoriteAsteroid)
+    fun deleteFavoriteAsteroid(asteroid: DatabaseFavoriteAsteroid)
 
 }
 

@@ -25,11 +25,13 @@ data class Filter(
     var onlyHazardous: Boolean = false,
 )
 
+enum class DownloadingState{ START, FINISH, FAILURE }
+
 class AsteroidsRepository(private val database: AsteroidsDatabase){
 
     private val filter = MutableLiveData(Filter())
-    private val _downloadingState = MutableLiveData<Boolean>()
-    val downloadingState: LiveData<Boolean>
+    private val _downloadingState = MutableLiveData<DownloadingState>()
+    val downloadingState: LiveData<DownloadingState>
         get() = _downloadingState
     val currentFilterInstance: Filter?
         get() = filter.value
@@ -56,11 +58,11 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
         }
     }
 
+    val currentExtendedAsteroid = MutableLiveData<ExtendedAsteroid>()
+
     fun setFilter(filter: Filter){
         this.filter.value = filter
     }
-
-    val currentExtendedAsteroid = MutableLiveData<ExtendedAsteroid>()
 
     suspend fun addAsteroidToFavorite(asteroid: SimpleAsteroid){
         withContext(Dispatchers.IO){
@@ -76,7 +78,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
     suspend fun deleteAsteroidFromFavorite(asteroid: SimpleAsteroid){
         withContext(Dispatchers.IO){
             try{
-                database.asteroidDao.deleteAsteroidFromFavorite(asteroid.asDatabaseFavoriteModel())
+                database.asteroidDao.deleteFavoriteAsteroid(asteroid.asDatabaseFavoriteModel())
                 Timber.d("Deleting from favorite was successful")
             } catch (e: Exception){
                 Timber.d(e)
@@ -85,35 +87,36 @@ class AsteroidsRepository(private val database: AsteroidsDatabase){
     }
 
     suspend fun refreshExtendedAsteroid(id: Long) {
-        setDownloadingState(true)
+        setDownloadingState(DownloadingState.START)
         withContext(Dispatchers.IO) {
             try {
-                val response = NasaApi.retrofitService.getSpecificAsteroidAsync(id.toInt()).await()
+                val response = NasaApi.nasaApiService.getSpecificAsteroidAsync(id.toInt()).await()
                 val networkAsteroid = getExtendedAsteroidFromResponse(response)
                 currentExtendedAsteroid.postValue(networkAsteroid.asExtendedDomainModel())
                 Timber.d("Refreshing ExtendedAsteroid was successful")
+                setDownloadingState(DownloadingState.FINISH)
             } catch (e: Exception){
+                setDownloadingState(DownloadingState.FAILURE)
                 Timber.d(e)
             }
         }
-        setDownloadingState(false)
     }
 
     suspend fun refreshAllAsteroids(startDate: String = "", endDate: String = ""){
-        setDownloadingState(true)
+        setDownloadingState(DownloadingState.START)
         try {
-            val response = NasaApi.retrofitService.getAllAsteroidsAsync(startDate, endDate).await()
+            val response = NasaApi.nasaApiService.getAllAsteroidsAsync(startDate, endDate).await()
             val asteroids = getListOfSimpleAsteroidsFromResponse(response)
-            database.asteroidDao.deleteAllFromSimpleAsteroid()
-            database.asteroidDao.insertAllSimpleAsteroids(*asteroids.asSimpledDatabaseModel())
+            database.asteroidDao.refreshAsteroids(*asteroids.asSimpledDatabaseModel())
             Timber.d("Refresh all asteroids was successful")
         } catch (e: Exception){
+            setDownloadingState(DownloadingState.FAILURE)
             Timber.d(e)
         }
-        setDownloadingState(false)
+        setDownloadingState(DownloadingState.FINISH)
     }
 
-    private suspend fun setDownloadingState(state: Boolean){
+    private suspend fun setDownloadingState(state: DownloadingState){
         withContext(Dispatchers.Main){
             _downloadingState.value = state
         }

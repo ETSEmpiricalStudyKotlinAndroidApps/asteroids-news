@@ -8,8 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentListBinding
+import com.klekchyan.asteroidsnews.repository.DownloadingState
 import com.klekchyan.asteroidsnews.view.filter.FilterViewModel
 
 class ListFragment : Fragment() {
@@ -50,8 +52,13 @@ class ListFragment : Fragment() {
             listViewModel.onFilterClicked()
         }
 
+        //ListViewModel observation
         listViewModel.listOfAsteroids.observe(viewLifecycleOwner, { list ->
             adapter.changeList(list, isFavoriteList)
+        })
+
+        listViewModel.isEmptyList.observe(viewLifecycleOwner, { isEmpty ->
+            if(isEmpty) showEmptyListView() else showNotEmptyListView()
         })
 
         listViewModel.navigateToSpecificAsteroid.observe(viewLifecycleOwner, { asteroid ->
@@ -87,18 +94,20 @@ class ListFragment : Fragment() {
                     selectFavorite()
                     true
                 }
+                else -> throw ClassCastException("Unknown type")
             }
         })
 
         listViewModel.progressIndicatorState.observe(viewLifecycleOwner, { state ->
-            if(state){
-                binding?.progressIndicator?.isVisible = state
-            } else {
-                binding?.progressIndicator?.visibility = View.GONE
+            when(state){
+                DownloadingState.START -> { binding?.progressIndicator?.isVisible = true }
+                DownloadingState.FINISH -> { binding?.progressIndicator?.visibility = View.GONE }
+                DownloadingState.FAILURE -> showSnackBar()
+                else -> throw ClassCastException("Unknown type")
             }
-
         })
 
+        //FilterViewModel observation
         filterViewModel.dateRange.observe(viewLifecycleOwner, { newDateRange ->
             listViewModel.changeDateRange(newDateRange)
         })
@@ -120,6 +129,26 @@ class ListFragment : Fragment() {
     private fun selectFavorite(){
         binding?.allAsteroids?.typeface = Typeface.DEFAULT
         binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private fun showEmptyListView(){
+        binding?.emptyListText?.isVisible = true
+        binding?.asteroidsRecyclerView?.visibility = View.GONE
+    }
+
+    private fun showNotEmptyListView(){
+        binding?.emptyListText?.visibility = View.GONE
+        binding?.asteroidsRecyclerView?.isVisible = true
+    }
+
+    private fun showSnackBar(){
+        Snackbar.make(binding?.floatingActionButton!!,
+            R.string.disconnected,
+            Snackbar.LENGTH_LONG)
+            .setAnchorView(binding?.floatingActionButton!!)
+            .setAction(R.string.try_again){
+                listViewModel.startRefreshing()
+            }.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

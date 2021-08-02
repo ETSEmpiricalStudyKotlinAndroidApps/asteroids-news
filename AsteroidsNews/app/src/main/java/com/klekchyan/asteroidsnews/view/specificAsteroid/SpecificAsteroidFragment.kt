@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.klekchyan.asteroidsnews.databinding.FragmentSpecificAsteroidBinding
+import com.klekchyan.asteroidsnews.repository.DownloadingState
 
 
 class SpecificAsteroidFragment : Fragment() {
@@ -32,7 +34,13 @@ class SpecificAsteroidFragment : Fragment() {
         binding?.closeApproachDataRecyclerView?.adapter = CloseApproachDataAdapter()
 
         viewModel.progressIndicatorState.observe(viewLifecycleOwner, { state ->
-            if(state) showProgressIndicator() else showAsteroidData()
+            when(state){
+                DownloadingState.START -> { showProgressIndicator() }
+                DownloadingState.FINISH -> { showAsteroidData() }
+                DownloadingState.FAILURE -> {
+                    Toast.makeText(context, "Failed to load data. Check Internet connected", Toast.LENGTH_SHORT).show()
+                }
+            }
         })
     }
 

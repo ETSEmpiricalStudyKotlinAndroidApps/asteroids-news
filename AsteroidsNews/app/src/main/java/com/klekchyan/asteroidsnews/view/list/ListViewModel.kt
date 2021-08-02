@@ -1,19 +1,18 @@
 package com.klekchyan.asteroidsnews.view.list
 
 import android.app.Application
+import androidx.core.util.Pair
 import androidx.lifecycle.*
 import com.klekchyan.asteroidsnews.database.getDatabase
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
+import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.repository.AsteroidsRepository
+import com.klekchyan.asteroidsnews.repository.DownloadingState
 import com.klekchyan.asteroidsnews.repository.Filter
+import com.klekchyan.asteroidsnews.utils.getDateStringForNasaApiRequest
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
-import androidx.core.util.Pair
-import com.klekchyan.asteroidsnews.network.AverageSize
-import com.klekchyan.asteroidsnews.utils.getDateStringForNasaApiRequest
 import java.util.concurrent.TimeUnit
 
 enum class ShownList { ALL, FAVORITE }
@@ -38,7 +37,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         get() = _navigateToFilterFragment
     val navigateToInfoFragment: LiveData<Boolean>
         get() = _navigateToInfoFragment
-    val progressIndicatorState: LiveData<Boolean> = repository.downloadingState
+    val progressIndicatorState: LiveData<DownloadingState> = repository.downloadingState
     val listOfAsteroids: LiveData<List<SimpleAsteroid>> = Transformations.switchMap(shownList){ list ->
         when(list){
             ShownList.ALL -> repository.allAsteroids
@@ -46,14 +45,17 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
             else -> throw ClassCastException("Unknown list $list")
         }
     }
+    val isEmptyList: LiveData<Boolean> = Transformations.map(listOfAsteroids){
+        it.isEmpty()
+    }
 
     init {
         Timber.d("listViewModel was created")
         _shownList.value = ShownList.ALL
-        startRefreshing("", "")
+        startRefreshing()
     }
 
-    private fun startRefreshing(startDate: String, endDate: String){
+    fun startRefreshing(startDate: String = "", endDate: String = ""){
         Timber.d("startRefreshing $startDate - $endDate")
         viewModelScope.launch(IO) {
             repository.refreshAllAsteroids(startDate, endDate)

@@ -27,4 +27,7 @@
     <string name="amd">AMD</string>
     <string name="floating_action_button">floating action button</string>
     <string name="asteroid_image">Asteroid image</string>
+    <string name="empty_list_text">No results were found for your search</string>
+    <string name="disconnected">Failed to load data. Check Internet connected</string>
+    <string name="try_again">Try again</string>
 </resources>

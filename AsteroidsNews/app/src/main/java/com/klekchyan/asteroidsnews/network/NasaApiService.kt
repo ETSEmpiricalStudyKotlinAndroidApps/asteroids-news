@@ -1,6 +1,7 @@
 package com.klekchyan.asteroidsnews.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.klekchyan.asteroidsnews.BuildConfig
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,7 +20,8 @@ private const val PARAMETER_END_DATE = "end_date" //YYYY-MM-DD
 private const val PARAMETER_ASTEROID_ID = "asteroid_id" //asteroid_id
 private const val PARAMETER_API_KEY = "api_key"
 
-private const val API_KEY = "iPIGH6W4IyUt01pS3cOtKOgLNYzTlFDoHMgY139m"//"DEMO_KEY"//
+//TODO Need to deal with the default value if local.properties doesn't contain api_key property
+private val API_KEY = BuildConfig.API_KEY
 
 private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -53,7 +55,7 @@ interface NasaApiService {
 }
 
 object NasaApi {
-    val retrofitService: NasaApiService by lazy {
+    val nasaApiService: NasaApiService by lazy {
         retrofit.create(NasaApiService::class.java)
     }
 }
