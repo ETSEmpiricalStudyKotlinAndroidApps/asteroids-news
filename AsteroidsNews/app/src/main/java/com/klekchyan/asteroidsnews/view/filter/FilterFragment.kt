@@ -36,13 +36,13 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Timber.d("onViewCreated was called")
 
-
         binding?.viewModel = filterViewModel
         binding?.averageSizeSlider?.setLabelFormatter{ currentNumber ->
             getLabelFormatter(currentNumber)
         }
-        binding?.changeableDateText?.setOnClickListener {
+        binding?.changeableDateText?.setOnClickListener { view ->
             filterViewModel.onOpenDatePicker()
+            view.isClickable = false
         }
         binding?.onlyHazardousSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
             filterViewModel.hazardousSwitchIsChanged(isChecked)
@@ -94,10 +94,11 @@ class FilterFragment : Fragment() {
 
         picker.addOnPositiveButtonClickListener { range ->
             filterViewModel.setDateRange(Pair(range.first, range.second))
+            binding?.changeableDateText?.isClickable = true
         }
-        picker.addOnNegativeButtonClickListener {  }
-        picker.addOnCancelListener {  }
-        picker.addOnDismissListener {  }
+        picker.addOnNegativeButtonClickListener { binding?.changeableDateText?.isClickable = true }
+        picker.addOnCancelListener { binding?.changeableDateText?.isClickable = true }
+        picker.addOnDismissListener { binding?.changeableDateText?.isClickable = true }
 
         return picker
     }
