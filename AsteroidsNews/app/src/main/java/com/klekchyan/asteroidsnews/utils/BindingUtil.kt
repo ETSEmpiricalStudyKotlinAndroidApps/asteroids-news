@@ -2,16 +2,15 @@ package com.klekchyan.asteroidsnews.utils
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.util.Pair
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
+import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
 import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
-import java.text.SimpleDateFormat
 import java.util.*
 
 //Binding for ListFragment
@@ -62,18 +61,20 @@ fun ImageView.setPlanet(data: CloseApproachData?){
     }
 }
 
-@BindingAdapter("setAstronomicalMissDistance")
-fun TextView.setAstronomicalMissDistance(distance: Double?){
-    val data = context.getString(R.string.astronomical_miss_distance) +  "\n" + distance.toString()
-    text = data
+@BindingAdapter("setVelocity")
+fun TextView.setVelocity(velocity: Double?){
+    val roundValue = "${velocity?.toInt()} km/h"
+    text = roundValue
 }
 
-//Binding for FilterFragment
-@BindingAdapter("setDateRange")
-fun TextView.setDateRange(range: Pair<Long, Long>){
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val startDate = dateFormat.format(range.first)
-    val endDate = dateFormat.format(range.second)
-    val string = "$startDate - $endDate"
-    text = string
+@BindingAdapter("setKilometersMissDistance")
+fun TextView.setKilometersMissDistance(distance: Double?){
+    val roundValue = "${distance?.toInt()} km"
+    text = roundValue
+}
+
+@BindingAdapter("setAverageDiameter")
+fun TextView.setAverageDiameter(asteroid: ExtendedAsteroid?){
+    val averageDiameter = "${((asteroid?.minDiameterMeters?.plus(asteroid.maxDiameterMeters))?.div(2))?.toInt()} m"
+    text = averageDiameter
 }

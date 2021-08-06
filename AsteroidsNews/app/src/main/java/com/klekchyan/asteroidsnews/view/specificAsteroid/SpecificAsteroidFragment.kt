@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,11 +34,9 @@ class SpecificAsteroidFragment : Fragment() {
 
         viewModel.progressIndicatorState.observe(viewLifecycleOwner, { state ->
             when(state){
-                DownloadingState.START -> { showProgressIndicator() }
-                DownloadingState.FINISH -> { showAsteroidData() }
-                DownloadingState.FAILURE -> {
-                    Toast.makeText(context, "Failed to load data. Check Internet connected", Toast.LENGTH_SHORT).show()
-                }
+                DownloadingState.START -> showProgressIndicator()
+                DownloadingState.FINISH -> showAsteroidData()
+                else -> showDisconnectIndicator()
             }
         })
     }
@@ -47,11 +44,19 @@ class SpecificAsteroidFragment : Fragment() {
     private fun showProgressIndicator(){
         binding?.progressIndicator?.isVisible = true
         binding?.asteroidData?.visibility = View.GONE
+        binding?.disconnectIndicator?.visibility = View.GONE
     }
 
     private fun showAsteroidData(){
         binding?.progressIndicator?.visibility = View.GONE
         binding?.asteroidData?.isVisible = true
+        binding?.disconnectIndicator?.visibility = View.GONE
+    }
+
+    private fun showDisconnectIndicator(){
+        binding?.progressIndicator?.visibility = View.GONE
+        binding?.asteroidData?.visibility = View.GONE
+        binding?.disconnectIndicator?.isVisible = true
     }
 
     override fun onDestroyView() {

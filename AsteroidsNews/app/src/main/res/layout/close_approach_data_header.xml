@@ -4,9 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
-
+        <ImageView
+            android:id="@+id/animated_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/arrow_anim"
+            android:layout_margin="@dimen/large_margin"
+            android:rotation="180"/>
     </FrameLayout>
 
 </layout>

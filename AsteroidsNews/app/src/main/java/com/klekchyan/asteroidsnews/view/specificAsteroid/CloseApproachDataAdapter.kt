@@ -1,5 +1,8 @@
 package com.klekchyan.asteroidsnews.view.specificAsteroid
 
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.klekchyan.asteroidsnews.databinding.CloseApproachDataHeaderBinding
 import com.klekchyan.asteroidsnews.databinding.CloseApproachDataItemBinding
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
-import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +38,7 @@ class CloseApproachDataAdapter :
             is CloseApproachDataViewHolder -> {
                 val item = getItem(position) as DataItem.CloseApproachDataItem
                 holder.bind(item.closeApproachData) }
+            is HeaderViewHolder -> holder.bind()
         }
     }
 
@@ -80,6 +83,18 @@ class HeaderViewHolder(val binding: CloseApproachDataHeaderBinding): RecyclerVie
             val inflater = LayoutInflater.from(parent.context)
             val binding = CloseApproachDataHeaderBinding.inflate(inflater, parent, false)
             return HeaderViewHolder(binding)
+        }
+    }
+
+    fun bind(){
+        val draw = binding.animatedArrow.drawable
+        if(draw is AnimatedVectorDrawable){
+            draw.start()
+            draw.registerAnimationCallback(object: Animatable2.AnimationCallback(){
+                override fun onAnimationEnd(drawable: Drawable?) {
+                    draw.start()
+                }
+            })
         }
     }
 }

@@ -10,12 +10,12 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
+import com.klekchyan.asteroidsnews.R
 import com.klekchyan.asteroidsnews.databinding.FragmentFilterBinding
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.utils.DateType
 import com.klekchyan.asteroidsnews.utils.dateTypeCast
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -81,7 +81,7 @@ class FilterFragment : Fragment() {
         calendarConstraintsBuilder.setValidator(validator)
 
         val picker = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Close approach date")
+            .setTitleText(getString(R.string.date_picker_title))
             .setSelection(
                 Pair(
                     filterViewModel.dateRange.value?.first,
@@ -112,9 +112,9 @@ class FilterFragment : Fragment() {
 
     private fun getLabelFormatter(currentNumber: Float): String{
         return when(currentNumber){
-            0f -> "Small"
-            1f -> "Medium"
-            else -> "Big"
+            0f -> getString(R.string.small_slider_item)
+            1f -> getString(R.string.medium_slider_item)
+            else -> getString(R.string.big_slider_item)
         }
     }
 

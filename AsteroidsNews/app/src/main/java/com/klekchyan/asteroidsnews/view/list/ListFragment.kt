@@ -19,6 +19,8 @@ class ListFragment : Fragment() {
     private var binding: FragmentListBinding? = null
     private val listViewModel: ListViewModel by viewModels()
     private val filterViewModel: FilterViewModel by viewModels({ requireActivity() })
+    private var toast: Toast? = null
+    private var snackbar: Snackbar? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListBinding.inflate(inflater)
@@ -34,11 +36,11 @@ class ListFragment : Fragment() {
                 0 -> listViewModel.onAsteroidClicked(asteroid)
                 1 -> {
                     listViewModel.onAddAsteroidToFavoriteClicked(asteroid)
-                    Toast.makeText(context, "Asteroid was added to favorite", Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.adding_to_favorite_toast))
                 }
                 2 -> {
                     listViewModel.onDeleteAsteroidFromFavoriteClicked(asteroid)
-                    Toast.makeText(context, "Asteroid was deleted from favorite", Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.delete_from_favorite_toast))
                 }
             }
         })
@@ -94,8 +96,7 @@ class ListFragment : Fragment() {
             when(state){
                 DownloadingState.START -> { binding?.progressIndicator?.isVisible = true }
                 DownloadingState.FINISH -> { binding?.progressIndicator?.visibility = View.GONE }
-                DownloadingState.FAILURE -> showSnackBar()
-                else -> throw ClassCastException("Unknown type")
+                else -> showSnackBar(R.string.disconnected)
             }
         })
 
@@ -133,14 +134,19 @@ class ListFragment : Fragment() {
         binding?.asteroidsRecyclerView?.isVisible = true
     }
 
-    private fun showSnackBar(){
-        Snackbar.make(binding?.floatingActionButton!!,
-            R.string.disconnected,
+    private fun showSnackBar(stringId: Int){
+        snackbar?.dismiss()
+        snackbar = Snackbar.make(binding?.floatingActionButton!!,
+            stringId,
             Snackbar.LENGTH_LONG)
             .setAnchorView(binding?.floatingActionButton!!)
-            .setAction(R.string.try_again){
-                listViewModel.startRefreshing()
-            }.show()
+        snackbar?.show()
+    }
+
+    private fun showToast(text: String){
+        toast?.cancel()
+        toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
+        toast?.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
