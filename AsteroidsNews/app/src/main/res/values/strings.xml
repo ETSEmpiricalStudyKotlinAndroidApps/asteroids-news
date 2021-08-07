@@ -1,47 +1,52 @@
 <resources>
-    <string name="app_name">Asteroids News</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="asteroids_list">There will list of asteroids</string>
-    <string name="Test">Test</string>
-    <string name="asteroidSize">Size</string>
-    <string name="reload">Reload</string>
+    <string name="app_name" translatable="false">Asteroids News</string>
+
+    <string name="asteroids_fragment_label">Asteroids</string>
+    <string name="asteroid_fragment_label">Asteroid</string>
+    <string name="info_fragment_label">Info</string>
+    <string name="filters_fragment_label">Filters</string>
+
+    <string name="all_asteroids">All</string>
+    <string name="favorite_asteroids">Favorite</string>
+    <string name="small_slider_item">Small</string>
+    <string name="medium_slider_item">Medium</string>
+    <string name="big_slider_item">Big</string>
+
     <string name="only_hazardous">Only hazardous:</string>
-    <string name="characteristics">Characteristics</string>
     <string name="velocity">Velocity:</string>
     <string name="diameter">Diameter:</string>
-    <string name="hazardous">Hazardous:</string>
     <string name="absolute_magnitude">Absolute magnitude:</string>
     <string name="orbiting_body">Orbiting body:</string>
     <string name="info_menu_item">Info</string>
-    <string name="filter_menu_item">Filter</string>
-    <string name="list_menu_item">List</string>
-    <string name="all_asteroids">All</string>
-    <string name="favorite_asteroids">Favorite</string>
-    <string name="filter_item_menu">Filter</string>
     <string name="date_range">Date range:</string>
     <string name="average_diameter">Average diameter:</string>
     <string name="astronomical_miss_distance">Astronomical miss distance:</string>
     <string name="first_observation_date">First observation date:</string>
     <string name="inclination">Inclination:</string>
     <string name="date">Date:</string>
-    <string name="amd">AMD</string>
-    <string name="floating_action_button">floating action button</string>
-    <string name="asteroid_image">Asteroid image</string>
-    <string name="empty_list_text">No results were found for your search</string>
-    <string name="disconnected">Failed to update data. Check your internet connection.</string>
-    <string name="try_again">Try again</string>
-    <string name="date_picker_title">Select date range (no more than 7 days)</string>
-    <string name="small_slider_item">Small</string>
-    <string name="medium_slider_item">Medium</string>
-    <string name="big_slider_item">Big</string>
-    <string name="adding_to_favorite_toast">Asteroid was added to favorite</string>
-    <string name="delete_from_favorite_toast">Asteroid was deleted from favorite</string>
-    <string name="disconnect_indicator">Disconnect indicator</string>
-    <string name="planets_icon">Planets icon</string>
     <string name="distance">Distance:</string>
     <string name="orbital_period">Orbital period:</string>
     <string name="perihelion_distance">Perihelion distance:</string>
     <string name="aphelion_distance">Aphelion distance:</string>
     <string name="orbit_class_type">Orbit class type:</string>
     <string name="is_sentry_object">Is sentry object:</string>
+
+    <string name="empty_list_text">No results were found for your search</string>
+    <string name="disconnected">Failed to update data. Check your internet connection.</string>
+    <string name="date_picker_title">Select date range (no more than 7 days)</string>
+    <string name="adding_to_favorite_toast">Asteroid was added to favorite</string>
+    <string name="delete_from_favorite_toast">Asteroid was deleted from favorite</string>
+
+    <string name="add_to_favorite" translatable="false">Add to favorite</string>
+    <string name="delete_from_favorite" translatable="false">Delete from favorite</string>
+    <string name="disconnect_indicator" translatable="false">Disconnect indicator</string>
+    <string name="planets_icon" translatable="false">Planets icon</string>
+    <string name="floating_action_button_description" translatable="false">Open filters</string>
+    <string name="small_and_dangerous_description" translatable="false">Small and dangerous asteroid</string>
+    <string name="medium_and_dangerous_description" translatable="false">Medium and dangerous asteroid</string>
+    <string name="big_and_dangerous_description" translatable="false">Big and dangerous asteroid</string>
+    <string name="small_and_not_dangerous_description" translatable="false">Small and not dangerous asteroid</string>
+    <string name="medium_and_not_dangerous_description" translatable="false">Medium and not dangerous asteroid</string>
+    <string name="big_and_not_dangerous_description" translatable="false">Big and not dangerous asteroid</string>
+
 </resources>

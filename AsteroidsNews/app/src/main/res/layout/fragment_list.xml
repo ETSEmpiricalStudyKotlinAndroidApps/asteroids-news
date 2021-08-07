@@ -20,11 +20,11 @@
 
             <TextView
                 android:id="@+id/all_asteroids"
-                style="@style/text_style"
+                style="@style/OptionTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="@string/all_asteroids"
-                android:textSize="18sp"
+                android:padding="@dimen/small_padding"
                 android:onClick="@{() -> viewModel.showAllAsteroids()}"
 
                 app:layout_constraintEnd_toStartOf="@+id/favorite_asteroids"
@@ -34,11 +34,11 @@
 
             <TextView
                 android:id="@+id/favorite_asteroids"
-                style="@style/text_style"
+                style="@style/OptionTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="@string/favorite_asteroids"
-                android:textSize="18sp"
+                android:padding="@dimen/small_padding"
                 android:onClick="@{() -> viewModel.showFavoriteAsteroids()}"
 
                 app:layout_constraintBaseline_toBaselineOf="@+id/all_asteroids"
@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:visibility="invisible"
+                app:indicatorColor="@color/secondaryColor"
 
                 app:layout_constraintTop_toBottomOf="@id/header_barrier"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,9 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="@string/floating_action_button"
+            android:contentDescription="@string/floating_action_button_description"
             app:srcCompat="@drawable/ic_filter"
-            app:tint="?attr/colorOnPrimary"/>
+            app:tint="?attr/colorOnSecondary"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

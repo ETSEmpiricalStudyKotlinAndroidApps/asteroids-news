@@ -51,6 +51,7 @@
                     android:layout_marginEnd="@dimen/margin"
                     android:layout_marginTop="@dimen/margin"
                     android:layout_marginBottom="@dimen/margin"
+                    android:padding="@dimen/padding"
                     />
 
             </com.google.android.material.card.MaterialCardView>
@@ -75,6 +76,7 @@
                     android:layout_marginEnd="@dimen/margin"
                     android:layout_marginTop="@dimen/margin"
                     android:layout_marginBottom="@dimen/margin"
+                    android:padding="@dimen/padding"
                     />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -83,6 +85,8 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:layout_gravity="end|center"
+                    app:useMaterialThemeColors="true"
+                    app:thumbTint="?attr/colorSecondary"
 
                     android:layout_marginStart="@dimen/margin"
                     android:layout_marginEnd="@dimen/margin"
@@ -112,6 +116,7 @@
                     android:layout_marginEnd="@dimen/margin"
                     android:layout_marginTop="@dimen/margin"
                     android:layout_marginBottom="@dimen/margin"
+                    android:padding="@dimen/padding"
                     />
 
                 <com.google.android.material.slider.RangeSlider

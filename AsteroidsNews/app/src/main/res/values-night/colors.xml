@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-<!--    LightThemeColors-->
-    <color name="primaryColor">#4a138c</color>
-    <color name="primaryVariant">#12005e</color>
+    <color name="primaryColor">#000000</color>
+    <color name="primaryVariant">#62727b</color>
     <color name="secondaryColor">#2196f3</color>
     <color name="secondaryVariant">#0069c0</color>
     <color name="primaryTextColor">#ffffff</color>

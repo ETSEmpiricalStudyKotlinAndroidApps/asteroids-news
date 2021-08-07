@@ -18,80 +18,110 @@
         android:layout_marginEnd="@dimen/margin"
         android:layout_marginBottom="@dimen/margin">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/orbiting_body"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.planet.nameOfPlanet}"
-                tools:text="Earth"
-                android:textAlignment="center"
-                android:layout_marginTop="@dimen/margin" />
+                app:layout_constraintBottom_toTopOf="@id/planet_icon"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Earth" />
 
             <ImageView
+                android:id="@+id/planet_icon"
+                setPlanet="@{data}"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                setPlanet="@{data}"
-                tools:src="@drawable/ic_earth"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/planets_icon"/>
+                android:contentDescription="@string/planets_icon"
+                app:layout_constraintBottom_toTopOf="@id/date_title"
 
-            <GridLayout
-                android:layout_width="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orbiting_body"
+                tools:src="@drawable/ic_earth" />
+
+            <TextView
+                android:id="@+id/date_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rowCount="4"
-                android:columnCount="2"
-                android:layout_marginTop="@dimen/large_margin"
-                android:layout_marginBottom="@dimen/large_margin">
+                android:text="@string/date"
+                android:padding="@dimen/padding"
 
-                <TextView
-                    android:text="@string/date"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="@dimen/large_margin"
-                    />
-                <TextView
-                    setDate="@{data.closeApproachDate}"
-                    tools:text="2021.02.02 13:34"
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/large_margin"/>
+                app:layout_constraintBottom_toTopOf="@+id/velocity_title"
+                app:layout_constraintEnd_toStartOf="@+id/date_data"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/planet_icon"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintVertical_chainStyle="spread"
+                tools:text="Date:" />
 
-                <TextView
-                    android:text="@string/velocity"
-                    android:layout_row="1"
-                    android:layout_column="0"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="@dimen/large_margin"
-                    />
-                <TextView
-                    setVelocity="@{data.kilometersPerHourVelocity}"
-                    tools:text="232 km/h"
-                    android:layout_row="1"
-                    android:layout_column="1"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/large_margin"/>
-                <TextView
-                    android:text="@string/distance"
-                    android:layout_row="2"
-                    android:layout_column="0"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="@dimen/large_margin"/>
-                <TextView
-                    setKilometersMissDistance="@{data.kilometersMissDistance}"
-                    tools:text="235 km"
-                    android:layout_row="2"
-                    android:layout_column="1"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/large_margin"
-                    />
-            </GridLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/date_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding"
+                setDate="@{data.closeApproachDate}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/date_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/date_title"
+                tools:text="2021.05.05 12:34" />
+
+            <TextView
+                android:id="@+id/velocity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/velocity"
+                android:padding="@dimen/padding"
+                app:layout_constraintBottom_toTopOf="@+id/distance_title"
+                app:layout_constraintTop_toBottomOf="@+id/date_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/velocity_data"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                tools:text="Velocity:" />
+
+            <TextView
+                android:id="@+id/velocity_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding"
+                setVelocity="@{data.kilometersPerHourVelocity}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/velocity_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/velocity_title"
+                tools:text="234 km/h" />
+
+            <TextView
+                android:id="@+id/distance_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding"
+                android:text="@string/distance"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/velocity_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/distance_data"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                tools:text="Distance:" />
+
+            <TextView
+                android:id="@+id/distance_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding"
+                setKilometersMissDistance="@{data.kilometersMissDistance}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/distance_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/distance_title"
+                tools:text="2235 km" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -82,6 +82,7 @@ class FilterFragment : Fragment() {
 
         val picker = MaterialDatePicker.Builder.dateRangePicker()
             .setTitleText(getString(R.string.date_picker_title))
+            .setTheme(R.style.ThemeOverlay_App_DatePicker)
             .setSelection(
                 Pair(
                     filterViewModel.dateRange.value?.first,

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.klekchyan.asteroidsnews.view.list.ListFragment"
-        android:label="Asteroids"
+        android:label="@string/asteroids_fragment_label"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_specificAsteroidFragment"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/specificAsteroidFragment"
         android:name="com.klekchyan.asteroidsnews.view.specificAsteroid.SpecificAsteroidFragment"
-        android:label="Asteroid"
+        android:label="@string/asteroid_fragment_label"
         tools:layout="@layout/fragment_specific_asteroid" >
         <argument
             android:name="asteroid_id"
@@ -31,11 +31,11 @@
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.klekchyan.asteroidsnews.view.info.InfoFragment"
-        android:label="Info"
+        android:label="@string/info_fragment_label"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.klekchyan.asteroidsnews.view.filter.FilterFragment"
-        android:label="Filters"
+        android:label="@string/filters_fragment_label"
         tools:layout="@layout/fragment_filter" />
 </navigation>

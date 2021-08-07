@@ -2,6 +2,9 @@ package com.klekchyan.asteroidsnews.view.list
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -115,13 +118,27 @@ class ListFragment : Fragment() {
     }
 
     private fun selectAll(){
-        binding?.allAsteroids?.typeface = Typeface.DEFAULT_BOLD
-        binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT
+        val (textAll, textFavorite) = getAllAndFavoriteStrings()
+
+        binding?.allAsteroids?.text = getSpannableString(textAll ?: "")
+        binding?.favoriteAsteroids?.text = textFavorite
     }
 
     private fun selectFavorite(){
-        binding?.allAsteroids?.typeface = Typeface.DEFAULT
-        binding?.favoriteAsteroids?.typeface = Typeface.DEFAULT_BOLD
+        val (textAll, textFavorite) = getAllAndFavoriteStrings()
+
+        binding?.allAsteroids?.text = textAll
+        binding?.favoriteAsteroids?.text = getSpannableString(textFavorite ?: "")
+    }
+
+    private fun getAllAndFavoriteStrings(): Pair<String?, String?>{
+        return context?.getString(R.string.all_asteroids) to context?.getString(R.string.favorite_asteroids)
+    }
+
+    private fun getSpannableString(text: String): SpannableString {
+        val spannableFavorite = SpannableString(text)
+        spannableFavorite.setSpan(UnderlineSpan(), 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return spannableFavorite
     }
 
     private fun showEmptyListView(){

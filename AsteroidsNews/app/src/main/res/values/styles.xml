@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="bold_text_style">
+    
+    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/large_text_size</item>
-        <item name="android:fontFamily">@font/comfortaa</item>
-        <item name="android:padding">@dimen/small_padding</item>
     </style>
 
-    <style name="text_style">
-        <item name="android:fontFamily">@font/comfortaa</item>
-        <item name="android:padding">@dimen/small_padding</item>
+    <style name="OptionTitleText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">@dimen/large_text_size</item>
+    </style>
+
+    <style name="TextAppearance.GeneralText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">@dimen/text_size</item>
     </style>
 
 </resources>

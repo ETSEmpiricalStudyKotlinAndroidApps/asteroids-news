@@ -2,13 +2,14 @@
 <resources>
     <dimen name="margin">4dp</dimen>
     <dimen name="large_margin">16dp</dimen>
+
     <dimen name="small_padding">4dp</dimen>
     <dimen name="padding">8dp</dimen>
-    <dimen name="large_text_size">18sp</dimen>
-    <dimen name="text_size">14sp</dimen>
+
     <dimen name="small_text_size">12sp</dimen>
-    <dimen name="general_elevation">4dp</dimen>
-    <dimen name="highlighted_text_size">22sp</dimen>
-    <dimen name="not_highlighted_text_size">16sp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <dimen name="large_text_size">18sp</dimen>
+
     <dimen name="small_elevation">2dp</dimen>
+    <dimen name="general_elevation">4dp</dimen>
 </resources>

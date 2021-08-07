@@ -42,7 +42,8 @@
                 android:layout_marginStart="@dimen/margin"
                 android:layout_marginEnd="@dimen/margin"
                 android:src="@drawable/ic_favorite"
-                android:onClick="@{() -> cliclListener.onClick(asteroid, 1)}"/>
+                android:onClick="@{() -> cliclListener.onClick(asteroid, 1)}"
+                android:contentDescription="@string/add_to_favorite" />
             <ImageView
                 android:id="@+id/delete_from_favorite_icon"
                 android:layout_width="wrap_content"
@@ -51,7 +52,8 @@
                 android:layout_marginStart="@dimen/margin"
                 android:layout_marginEnd="@dimen/margin"
                 android:src="@drawable/ic_delete"
-                android:onClick="@{() -> cliclListener.onClick(asteroid, 2)}"/>
+                android:onClick="@{() -> cliclListener.onClick(asteroid, 2)}"
+                android:contentDescription="@string/delete_from_favorite" />
 
         </LinearLayout>
 
@@ -65,7 +67,7 @@
                 android:id="@+id/asteroid_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:setAsteroidImage="@{asteroid}"
+                app:setAsteroidImageAndDescription="@{asteroid}"
                 tools:src="@drawable/ic_big_dangerous_asteroid"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +78,7 @@
 
             <TextView
                 android:id="@+id/asteroid_name"
-                style="@style/bold_text_style"
+                style="@style/TextAppearance.Title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -91,7 +93,7 @@
 
             <TextView
                 android:id="@+id/approach_date"
-                style="@style/text_style"
+                style="@style/TextAppearance.GeneralText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -11,13 +11,16 @@ import com.klekchyan.asteroidsnews.domain.Planet
 import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
 import com.klekchyan.asteroidsnews.network.AverageSize
 import com.klekchyan.asteroidsnews.view.specificAsteroid.CloseApproachDataAdapter
-import java.util.*
+import java.util.Date
+import kotlin.Pair
 
 //Binding for ListFragment
-@BindingAdapter("setAsteroidImage")
-fun ImageView.setAsteroidImage(item: SimpleAsteroid?){
+@BindingAdapter("setAsteroidImageAndDescription")
+fun ImageView.setAsteroidImageAndDescription(item: SimpleAsteroid?){
     item?.let {
-        setImageResource(getImage(it.isHazardous, it.averageSize))
+        val (imageId, descriptionId) = getImageAndDescription(it.isHazardous, it.averageSize)
+        setImageResource(imageId)
+        contentDescription = context.getString(descriptionId)
     }
 }
 
@@ -27,14 +30,19 @@ fun TextView.setDate(date: Date?){
     text = dateString
 }
 
-private fun getImage(isHazardous: Boolean, averageSize: AverageSize): Int{
+private fun getImageAndDescription(isHazardous: Boolean, averageSize: AverageSize): Pair<Int, Int>{
     return when{
-        isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_dangerous_asteroid
-        isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_dangerous_asteroid
-        isHazardous && (averageSize == AverageSize.BIG) -> R.drawable.ic_big_dangerous_asteroid
-        !isHazardous && (averageSize == AverageSize.SMALL) -> R.drawable.ic_small_asteroid
-        !isHazardous && (averageSize == AverageSize.MEDIUM) -> R.drawable.ic_medium_asteroid
-        else -> R.drawable.ic_big_asteroid
+        isHazardous && (averageSize == AverageSize.SMALL) -> {
+            R.drawable.ic_small_dangerous_asteroid to R.string.small_and_dangerous_description }
+        isHazardous && (averageSize == AverageSize.MEDIUM) -> {
+            R.drawable.ic_medium_dangerous_asteroid to R.string.medium_and_dangerous_description }
+        isHazardous && (averageSize == AverageSize.BIG) -> {
+            R.drawable.ic_big_dangerous_asteroid to R.string.big_and_dangerous_description }
+        !isHazardous && (averageSize == AverageSize.SMALL) -> {
+            R.drawable.ic_small_asteroid to R.string.small_and_not_dangerous_description }
+        !isHazardous && (averageSize == AverageSize.MEDIUM) -> {
+            R.drawable.ic_medium_asteroid to R.string.medium_and_not_dangerous_description }
+        else -> R.drawable.ic_big_asteroid to R.string.big_and_not_dangerous_description
     }
 }
 
