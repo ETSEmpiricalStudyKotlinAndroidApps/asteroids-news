@@ -3,6 +3,7 @@ package com.klekchyan.asteroidsnews.network
 import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.domain.CloseApproachData
 import com.klekchyan.asteroidsnews.domain.ExtendedAsteroid
+import com.klekchyan.asteroidsnews.utils.DateType
 import com.klekchyan.asteroidsnews.utils.getDateFromNasaApiResponseFormat
 
 data class NetworkExtendedAsteroid(
@@ -105,7 +106,7 @@ fun NetworkExtendedAsteroid.asExtendedDomainModel(): ExtendedAsteroid{
             isHazardous = this.isHazardous,
             closeApproachData = this.networkCloseApproachData.map { networkCloseApproachData ->
                 CloseApproachData(
-                    closeApproachDate = networkCloseApproachData.closeApproachDate.getDateFromNasaApiResponseFormat(),
+                    closeApproachDate = networkCloseApproachData.closeApproachDate.getDateFromNasaApiResponseFormat(DateType.DATE_AND_TIME_DASH_SEPARATOR),
                     kilometersPerHourVelocity = networkCloseApproachData.relativeVelocity.kilometersPerHour,
                     astronomicalMissDistance = networkCloseApproachData.networkMissDistance.astronomical,
                     kilometersMissDistance = networkCloseApproachData.networkMissDistance.kilometers,

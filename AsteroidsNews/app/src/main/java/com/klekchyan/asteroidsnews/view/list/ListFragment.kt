@@ -1,6 +1,5 @@
 package com.klekchyan.asteroidsnews.view.list
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString

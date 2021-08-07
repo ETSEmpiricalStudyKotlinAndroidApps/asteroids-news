@@ -3,7 +3,6 @@ package com.klekchyan.asteroidsnews.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.migration.Migration
 
 @Dao
 interface AsteroidDao{

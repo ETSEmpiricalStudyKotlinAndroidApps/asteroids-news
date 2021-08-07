@@ -13,13 +13,10 @@
 
     <string name="only_hazardous">Только опасные:</string>
     <string name="velocity">Скорость:</string>
-    <string name="diameter">Диаметр:</string>
     <string name="absolute_magnitude">Абсолютная магнитуда:</string>
-    <string name="orbiting_body">Вращающееся тело:</string>
     <string name="info_menu_item">Инфо</string>
     <string name="date_range">Диапазон дат:</string>
     <string name="average_diameter">Средний диаметр:</string>
-    <string name="astronomical_miss_distance">Астрономическое расстояние промаха:</string>
     <string name="first_observation_date">Дата первого наблюдения:</string>
     <string name="inclination">Наклон:</string>
     <string name="date">Дата:</string>

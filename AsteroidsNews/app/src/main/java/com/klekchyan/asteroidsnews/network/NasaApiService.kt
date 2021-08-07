@@ -21,7 +21,7 @@ private const val PARAMETER_ASTEROID_ID = "asteroid_id" //asteroid_id
 private const val PARAMETER_API_KEY = "api_key"
 
 //TODO Need to deal with the default value if local.properties doesn't contain api_key property
-private val API_KEY = BuildConfig.API_KEY
+private const val API_KEY = BuildConfig.API_KEY
 
 private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)

@@ -6,7 +6,7 @@ import com.klekchyan.asteroidsnews.network.NetworkSimpleAsteroid
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.time.LocalDate
+import java.util.*
 
 private const val START_DATE = "start_date="
 private const val END_DATE = "end_date="
@@ -43,7 +43,7 @@ fun getExtendedAsteroidFromResponse(response: String): NetworkExtendedAsteroid{
  * @param dates date range of response
  * @param nearEarthObjects JSON object containing sets of asteroids belonging to each date
  * */
-private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
+private fun getAllAsteroids(dates: Pair<Date, Date>, nearEarthObjects: JSONObject): MutableList<NetworkSimpleAsteroid>{
 
     val allAsteroids = mutableListOf<NetworkSimpleAsteroid>()
 
@@ -52,7 +52,7 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
 
     try{
         while(startDate <= endDate){
-            val array = nearEarthObjects.getJSONArray(startDate.toString())
+            val array = nearEarthObjects.getJSONArray(dateTypeCast(startDate, DateType.DATE_DASH_SEPARATOR))
             if(array.length() != 0){
                 val length = array.length()
                 for(i in 0 until length){
@@ -60,7 +60,7 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
                     allAsteroids.add(asteroid)
                 }
             }
-            startDate = startDate.plusDays(1L)
+            startDate = startDate.addDay(1)
         }
         Timber.d("parsing was finished")
     } catch (e: JSONException){
@@ -74,15 +74,16 @@ private fun getAllAsteroids(dates: Pair<LocalDate, LocalDate>, nearEarthObjects:
  *
  * @param mainObject JSON object containing link 'self' which contains start and end dates of request
  * */
-private fun getStartAndEndDates(mainObject: JSONObject): Pair<LocalDate, LocalDate>{
+private fun getStartAndEndDates(mainObject: JSONObject): Pair<Date, Date>{
     val links = mainObject.getJSONObject("links")
     val selfLink = links.get("self").toString()
 
     val start = selfLink.substringAfter(START_DATE).substringBefore("&")
     val end = selfLink.substringAfter(END_DATE).substringBefore("&")
 
-    val startDate = LocalDate.parse(start)
-    val endDate = LocalDate.parse(end)
+    val startDate = start.getDateFromNasaApiResponseFormat(DateType.DATE_DASH_SEPARATOR)
+    val endDate = end.getDateFromNasaApiResponseFormat(DateType.DATE_DASH_SEPARATOR)
+    //2015-09-08
 
     return startDate to endDate
 }

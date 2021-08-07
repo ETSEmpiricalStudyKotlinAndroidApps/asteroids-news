@@ -54,7 +54,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         startRefreshing()
     }
 
-    fun startRefreshing(startDate: String = "", endDate: String = ""){
+    private fun startRefreshing(startDate: String = "", endDate: String = ""){
         Timber.d("startRefreshing $startDate - $endDate")
         viewModelScope.launch(IO) {
             repository.refreshAllAsteroids(startDate, endDate)

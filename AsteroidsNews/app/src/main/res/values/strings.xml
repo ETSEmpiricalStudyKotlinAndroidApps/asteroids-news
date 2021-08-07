@@ -14,13 +14,10 @@
 
     <string name="only_hazardous">Only hazardous:</string>
     <string name="velocity">Velocity:</string>
-    <string name="diameter">Diameter:</string>
     <string name="absolute_magnitude">Absolute magnitude:</string>
-    <string name="orbiting_body">Orbiting body:</string>
     <string name="info_menu_item">Info</string>
     <string name="date_range">Date range:</string>
     <string name="average_diameter">Average diameter:</string>
-    <string name="astronomical_miss_distance">Astronomical miss distance:</string>
     <string name="first_observation_date">First observation date:</string>
     <string name="inclination">Inclination:</string>
     <string name="date">Date:</string>
@@ -48,10 +45,12 @@
     <string name="small_and_not_dangerous_description" translatable="false">Small and not dangerous asteroid</string>
     <string name="medium_and_not_dangerous_description" translatable="false">Medium and not dangerous asteroid</string>
     <string name="big_and_not_dangerous_description" translatable="false">Big and not dangerous asteroid</string>
+    <string name="slider_hint" translatable="false">Slider hint</string>
 
     <string name="app_description">The application uses NasaAPI -
         NeoWs (Near Earth Object Web Service) to get data. This API allows to receive list of asteroids for 7 days,
         so there is a restriction on the choice of dates, and allows to receive data of specific Asteroid by ID.</string>
 
     <string name="app_version" translatable="false">Asteroids News. Version 1.0</string>
+
 </resources>

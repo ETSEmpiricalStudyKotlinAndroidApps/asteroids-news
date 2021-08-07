@@ -2,7 +2,7 @@ package com.klekchyan.asteroidsnews.network
 
 import com.google.gson.annotations.SerializedName
 import com.klekchyan.asteroidsnews.database.DatabaseSimpleAsteroid
-import com.klekchyan.asteroidsnews.domain.SimpleAsteroid
+import com.klekchyan.asteroidsnews.utils.DateType
 import com.klekchyan.asteroidsnews.utils.getDateFromNasaApiResponseFormat
 
 data class NetworkSimpleAsteroid(
@@ -41,19 +41,6 @@ data class Meter(
 
 enum class AverageSize(val numericalValue: Float){ SMALL(0f), MEDIUM(1f), BIG(2f) }
 
-fun List<NetworkSimpleAsteroid>.asSimpledDomainModel(): List<SimpleAsteroid>{
-    return map{
-        SimpleAsteroid(
-            id = it.id,
-            name = it.name,
-            averageSize = it.averageSize,
-            isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachData[0].closeApproachDate.getDateFromNasaApiResponseFormat(),
-            orbitingBody = it.closeApproachData[0].orbitingBody
-        )
-    }
-}
-
 fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): Array<DatabaseSimpleAsteroid>{
     return map{
         DatabaseSimpleAsteroid(
@@ -61,7 +48,8 @@ fun List<NetworkSimpleAsteroid>.asSimpledDatabaseModel(): Array<DatabaseSimpleAs
             name = it.name,
             averageSize = it.averageSize,
             isHazardous = it.isHazardous,
-            closeApproachDate = it.closeApproachData[0].closeApproachDate.getDateFromNasaApiResponseFormat().time,
+            closeApproachDate = it.closeApproachData[0].closeApproachDate
+                .getDateFromNasaApiResponseFormat(DateType.DATE_AND_TIME_DASH_SEPARATOR).time,
             orbitingBody = it.closeApproachData[0].orbitingBody
         )
     }.toTypedArray()

@@ -13,7 +13,6 @@ class FilterViewModel: ViewModel() {
     private val _dateRange = MutableLiveData<Pair<Long, Long>>()
 
     private val _isHazardousFilter = MutableLiveData<Boolean>()
-    private val _orbitingBodyFilter = MutableLiveData<String>()
     private val _averageSizeFilter = MutableLiveData<Pair<AverageSize, AverageSize>>()
 
     private val _openDatePicker = MutableLiveData(false)
@@ -23,8 +22,6 @@ class FilterViewModel: ViewModel() {
         get() = _dateRange
     val isHazardousFilter: LiveData<Boolean>
         get() = _isHazardousFilter
-    val orbitingBodyFilter: LiveData<String>
-        get() = _orbitingBodyFilter
     val averageSizeFilter: LiveData<Pair<AverageSize, AverageSize>>
         get() = _averageSizeFilter
 
