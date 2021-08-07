@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        storeFile file('E:\\projects\\AsteroidsNews\\app\\release\\app-release.aab')
+            storePassword 'lbvf89041688920'
+            keyAlias 'lbvf89041688920'
+            keyPassword 'lbvf89041688920'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -35,6 +43,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            def properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+            def apiKey = properties.getProperty("api_key", "DEMO_KEY")
+
+            it.buildConfigField 'String', "API_KEY", apiKey
+            it.resValue 'string', "api_key", apiKey
         }
     }
     compileOptions {

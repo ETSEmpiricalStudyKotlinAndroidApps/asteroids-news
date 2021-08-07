@@ -26,7 +26,7 @@
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:elevation="@dimen/general_elevation"
-        android:background="@drawable/light_snippet">
+        android:background="@drawable/snippet">
 
         <LinearLayout
             android:layout_width="wrap_content"

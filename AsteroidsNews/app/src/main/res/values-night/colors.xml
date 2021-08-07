@@ -6,4 +6,5 @@
     <color name="secondaryVariant">#0069c0</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
+    <color name="colorOnBackground">#212121</color>
 </resources>
