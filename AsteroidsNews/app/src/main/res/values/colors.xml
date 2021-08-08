@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="labelColor">#000000</color>
+    <color name="colorOnLabel">#FFFFFFFF</color>
 
 <!--    LightThemeColors-->
     <color name="primaryColor">#4a138c</color>

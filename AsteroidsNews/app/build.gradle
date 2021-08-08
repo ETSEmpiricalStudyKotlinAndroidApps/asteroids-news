@@ -7,14 +7,7 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-        storeFile file('E:\\projects\\AsteroidsNews\\app\\release\\app-release.aab')
-            storePassword 'lbvf89041688920'
-            keyAlias 'lbvf89041688920'
-            keyPassword 'lbvf89041688920'
-        }
-    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 

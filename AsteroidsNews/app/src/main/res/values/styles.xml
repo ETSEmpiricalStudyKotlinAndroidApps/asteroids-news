@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
+<!--  Launcher  -->
+    <style name="Theme.AsteroidsNews.Launcher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="colorPrimary">@color/colorOnBackground</item>
+    </style>
+
+<!--  TextStyle  -->
     <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/large_text_size</item>
@@ -12,6 +19,29 @@
 
     <style name="TextAppearance.GeneralText" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+<!--  Overlays  -->
+
+    <!--  DatePicker  -->
+    <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">?attr/colorSecondary</item>
+        <item name="colorOnPrimary">?attr/colorOnSecondary</item>
+    </style>
+
+    <!--  Slider  -->
+    <style name="Widget.App.AverageSizeSlider" parent="Widget.MaterialComponents.Slider">
+        <item name="labelStyle">@style/Widget.App.Tooltip</item>
+    </style>
+
+    <style name="Widget.App.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="android:textAppearance">@style/TextAppearance.App.Tooltip</item>
+        <item name="backgroundTint">@color/labelColor</item>
+
+    </style>
+
+    <style name="TextAppearance.App.Tooltip" parent="TextAppearance.MaterialComponents.Tooltip">
+        <item name="android:textColor">@color/colorOnLabel</item>
     </style>
 
 </resources>
