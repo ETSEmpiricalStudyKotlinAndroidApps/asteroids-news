@@ -4,6 +4,7 @@ Implementation of the application using the base Android Tech Stack and the NASA
   * MVVM
   * Kotlin, Coroutines
 ### Preview
+<img src="https://github.com/dimaklekchyan/asteroids-news/blob/main/preview_light_theme.gif" width="220" height="480" />    <img src="https://github.com/dimaklekchyan/asteroids-news/blob/main/preview_dark_theme.gif" width="220" height="480" />    <img src="https://github.com/dimaklekchyan/asteroids-news/blob/main/preview_disconnected.gif" width="220" height="480" /> 
 
 ### Libraries
   * #### Jetpack
