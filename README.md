@@ -16,3 +16,4 @@ Implementation of the application using the base Android Tech Stack and the NASA
   * #### Timber
   * #### Material Components For Android 
 
+You have to add property 'api_key' to your local_properties file to build project. If you don't have Nasa API key, you can use "DEMO_KEY" value. 
